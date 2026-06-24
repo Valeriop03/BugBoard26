@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: bugboard26-postgres
+    environment:
+      POSTGRES_DB: bugboard26
+      POSTGRES_USER: bugboard26
+      POSTGRES_PASSWORD: bugboard26
+    ports:
+      - "5432:5432"
+    volumes:
+      - bugboard26-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  bugboard26-postgres-data:

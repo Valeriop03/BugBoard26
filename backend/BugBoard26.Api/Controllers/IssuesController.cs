@@ -1,0 +1,219 @@
+using BugBoard26.Api.Contracts.Issues;
+using BugBoard26.Api.Data;
+using BugBoard26.Api.Extensions;
+using BugBoard26.Api.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
+namespace BugBoard26.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class IssuesController : ControllerBase
+{
+    private static readonly Expression<Func<Issue, int>> PriorityOrderExpression = issue =>
+        issue.Priority == IssuePriority.Low ? 1 :
+        issue.Priority == IssuePriority.Medium ? 2 :
+        issue.Priority == IssuePriority.High ? 3 :
+        issue.Priority == IssuePriority.Critical ? 4 : 5;
+
+    private static readonly Expression<Func<Issue, int>> StatusOrderExpression = issue =>
+        issue.Status == IssueStatus.Todo ? 1 :
+        issue.Status == IssueStatus.InProgress ? 2 :
+        issue.Status == IssueStatus.Resolved ? 3 :
+        issue.Status == IssueStatus.Closed ? 4 : 5;
+
+    private readonly ApplicationDbContext _dbContext;
+
+    public IssuesController(ApplicationDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<IssueResponse>> Create([FromBody] CreateIssueRequest request, CancellationToken cancellationToken)
+    {
+        var currentUser = await GetCurrentUserAsync(cancellationToken);
+
+        if (currentUser is null)
+        {
+            return Unauthorized();
+        }
+
+        if (currentUser.Role == UserRole.Readonly)
+        {
+            return Forbid();
+        }
+
+        var title = (request.Title ?? string.Empty).Trim();
+        var description = (request.Description ?? string.Empty).Trim();
+
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            ModelState.AddModelError(nameof(request.Title), "Title is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            ModelState.AddModelError(nameof(request.Description), "Description is required.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
+        if (request.AssignedToId.HasValue)
+        {
+            var assigneeExists = await _dbContext.Users
+                .AsNoTracking()
+                .AnyAsync(user => user.Id == request.AssignedToId.Value, cancellationToken);
+
+            if (!assigneeExists)
+            {
+                ModelState.AddModelError(nameof(request.AssignedToId), "Assigned user does not exist.");
+                return ValidationProblem(ModelState);
+            }
+        }
+
+        var issue = new Issue
+        {
+            Title = title,
+            Description = description,
+            Type = request.Type!.Value,
+            Priority = request.Priority,
+            Status = IssueStatus.Todo,
+            CreatedById = currentUser.Id,
+            AssignedToId = request.AssignedToId,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        _dbContext.Issues.Add(issue);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        var createdIssue = await ProjectToResponse(_dbContext.Issues.AsNoTracking())
+            .SingleAsync(currentIssue => currentIssue.Id == issue.Id, cancellationToken);
+
+        return CreatedAtAction(nameof(GetById), new { id = issue.Id }, createdIssue);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IReadOnlyList<IssueResponse>>> GetAll([FromQuery] IssueListQuery query, CancellationToken cancellationToken)
+    {
+        var issuesQuery = _dbContext.Issues
+            .AsNoTracking()
+            .Where(issue => !issue.IsArchived);
+
+        if (query.Type.HasValue)
+        {
+            issuesQuery = issuesQuery.Where(issue => issue.Type == query.Type.Value);
+        }
+
+        if (query.Status.HasValue)
+        {
+            issuesQuery = issuesQuery.Where(issue => issue.Status == query.Status.Value);
+        }
+
+        if (query.Priority.HasValue)
+        {
+            issuesQuery = issuesQuery.Where(issue => issue.Priority == query.Priority.Value);
+        }
+
+        var keyword = query.Keyword?.Trim();
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var pattern = $"%{keyword}%";
+
+            issuesQuery = issuesQuery.Where(issue =>
+                EF.Functions.ILike(issue.Title, pattern) ||
+                EF.Functions.ILike(issue.Description, pattern));
+        }
+
+        issuesQuery = ApplySorting(issuesQuery, query);
+
+        var issues = await ProjectToResponse(issuesQuery).ToListAsync(cancellationToken);
+
+        return Ok(issues);
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<IssueResponse>> GetById(int id, CancellationToken cancellationToken)
+    {
+        var issue = await ProjectToResponse(_dbContext.Issues.AsNoTracking())
+            .SingleOrDefaultAsync(currentIssue => currentIssue.Id == id, cancellationToken);
+
+        if (issue is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(issue);
+    }
+
+    private async Task<User?> GetCurrentUserAsync(CancellationToken cancellationToken)
+    {
+        var userId = User.GetUserId();
+
+        if (!userId.HasValue)
+        {
+            return null;
+        }
+
+        return await _dbContext.Users
+            .AsNoTracking()
+            .SingleOrDefaultAsync(user => user.Id == userId.Value && user.IsActive, cancellationToken);
+    }
+
+    private static IQueryable<Issue> ApplySorting(IQueryable<Issue> issuesQuery, IssueListQuery query)
+    {
+        return (query.SortBy, query.SortDirection) switch
+        {
+            (IssueSortField.Priority, SortDirection.Asc) => issuesQuery
+                .OrderBy(PriorityOrderExpression)
+                .ThenByDescending(issue => issue.CreatedAt),
+            (IssueSortField.Priority, SortDirection.Desc) => issuesQuery
+                .OrderByDescending(PriorityOrderExpression)
+                .ThenByDescending(issue => issue.CreatedAt),
+            (IssueSortField.Status, SortDirection.Asc) => issuesQuery
+                .OrderBy(StatusOrderExpression)
+                .ThenByDescending(issue => issue.CreatedAt),
+            (IssueSortField.Status, SortDirection.Desc) => issuesQuery
+                .OrderByDescending(StatusOrderExpression)
+                .ThenByDescending(issue => issue.CreatedAt),
+            (IssueSortField.Title, SortDirection.Asc) => issuesQuery
+                .OrderBy(issue => issue.Title)
+                .ThenByDescending(issue => issue.CreatedAt),
+            (IssueSortField.Title, SortDirection.Desc) => issuesQuery
+                .OrderByDescending(issue => issue.Title)
+                .ThenByDescending(issue => issue.CreatedAt),
+            (IssueSortField.Date, SortDirection.Asc) => issuesQuery
+                .OrderBy(issue => issue.CreatedAt),
+            _ => issuesQuery
+                .OrderByDescending(issue => issue.CreatedAt)
+        };
+    }
+
+    private static IQueryable<IssueResponse> ProjectToResponse(IQueryable<Issue> issuesQuery)
+    {
+        return issuesQuery.Select(issue => new IssueResponse
+        {
+            Id = issue.Id,
+            Title = issue.Title,
+            Description = issue.Description,
+            Type = issue.Type,
+            Priority = issue.Priority,
+            Status = issue.Status,
+            CreatedById = issue.CreatedById,
+            CreatedByEmail = issue.CreatedBy.Email,
+            AssignedToId = issue.AssignedToId,
+            AssignedToEmail = issue.AssignedTo != null ? issue.AssignedTo.Email : null,
+            IsArchived = issue.IsArchived,
+            CreatedAt = issue.CreatedAt,
+            UpdatedAt = issue.UpdatedAt,
+            ResolvedAt = issue.ResolvedAt
+        });
+    }
+}

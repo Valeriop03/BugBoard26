@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="BugBoard26.Api/BugBoard26.Api.csproj" />
+  <Project Path="BugBoard26.Tests/BugBoard26.Tests.csproj" />
 </Solution>

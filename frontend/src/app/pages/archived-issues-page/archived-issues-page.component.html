@@ -1,0 +1,12 @@
+<section class="page-header">
+  <h1>Issue archiviate</h1>
+  <p>Pagina dedicata alle issue archiviate dagli amministratori.</p>
+</section>
+
+<section class="empty">
+  @if ((archivedIssues$ | async)?.length) {
+    <p>Le issue archiviate verranno mostrate qui.</p>
+  } @else {
+    <p>Non ci sono issue archiviate nei dati di esempio.</p>
+  }
+</section>

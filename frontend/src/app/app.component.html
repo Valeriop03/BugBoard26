@@ -1,8 +1,16 @@
-<main class="shell">
-  <section class="intro">
-    <h1>BugBoard26</h1>
-    <p>Frontend Angular iniziale. Le pagine applicative verranno aggiunte nei prossimi step.</p>
-  </section>
+<div class="app-shell">
+  <header class="topbar">
+    <a class="brand" routerLink="/issues">BugBoard26</a>
+    <nav class="nav">
+      <a routerLink="/issues" routerLinkActive="active">Issue</a>
+      <a routerLink="/issues/new" routerLinkActive="active">Nuova</a>
+      <a routerLink="/issues/archived" routerLinkActive="active">Archivio</a>
+      <a routerLink="/notifications" routerLinkActive="active">Notifiche</a>
+      <a routerLink="/users" routerLinkActive="active">Utenti</a>
+    </nav>
+  </header>
 
-  <router-outlet />
-</main>
+  <main class="page">
+    <router-outlet />
+  </main>
+</div>

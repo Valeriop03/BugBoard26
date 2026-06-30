@@ -1,0 +1,16 @@
+<section class="page-header">
+  <h1>Notifiche</h1>
+  <p>Elenco delle notifiche dell'utente autenticato.</p>
+</section>
+
+<section class="list">
+  @for (notification of notifications$ | async; track notification.id) {
+    <article class="notification" [class.unread]="!notification.isRead">
+      <div>
+        <p>{{ notification.message }}</p>
+        <small>{{ notification.createdAt }}</small>
+      </div>
+      <a [routerLink]="['/issues', notification.issueId]">Apri issue</a>
+    </article>
+  }
+</section>

@@ -1,0 +1,35 @@
+@if (issue$ | async; as issue) {
+  <section class="detail">
+    <a routerLink="/issues">Torna alla lista</a>
+    <h1>{{ issue.title }}</h1>
+    <p class="description">{{ issue.description }}</p>
+
+    <dl>
+      <div>
+        <dt>Tipo</dt>
+        <dd>{{ issue.type }}</dd>
+      </div>
+      <div>
+        <dt>Priorita</dt>
+        <dd>{{ issue.priority || 'Non indicata' }}</dd>
+      </div>
+      <div>
+        <dt>Stato</dt>
+        <dd>{{ issue.status }}</dd>
+      </div>
+      <div>
+        <dt>Segnalata da</dt>
+        <dd>{{ issue.createdByEmail }}</dd>
+      </div>
+      <div>
+        <dt>Assegnata a</dt>
+        <dd>{{ issue.assignedToEmail || 'Non assegnata' }}</dd>
+      </div>
+    </dl>
+  </section>
+} @else {
+  <section class="detail">
+    <h1>Issue non trovata</h1>
+    <a routerLink="/issues">Torna alla lista</a>
+  </section>
+}

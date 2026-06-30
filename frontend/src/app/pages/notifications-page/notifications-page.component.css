@@ -1,0 +1,46 @@
+h1 {
+  margin: 0 0 6px;
+}
+
+p {
+  margin: 0;
+}
+
+.page-header {
+  margin-bottom: 20px;
+}
+
+.page-header p,
+small {
+  color: #66717d;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.notification {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #d8dee6;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.notification.unread {
+  border-left: 4px solid #2563eb;
+}
+
+a {
+  color: #2563eb;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .notification {
+    display: grid;
+  }
+}

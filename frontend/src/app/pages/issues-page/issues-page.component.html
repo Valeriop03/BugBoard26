@@ -1,0 +1,40 @@
+<section class="page-header">
+  <div>
+    <h1>Issue</h1>
+    <p>Vista principale con filtri e ricerca preparati per lo step di integrazione.</p>
+  </div>
+  <a class="primary-link" routerLink="/issues/new">Nuova issue</a>
+</section>
+
+<section class="filters">
+  <input placeholder="Cerca per parola chiave">
+  <select>
+    <option>Tipo</option>
+  </select>
+  <select>
+    <option>Stato</option>
+  </select>
+  <select>
+    <option>Priorita</option>
+  </select>
+</section>
+
+<section class="table">
+  <div class="row heading">
+    <span>Titolo</span>
+    <span>Tipo</span>
+    <span>Priorita</span>
+    <span>Stato</span>
+    <span>Assegnata a</span>
+  </div>
+
+  @for (issue of issues$ | async; track issue.id) {
+    <a class="row issue-row" [routerLink]="['/issues', issue.id]">
+      <span>{{ issue.title }}</span>
+      <span>{{ issue.type }}</span>
+      <span>{{ issue.priority || '-' }}</span>
+      <span>{{ issue.status }}</span>
+      <span>{{ issue.assignedToEmail || 'Non assegnata' }}</span>
+    </a>
+  }
+</section>

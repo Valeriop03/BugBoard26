@@ -1,0 +1,23 @@
+<section class="page-header">
+  <div>
+    <h1>Utenti</h1>
+    <p>Sezione admin per creare e consultare gli utenti.</p>
+  </div>
+  <button type="button">Nuovo utente</button>
+</section>
+
+<section class="table">
+  <div class="row heading">
+    <span>Email</span>
+    <span>Ruolo</span>
+    <span>Attivo</span>
+  </div>
+
+  @for (user of users$ | async; track user.id) {
+    <div class="row">
+      <span>{{ user.email }}</span>
+      <span>{{ user.role }}</span>
+      <span>{{ user.isActive ? 'Si' : 'No' }}</span>
+    </div>
+  }
+</section>

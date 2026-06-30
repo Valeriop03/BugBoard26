@@ -1,0 +1,46 @@
+<section class="page-header">
+  <h1>Nuova issue</h1>
+  <p>Form pronto per creare una issue quando sara disponibile l'endpoint backend.</p>
+</section>
+
+<form class="form">
+  <label>
+    Titolo
+    <input name="title" [(ngModel)]="title">
+  </label>
+
+  <label>
+    Descrizione
+    <textarea name="description" rows="6" [(ngModel)]="description"></textarea>
+  </label>
+
+  <div class="grid">
+    <label>
+      Tipo
+      <select name="type" [(ngModel)]="type">
+        <option value="QUESTION">Question</option>
+        <option value="BUG">Bug</option>
+        <option value="DOCUMENTATION">Documentation</option>
+        <option value="FEATURE">Feature</option>
+      </select>
+    </label>
+
+    <label>
+      Priorita
+      <select name="priority" [(ngModel)]="priority">
+        <option value="">Non indicata</option>
+        <option value="LOW">Low</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="HIGH">High</option>
+        <option value="CRITICAL">Critical</option>
+      </select>
+    </label>
+  </div>
+
+  <label>
+    Immagine opzionale
+    <input type="file">
+  </label>
+
+  <button type="button">Salva issue</button>
+</form>

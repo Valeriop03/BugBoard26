@@ -3,6 +3,7 @@ using BugBoard26.Api.Data;
 using BugBoard26.Api.Extensions;
 using BugBoard26.Api.Models;
 using BugBoard26.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -154,6 +155,18 @@ public class IssuesController : ControllerBase
         return File(Encoding.UTF8.GetBytes(csv), "text/csv; charset=utf-8", fileName);
     }
 
+    [HttpGet("archived")]
+    public async Task<ActionResult<IReadOnlyList<IssueResponse>>> GetArchived(CancellationToken cancellationToken)
+    {
+        var issues = await ProjectToResponse(_dbContext.Issues
+                .AsNoTracking()
+                .Where(issue => issue.IsArchived)
+                .OrderByDescending(issue => issue.UpdatedAt))
+            .ToListAsync(cancellationToken);
+
+        return Ok(issues);
+    }
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult<IssueResponse>> GetById(int id, CancellationToken cancellationToken)
     {
@@ -166,6 +179,68 @@ public class IssuesController : ControllerBase
         }
 
         return Ok(issue);
+    }
+
+    [Authorize(Roles = UserRoleMapper.Admin)]
+    [HttpPatch("{id:int}/archive")]
+    public async Task<ActionResult<IssueResponse>> Archive(int id, CancellationToken cancellationToken)
+    {
+        var issue = await _dbContext.Issues.SingleOrDefaultAsync(issue => issue.Id == id, cancellationToken);
+
+        if (issue is null)
+        {
+            return NotFound();
+        }
+
+        issue.IsArchived = true;
+        issue.UpdatedAt = DateTime.UtcNow;
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        var archivedIssue = await ProjectToResponse(_dbContext.Issues.AsNoTracking())
+            .SingleAsync(currentIssue => currentIssue.Id == id, cancellationToken);
+
+        return Ok(archivedIssue);
+    }
+
+    [Authorize(Roles = UserRoleMapper.Admin)]
+    [HttpPatch("{id:int}/duplicate")]
+    public async Task<ActionResult<IssueResponse>> MarkAsDuplicate(
+        int id,
+        [FromBody] DuplicateIssueRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (id == request.OriginalIssueId)
+        {
+            return BadRequest(new { message = "Una issue non puo' essere duplicata di se stessa." });
+        }
+
+        var issue = await _dbContext.Issues.SingleOrDefaultAsync(issue => issue.Id == id, cancellationToken);
+
+        if (issue is null)
+        {
+            return NotFound();
+        }
+
+        var originalExists = await _dbContext.Issues
+            .AsNoTracking()
+            .AnyAsync(issue => issue.Id == request.OriginalIssueId, cancellationToken);
+
+        if (!originalExists)
+        {
+            return BadRequest(new { message = "La issue originale indicata non esiste." });
+        }
+
+        issue.Status = IssueStatus.Duplicate;
+        issue.DuplicateOfIssueId = request.OriginalIssueId;
+        issue.UpdatedAt = DateTime.UtcNow;
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        var duplicatedIssue = await ProjectToResponse(_dbContext.Issues.AsNoTracking())
+            .SingleAsync(currentIssue => currentIssue.Id == id, cancellationToken);
+
+        return Ok(duplicatedIssue);
     }
 
     private async Task<User?> GetCurrentUserAsync(CancellationToken cancellationToken)
@@ -258,6 +333,7 @@ public class IssuesController : ControllerBase
             CreatedByEmail = issue.CreatedBy.Email,
             AssignedToId = issue.AssignedToId,
             AssignedToEmail = issue.AssignedTo != null ? issue.AssignedTo.Email : null,
+            DuplicateOfIssueId = issue.DuplicateOfIssueId,
             IsArchived = issue.IsArchived,
             CreatedAt = issue.CreatedAt,
             UpdatedAt = issue.UpdatedAt,

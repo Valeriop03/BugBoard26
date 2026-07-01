@@ -24,6 +24,8 @@ public class IssueResponse
 
     public string? AssignedToEmail { get; init; }
 
+    public int? DuplicateOfIssueId { get; init; }
+
     public bool IsArchived { get; init; }
 
     public DateTime CreatedAt { get; init; }

@@ -168,6 +168,63 @@ public class IssuesController : ControllerBase
         return Ok(issue);
     }
 
+    [HttpPatch("{id:int}/status")]
+    public async Task<ActionResult<IssueResponse>> UpdateStatus(int id, [FromBody] UpdateIssueStatusRequest request, CancellationToken cancellationToken)
+    {
+        var currentUser = await GetCurrentUserAsync(cancellationToken);
+
+        if (currentUser is null)
+        {
+            return Unauthorized();
+        }
+
+        var issue = await _dbContext.Issues
+            .SingleOrDefaultAsync(currentIssue => currentIssue.Id == id, cancellationToken);
+
+        if (issue is null)
+        {
+            return NotFound();
+        }
+
+        if (!_issueDomainService.CanChangeIssueStatus(currentUser, issue))
+        {
+            return Forbid();
+        }
+
+        var newStatus = request.Status!.Value;
+
+        if (issue.Status != newStatus)
+        {
+            issue.Status = newStatus;
+            issue.UpdatedAt = DateTime.UtcNow;
+
+            if (newStatus == IssueStatus.Resolved)
+            {
+                issue.ResolvedAt = DateTime.UtcNow;
+
+                _dbContext.Notifications.Add(new Notification
+                {
+                    UserId = issue.CreatedById,
+                    IssueId = issue.Id,
+                    Message = $"The issue '{issue.Title}' has been resolved.",
+                    IsRead = false,
+                    CreatedAt = DateTime.UtcNow
+                });
+            }
+            else
+            {
+                issue.ResolvedAt = null;
+            }
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        var updatedIssue = await ProjectToResponse(_dbContext.Issues.AsNoTracking())
+            .SingleAsync(currentIssue => currentIssue.Id == issue.Id, cancellationToken);
+
+        return Ok(updatedIssue);
+    }
+
     private async Task<User?> GetCurrentUserAsync(CancellationToken cancellationToken)
     {
         var userId = User.GetUserId();

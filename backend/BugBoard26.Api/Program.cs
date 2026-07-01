@@ -1,6 +1,9 @@
 using BugBoard26.Api.Data;
 using BugBoard26.Api.Services;
+<<<<<<< Updated upstream
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+=======
+>>>>>>> Stashed changes
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -13,6 +16,7 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+builder.Services.AddScoped<IssueDomainService>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 

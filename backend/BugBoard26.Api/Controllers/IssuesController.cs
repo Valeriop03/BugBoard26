@@ -2,9 +2,11 @@ using BugBoard26.Api.Contracts.Issues;
 using BugBoard26.Api.Data;
 using BugBoard26.Api.Extensions;
 using BugBoard26.Api.Models;
+using BugBoard26.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace BugBoard26.Api.Controllers;
 
@@ -25,10 +27,12 @@ public class IssuesController : ControllerBase
         issue.Status == IssueStatus.Closed ? 4 : 5;
 
     private readonly ApplicationDbContext _dbContext;
+    private readonly IssueDomainService _issueDomainService;
 
-    public IssuesController(ApplicationDbContext dbContext)
+    public IssuesController(ApplicationDbContext dbContext, IssueDomainService issueDomainService)
     {
         _dbContext = dbContext;
+        _issueDomainService = issueDomainService;
     }
 
     [HttpPost]
@@ -102,41 +106,52 @@ public class IssuesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<IssueResponse>>> GetAll([FromQuery] IssueListQuery query, CancellationToken cancellationToken)
     {
-        var issuesQuery = _dbContext.Issues
-            .AsNoTracking()
-            .Where(issue => !issue.IsArchived);
-
-        if (query.Type.HasValue)
-        {
-            issuesQuery = issuesQuery.Where(issue => issue.Type == query.Type.Value);
-        }
-
-        if (query.Status.HasValue)
-        {
-            issuesQuery = issuesQuery.Where(issue => issue.Status == query.Status.Value);
-        }
-
-        if (query.Priority.HasValue)
-        {
-            issuesQuery = issuesQuery.Where(issue => issue.Priority == query.Priority.Value);
-        }
-
-        var keyword = query.Keyword?.Trim();
-
-        if (!string.IsNullOrWhiteSpace(keyword))
-        {
-            var pattern = $"%{keyword}%";
-
-            issuesQuery = issuesQuery.Where(issue =>
-                EF.Functions.ILike(issue.Title, pattern) ||
-                EF.Functions.ILike(issue.Description, pattern));
-        }
-
-        issuesQuery = ApplySorting(issuesQuery, query);
+        var issuesQuery = ApplyIssueQuery(_dbContext.Issues.AsNoTracking(), query);
 
         var issues = await ProjectToResponse(issuesQuery).ToListAsync(cancellationToken);
 
         return Ok(issues);
+    }
+
+    [HttpGet("suggest-assignee")]
+    public async Task<ActionResult<SuggestAssigneeResponse>> SuggestAssignee(CancellationToken cancellationToken)
+    {
+        var users = await _dbContext.Users
+            .AsNoTracking()
+            .Where(user => user.IsActive && user.Role != UserRole.Readonly)
+            .ToListAsync(cancellationToken);
+
+        var issues = await _dbContext.Issues
+            .AsNoTracking()
+            .Where(issue => !issue.IsArchived &&
+                (issue.Status == IssueStatus.Todo || issue.Status == IssueStatus.InProgress))
+            .ToListAsync(cancellationToken);
+
+        var suggestedUser = _issueDomainService.SuggestAssignee(users, issues);
+
+        if (suggestedUser is null)
+        {
+            return NotFound(new { message = "Nessun utente disponibile per l'assegnazione." });
+        }
+
+        return Ok(new SuggestAssigneeResponse
+        {
+            UserId = suggestedUser.Id,
+            Email = suggestedUser.Email,
+            OpenAssignedIssues = issues.Count(issue => issue.AssignedToId == suggestedUser.Id)
+        });
+    }
+
+    [HttpGet("export")]
+    public async Task<IActionResult> Export([FromQuery] IssueListQuery query, CancellationToken cancellationToken)
+    {
+        var issues = await ProjectToResponse(ApplyIssueQuery(_dbContext.Issues.AsNoTracking(), query))
+            .ToListAsync(cancellationToken);
+
+        var csv = BuildCsv(issues);
+        var fileName = $"bugboard26-issues-{DateTime.UtcNow:yyyyMMdd}.csv";
+
+        return File(Encoding.UTF8.GetBytes(csv), "text/csv; charset=utf-8", fileName);
     }
 
     [HttpGet("{id:int}")]
@@ -165,6 +180,39 @@ public class IssuesController : ControllerBase
         return await _dbContext.Users
             .AsNoTracking()
             .SingleOrDefaultAsync(user => user.Id == userId.Value && user.IsActive, cancellationToken);
+    }
+
+    private static IQueryable<Issue> ApplyIssueQuery(IQueryable<Issue> issuesQuery, IssueListQuery query)
+    {
+        issuesQuery = issuesQuery.Where(issue => !issue.IsArchived);
+
+        if (query.Type.HasValue)
+        {
+            issuesQuery = issuesQuery.Where(issue => issue.Type == query.Type.Value);
+        }
+
+        if (query.Status.HasValue)
+        {
+            issuesQuery = issuesQuery.Where(issue => issue.Status == query.Status.Value);
+        }
+
+        if (query.Priority.HasValue)
+        {
+            issuesQuery = issuesQuery.Where(issue => issue.Priority == query.Priority.Value);
+        }
+
+        var keyword = query.Keyword?.Trim();
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var pattern = $"%{keyword}%";
+
+            issuesQuery = issuesQuery.Where(issue =>
+                EF.Functions.ILike(issue.Title, pattern) ||
+                EF.Functions.ILike(issue.Description, pattern));
+        }
+
+        return ApplySorting(issuesQuery, query);
     }
 
     private static IQueryable<Issue> ApplySorting(IQueryable<Issue> issuesQuery, IssueListQuery query)
@@ -215,5 +263,40 @@ public class IssuesController : ControllerBase
             UpdatedAt = issue.UpdatedAt,
             ResolvedAt = issue.ResolvedAt
         });
+    }
+
+    private static string BuildCsv(IEnumerable<IssueResponse> issues)
+    {
+        var builder = new StringBuilder();
+        builder.AppendLine("Id,Title,Type,Priority,Status,CreatedByEmail,AssignedToEmail,CreatedAt");
+
+        foreach (var issue in issues)
+        {
+            var values = new[]
+            {
+                issue.Id.ToString(),
+                issue.Title,
+                issue.Type.ToString(),
+                issue.Priority?.ToString() ?? string.Empty,
+                issue.Status.ToString(),
+                issue.CreatedByEmail,
+                issue.AssignedToEmail ?? string.Empty,
+                issue.CreatedAt.ToString("O")
+            };
+
+            builder.AppendLine(string.Join(",", values.Select(EscapeCsvValue)));
+        }
+
+        return builder.ToString();
+    }
+
+    private static string EscapeCsvValue(string value)
+    {
+        if (!value.Contains(',') && !value.Contains('"') && !value.Contains('\n') && !value.Contains('\r'))
+        {
+            return value;
+        }
+
+        return $"\"{value.Replace("\"", "\"\"")}\"";
     }
 }

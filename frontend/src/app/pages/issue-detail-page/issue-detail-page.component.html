@@ -1,57 +1,75 @@
-@if (issue$ | async; as issue) {
-  <section class="page-header">
-    <h1>Dettaglio Issue</h1>
-    <p>Cambio stato consentito all'assegnatario o all'amministratore</p>
-  </section>
+@if (state$ | async; as state) {
+  @if (state.isLoading) {
+    <section class="detail detail-state">
+      <h1>Caricamento issue...</h1>
+    </section>
+  } @else if (state.errorMessage) {
+    <section class="detail detail-state">
+      <h1>Errore caricamento</h1>
+      <p class="description">{{ state.errorMessage }}</p>
+      <a routerLink="/issues">Torna alla lista</a>
+    </section>
+  } @else if (state.notFound || !state.issue) {
+    <section class="detail detail-state">
+      <h1>Issue non trovata</h1>
+      <a routerLink="/issues">Torna alla lista</a>
+    </section>
+  } @else {
+    <section class="page-header">
+      <h1>Dettaglio Issue</h1>
+      <p>Vista reale caricata dal backend tramite identificativo della issue</p>
+    </section>
 
-  <section class="detail-layout">
-    <article class="detail">
-      <h2>#{{ issue.id.toString().padStart(2, '0') }} - {{ issue.title }}</h2>
+    <section class="detail-layout">
+      <article class="detail">
+        <h2>#{{ state.issue.id.toString().padStart(2, '0') }} - {{ state.issue.title }}</h2>
 
-      <h3>Descrizione</h3>
-      <p class="description">{{ issue.description }}</p>
+        <h3>Descrizione</h3>
+        <p class="description">{{ state.issue.description }}</p>
 
-      <h3>Informazioni</h3>
-      <dl>
-        <div>
-          <dt>Creatore</dt>
-          <dd>{{ issue.createdByEmail }}</dd>
+        <h3>Informazioni</h3>
+        <dl>
+          <div>
+            <dt>Creatore</dt>
+            <dd>{{ state.issue.createdByEmail }}</dd>
+          </div>
+          <div>
+            <dt>Assegnatario</dt>
+            <dd>{{ state.issue.assignedToEmail || 'Non assegnata' }}</dd>
+          </div>
+          <div>
+            <dt>Tipo</dt>
+            <dd>{{ state.issue.type }}</dd>
+          </div>
+          <div>
+            <dt>Priorita</dt>
+            <dd>{{ state.issue.priority || 'Non indicata' }}</dd>
+          </div>
+          <div>
+            <dt>Creato il</dt>
+            <dd>{{ state.issue.createdAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+          </div>
+          <div>
+            <dt>Aggiornato il</dt>
+            <dd>{{ state.issue.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+          </div>
+          <div>
+            <dt>Risolto il</dt>
+            <dd>{{ state.issue.resolvedAt ? (state.issue.resolvedAt | date: 'dd/MM/yyyy HH:mm') : '-' }}</dd>
+          </div>
+        </dl>
+
+        <h3>Immagine allegata</h3>
+        <span class="file">Nessun allegato collegato in questa task</span>
+      </article>
+
+      <aside class="side">
+        <div class="status-card">
+          <h3>STATO CORRENTE</h3>
+          <strong class="status-value">{{ state.issue.status }}</strong>
+          <p>Il cambio stato verra collegato in una task separata del frontend.</p>
         </div>
-        <div>
-          <dt>Assegnatario</dt>
-          <dd>{{ issue.assignedToEmail || 'Non assegnata' }}</dd>
-        </div>
-        <div>
-          <dt>Creato il</dt>
-          <dd>{{ issue.createdAt }}</dd>
-        </div>
-        <div>
-          <dt>Risolto il</dt>
-          <dd>{{ issue.resolvedAt || '-' }}</dd>
-        </div>
-      </dl>
-
-      <h3>Immagine allegata</h3>
-      <span class="file">login.error.png</span>
-    </article>
-
-    <aside class="side">
-      <div class="status-card">
-        <h3>Aggiorna Stato</h3>
-        <label>
-          Nuovo stato
-          <select>
-            <option>{{ issue.status }}</option>
-          </select>
-        </label>
-        <button type="button">Aggiorna stato</button>
-        <p>Alla risoluzione viene creata una notifica per l'utente che ha segnalato il problema</p>
-      </div>
-    </aside>
-  </section>
-} @else {
-  <section class="detail">
-    <h1>Issue non trovata</h1>
-    <a routerLink="/issues">Torna alla lista</a>
-  </section>
+      </aside>
+    </section>
+  }
 }

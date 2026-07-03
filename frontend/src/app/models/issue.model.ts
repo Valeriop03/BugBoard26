@@ -6,11 +6,16 @@ export interface Issue {
   id: number;
   title: string;
   description: string;
+  createdById: number;
   type: IssueType;
-  priority?: IssuePriority;
+  priority: IssuePriority | null;
   status: IssueStatus;
+  assignedToId: number | null;
   createdByEmail: string;
-  assignedToEmail?: string;
+  assignedToEmail: string | null;
+  duplicateOfIssueId: number | null;
+  isArchived: boolean;
   createdAt: string;
-  resolvedAt?: string;
+  updatedAt: string;
+  resolvedAt: string | null;
 }

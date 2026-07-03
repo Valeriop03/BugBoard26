@@ -40,6 +40,19 @@ h3 {
   gap: 16px;
 }
 
+.form-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-message.error {
+  color: #b42318;
+  background: #fef3f2;
+}
+
 label {
   display: grid;
   gap: 6px;
@@ -78,6 +91,11 @@ button,
 button {
   color: #ffffff;
   background: #4862ff;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 
 .actions a {
@@ -119,6 +137,10 @@ button {
   color: #8a8a8a;
   font-size: 12px;
   font-weight: 400;
+}
+
+.info-message {
+  margin-top: 18px;
 }
 
 .rules {

@@ -4,37 +4,39 @@
 </section>
 
 <section class="create-layout">
-  <form class="form">
+  <form class="form" (ngSubmit)="submit()">
     <h2>NUOVA ISSUE</h2>
+    @if (errorMessage) {
+      <p class="form-message error">{{ errorMessage }}</p>
+    }
+
     <label>
       Titolo
-      <input name="title" [(ngModel)]="title" placeholder="Errore login con password corretta">
+      <input name="title" [(ngModel)]="title" placeholder="Errore login con password corretta" required minlength="3">
     </label>
 
     <label>
       Descrizione
-      <textarea name="description" rows="6" [(ngModel)]="description" placeholder="Quando un utente inserisce una password valida, il sistema mostra un errore generico e non completa il login"></textarea>
+      <textarea name="description" rows="6" [(ngModel)]="description" placeholder="Quando un utente inserisce una password valida, il sistema mostra un errore generico e non completa il login" required minlength="3"></textarea>
     </label>
 
     <div class="grid">
       <label>
         Tipo
         <select name="type" [(ngModel)]="type">
-          <option value="QUESTION">QUESTION</option>
-          <option value="BUG">BUG</option>
-          <option value="DOCUMENTATION">DOCUMENTATION</option>
-          <option value="FEATURE">FEATURE</option>
+          @for (option of issueTypeOptions; track option) {
+            <option [ngValue]="option">{{ option }}</option>
+          }
         </select>
       </label>
 
       <label>
         Priorita
         <select name="priority" [(ngModel)]="priority">
-          <option value="">Non indicata</option>
-          <option value="LOW">LOW</option>
-          <option value="MEDIUM">MEDIUM</option>
-          <option value="HIGH">HIGH</option>
-          <option value="CRITICAL">CRITICAL</option>
+          <option [ngValue]="''">Non indicata</option>
+          @for (option of issuePriorityOptions; track option) {
+            <option [ngValue]="option">{{ option }}</option>
+          }
         </select>
       </label>
 
@@ -45,7 +47,7 @@
     </div>
 
     <div class="actions">
-      <button type="button">Crea Issue</button>
+      <button type="submit" [disabled]="isSubmitting">{{ isSubmitting ? 'Creazione...' : 'Crea Issue' }}</button>
       <a routerLink="/issues">Annulla</a>
     </div>
   </form>
@@ -53,11 +55,17 @@
   <aside class="side">
     <div class="suggestion">
       <h3>ASSEGNATARIO SUGGERITO</h3>
-      <div class="assignee">
-        <strong>Mario Rossi</strong>
-        <span>2 issue aperte assegnate</span>
-      </div>
-      <p>Il suggerimento e calcolato in base al carico di lavoro corrente</p>
+      @if (isLoadingSuggestion) {
+        <p class="info-message">Caricamento suggerimento assegnatario...</p>
+      } @else if (suggestedAssignee) {
+        <div class="assignee">
+          <strong>{{ suggestedAssignee.email }}</strong>
+          <span>{{ suggestedAssignee.openAssignedIssues }} issue aperte assegnate</span>
+        </div>
+        <p>Il suggerimento reale e calcolato in base al carico di lavoro corrente.</p>
+      } @else {
+        <p class="info-message">{{ suggestionMessage }}</p>
+      }
     </div>
 
     <div class="rules">

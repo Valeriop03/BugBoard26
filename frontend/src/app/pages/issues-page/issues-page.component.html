@@ -1,26 +1,44 @@
 <section class="page-header">
   <div>
-    <h1>Issue</h1>
-    <p>Vista principale con filtri e ricerca preparati per lo step di integrazione.</p>
+    <h1>Lista issue</h1>
+    <p>Vista riepilogativa con ricerca, filtro e ordinamento</p>
   </div>
-  <a class="primary-link" routerLink="/issues/new">Nuova issue</a>
+  <a class="primary-link" routerLink="/issues/new">+ Nuova Issue</a>
 </section>
 
 <section class="filters">
-  <input placeholder="Cerca per parola chiave">
-  <select>
-    <option>Tipo</option>
-  </select>
-  <select>
-    <option>Stato</option>
-  </select>
-  <select>
-    <option>Priorita</option>
-  </select>
+  <input class="search" placeholder="Cerca qui la tua issue...">
+  <div class="filter-grid">
+    <label>
+      Tipo
+      <select>
+        <option>BUG</option>
+      </select>
+    </label>
+    <label>
+      Stato
+      <select>
+        <option>IN_PROGRESS</option>
+      </select>
+    </label>
+    <label>
+      Priorita
+      <select>
+        <option>HIGH</option>
+      </select>
+    </label>
+    <label>
+      Ordina per
+      <select>
+        <option>Data creazione desc</option>
+      </select>
+    </label>
+  </div>
 </section>
 
 <section class="table">
   <div class="row heading">
+    <span>ID</span>
     <span>Titolo</span>
     <span>Tipo</span>
     <span>Priorita</span>
@@ -28,13 +46,27 @@
     <span>Assegnata a</span>
   </div>
 
-  @for (issue of issues$ | async; track issue.id) {
-    <a class="row issue-row" [routerLink]="['/issues', issue.id]">
-      <span>{{ issue.title }}</span>
-      <span>{{ issue.type }}</span>
-      <span>{{ issue.priority || '-' }}</span>
-      <span>{{ issue.status }}</span>
-      <span>{{ issue.assignedToEmail || 'Non assegnata' }}</span>
-    </a>
+  @if (isLoading) {
+    <div class="message-row">Caricamento issue...</div>
+  } @else if (errorMessage) {
+    <div class="message-row error">{{ errorMessage }}</div>
+  } @else if (issues.length === 0) {
+    <div class="message-row">Non ci sono issue da mostrare.</div>
+  } @else {
+    @for (issue of issues; track issue.id) {
+      <a class="row issue-row" [routerLink]="['/issues', issue.id]">
+        <strong>#{{ issue.id.toString().padStart(2, '0') }}</strong>
+        <span>{{ issue.title }}</span>
+        <span class="pill neutral">{{ issue.type }}</span>
+        <span class="pill priority">{{ issue.priority || '-' }}</span>
+        <span class="pill status">{{ issue.status }}</span>
+        <span>{{ issue.assignedToEmail || 'Non assegnata' }}</span>
+      </a>
+    }
   }
+
+  <div class="table-footer">
+    <button type="button">Export CSV</button>
+    <span>L'export rispetta i filtri applicati nella lista</span>
+  </div>
 </section>

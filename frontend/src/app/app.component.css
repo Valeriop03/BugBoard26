@@ -1,23 +1,30 @@
 .app-shell {
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
-  color: #1f2933;
-  background: #f4f6f8;
+  color: #111827;
+  background: #efefef;
 }
 
 .topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  padding: 16px 32px;
-  border-bottom: 1px solid #d8dee6;
-  background: #ffffff;
+  gap: 20px;
+  min-height: 58px;
+  padding: 0 24px;
+  background: #151944;
+  color: #ffffff;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 28px;
 }
 
 .brand {
-  color: #17202a;
-  font-size: 22px;
+  color: #ffffff;
+  font-size: 24px;
   font-weight: 700;
   text-decoration: none;
 }
@@ -25,26 +32,72 @@
 .nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 24px;
 }
 
 .nav a {
-  padding: 8px 12px;
-  border-radius: 6px;
-  color: #3f4d5a;
+  position: relative;
+  padding: 21px 0 17px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
   text-decoration: none;
 }
 
 .nav a.active,
 .nav a:hover {
-  background: #e7edf3;
-  color: #17202a;
+  color: #ffffff;
+}
+
+.nav a.active::after,
+.nav a:hover::after {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  height: 3px;
+  border-radius: 3px;
+  background: #4b63ff;
+  content: "";
+}
+
+.session {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+}
+
+.role {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.logout {
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 7px;
+  color: #3157ff;
+  background: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .page {
-  width: min(1120px, calc(100% - 32px));
+  width: min(1120px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 28px 0 48px;
+  padding: 30px 0 54px;
+}
+
+.page.login-page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
 }
 
 @media (max-width: 720px) {
@@ -54,7 +107,15 @@
     padding: 16px;
   }
 
+  .topbar-left,
+  .session {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   .nav {
     width: 100%;
+    gap: 16px;
   }
 }

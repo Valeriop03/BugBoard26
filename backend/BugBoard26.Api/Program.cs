@@ -15,6 +15,15 @@ builder.Services.AddControllers()
     });
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AngularLocalhost", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:4201", "http://127.0.0.1:4201")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddScoped<IPasswordHasher, Pbkdf2PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
@@ -55,6 +64,8 @@ if (app.Environment.IsDevelopment())
 await DatabaseSeeder.SeedAdminAsync(app.Services);
 
 app.UseHttpsRedirection();
+
+app.UseCors("AngularLocalhost");
 
 app.UseAuthentication();
 app.UseAuthorization();

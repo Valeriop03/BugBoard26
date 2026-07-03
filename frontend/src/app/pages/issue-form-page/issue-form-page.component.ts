@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-issue-form-page',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './issue-form-page.component.html',
   styleUrl: './issue-form-page.component.css'
 })

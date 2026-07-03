@@ -1,38 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { API_BASE_URL } from '../api.config';
 import { Issue } from '../models/issue.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IssuesService {
-  private readonly sampleIssues: Issue[] = [
-    {
-      id: 1,
-      title: 'Errore login',
-      description: 'La login fallisce anche con password corretta.',
-      type: 'BUG',
-      priority: 'HIGH',
-      status: 'TODO',
-      createdByEmail: 'mario.rossi@example.com',
-      assignedToEmail: 'dev@example.com',
-      createdAt: '2026-06-24'
-    },
-    {
-      id: 2,
-      title: 'Chiarimento export',
-      description: 'Serve capire quali campi inserire nel CSV.',
-      type: 'QUESTION',
-      priority: 'LOW',
-      status: 'IN_PROGRESS',
-      createdByEmail: 'anna.verdi@example.com',
-      assignedToEmail: 'admin@example.com',
-      createdAt: '2026-06-25'
-    }
-  ];
+  constructor(private readonly http: HttpClient) {
+  }
 
   getIssues(): Observable<Issue[]> {
-    return of(this.sampleIssues);
+    return this.http.get<Issue[]>(`${API_BASE_URL}/issues`);
   }
 
   getArchivedIssues(): Observable<Issue[]> {
@@ -40,6 +20,6 @@ export class IssuesService {
   }
 
   getIssueById(id: number): Observable<Issue | undefined> {
-    return of(this.sampleIssues.find(issue => issue.id === id));
+    return of(undefined);
   }
 }

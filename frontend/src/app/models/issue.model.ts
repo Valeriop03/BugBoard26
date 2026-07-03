@@ -12,4 +12,5 @@ export interface Issue {
   createdByEmail: string;
   assignedToEmail?: string;
   createdAt: string;
+  resolvedAt?: string;
 }

@@ -1,20 +1,29 @@
 <section class="login-page">
-  <div class="panel">
-    <h1>Accesso</h1>
-    <p>Login con email e password. Il collegamento alle API verra aggiunto nello step autenticazione.</p>
+  <aside class="intro">
+    <h1>BugBoard26</h1>
+    <p>Piattaforma per la gestione collaborativa delle issue nei progetti</p>
+  </aside>
 
-    <form class="form">
+  <div class="panel">
+    <h2>Accesso al sistema</h2>
+    <form class="form" (ngSubmit)="login()">
       <label>
         Email
-        <input type="email" name="email" [(ngModel)]="email" placeholder="admin@bugboard26.local">
+        <input type="email" name="email" [(ngModel)]="email" placeholder="admin@bugboard26.local" required>
       </label>
 
       <label>
         Password
-        <input type="password" name="password" [(ngModel)]="password" placeholder="Password">
+        <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
       </label>
 
-      <button type="button">Entra</button>
+      @if (errorMessage) {
+        <p class="error">Le credenziali inserite non sono valide</p>
+      }
+
+      <button type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Accesso...' : 'Entra' }}
+      </button>
     </form>
   </div>
 </section>

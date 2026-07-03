@@ -1,46 +1,68 @@
 <section class="page-header">
-  <h1>Nuova issue</h1>
-  <p>Form pronto per creare una issue quando sara disponibile l'endpoint backend.</p>
+  <h1>CREAZIONE ISSUE</h1>
+  <p>Inserimento dei dati minimi richiesti e suggerimento automatico dell'assegnatario.</p>
 </section>
 
-<form class="form">
-  <label>
-    Titolo
-    <input name="title" [(ngModel)]="title">
-  </label>
-
-  <label>
-    Descrizione
-    <textarea name="description" rows="6" [(ngModel)]="description"></textarea>
-  </label>
-
-  <div class="grid">
+<section class="create-layout">
+  <form class="form">
+    <h2>NUOVA ISSUE</h2>
     <label>
-      Tipo
-      <select name="type" [(ngModel)]="type">
-        <option value="QUESTION">Question</option>
-        <option value="BUG">Bug</option>
-        <option value="DOCUMENTATION">Documentation</option>
-        <option value="FEATURE">Feature</option>
-      </select>
+      Titolo
+      <input name="title" [(ngModel)]="title" placeholder="Errore login con password corretta">
     </label>
 
     <label>
-      Priorita
-      <select name="priority" [(ngModel)]="priority">
-        <option value="">Non indicata</option>
-        <option value="LOW">Low</option>
-        <option value="MEDIUM">Medium</option>
-        <option value="HIGH">High</option>
-        <option value="CRITICAL">Critical</option>
-      </select>
+      Descrizione
+      <textarea name="description" rows="6" [(ngModel)]="description" placeholder="Quando un utente inserisce una password valida, il sistema mostra un errore generico e non completa il login"></textarea>
     </label>
-  </div>
 
-  <label>
-    Immagine opzionale
-    <input type="file">
-  </label>
+    <div class="grid">
+      <label>
+        Tipo
+        <select name="type" [(ngModel)]="type">
+          <option value="QUESTION">QUESTION</option>
+          <option value="BUG">BUG</option>
+          <option value="DOCUMENTATION">DOCUMENTATION</option>
+          <option value="FEATURE">FEATURE</option>
+        </select>
+      </label>
 
-  <button type="button">Salva issue</button>
-</form>
+      <label>
+        Priorita
+        <select name="priority" [(ngModel)]="priority">
+          <option value="">Non indicata</option>
+          <option value="LOW">LOW</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="HIGH">HIGH</option>
+          <option value="CRITICAL">CRITICAL</option>
+        </select>
+      </label>
+
+      <label>
+        Immagine
+        <input type="text" value="login-error.png" readonly>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button type="button">Crea Issue</button>
+      <a routerLink="/issues">Annulla</a>
+    </div>
+  </form>
+
+  <aside class="side">
+    <div class="suggestion">
+      <h3>ASSEGNATARIO SUGGERITO</h3>
+      <div class="assignee">
+        <strong>Mario Rossi</strong>
+        <span>2 issue aperte assegnate</span>
+      </div>
+      <p>Il suggerimento e calcolato in base al carico di lavoro corrente</p>
+    </div>
+
+    <div class="rules">
+      <strong>REGOLE DI PERMESSO</strong>
+      <p>Gli utenti readonly non possono creare issue.</p>
+    </div>
+  </aside>
+</section>

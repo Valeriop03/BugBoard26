@@ -13,6 +13,7 @@ namespace BugBoard26.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class IssuesController : ControllerBase
 {
     private static readonly Expression<Func<Issue, int>> PriorityOrderExpression = issue =>
@@ -37,6 +38,7 @@ public class IssuesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = UserRoleMapper.Admin + "," + UserRoleMapper.User)]
     public async Task<ActionResult<IssueResponse>> Create([FromBody] CreateIssueRequest request, CancellationToken cancellationToken)
     {
         var currentUser = await GetCurrentUserAsync(cancellationToken);
@@ -182,6 +184,7 @@ public class IssuesController : ControllerBase
     }
 
     [HttpPatch("{id:int}/status")]
+    [Authorize(Roles = UserRoleMapper.Admin + "," + UserRoleMapper.User)]
     public async Task<ActionResult<IssueResponse>> UpdateStatus(int id, [FromBody] UpdateIssueStatusRequest request, CancellationToken cancellationToken)
     {
         var currentUser = await GetCurrentUserAsync(cancellationToken);
@@ -331,6 +334,16 @@ public class IssuesController : ControllerBase
         if (query.Priority.HasValue)
         {
             issuesQuery = issuesQuery.Where(issue => issue.Priority == query.Priority.Value);
+        }
+
+        if (query.CreatedById.HasValue)
+        {
+            issuesQuery = issuesQuery.Where(issue => issue.CreatedById == query.CreatedById.Value);
+        }
+
+        if (query.AssignedToId.HasValue)
+        {
+            issuesQuery = issuesQuery.Where(issue => issue.AssignedToId == query.AssignedToId.Value);
         }
 
         var keyword = query.Keyword?.Trim();

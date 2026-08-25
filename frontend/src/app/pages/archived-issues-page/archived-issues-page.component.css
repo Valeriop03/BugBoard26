@@ -11,9 +11,70 @@ p {
   margin-bottom: 20px;
 }
 
-.empty {
-  padding: 24px;
-  border: 1px solid #d8dee6;
-  border-radius: 8px;
+.table {
+  overflow: hidden;
+  border-radius: 28px;
   background: #ffffff;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 60px 2fr 1fr 1fr 1.2fr 1.4fr;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 38px;
+  border-bottom: 1px solid #ededed;
+}
+
+.heading {
+  color: #777777;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.issue-row {
+  color: #1f2933;
+  text-decoration: none;
+}
+
+.issue-row:hover {
+  background: #f8fafc;
+}
+
+.pill {
+  width: fit-content;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.neutral {
+  background: #e8e8e8;
+}
+
+.priority {
+  color: #ff2424;
+  background: #ffdede;
+}
+
+.status {
+  color: #2274ff;
+  background: #dbeaff;
+}
+
+.message-row {
+  padding: 18px 38px;
+  color: #66717d;
+}
+
+.message-row.error {
+  color: #b42318;
+  font-weight: 600;
+}
+
+@media (max-width: 820px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
 }

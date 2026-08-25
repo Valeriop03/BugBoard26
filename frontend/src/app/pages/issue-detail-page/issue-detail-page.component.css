@@ -120,6 +120,14 @@ select {
   font: inherit;
 }
 
+input {
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid #d3d3d3;
+  border-radius: 8px;
+  font: inherit;
+}
+
 button {
   padding: 13px 16px;
   border: 0;
@@ -127,6 +135,34 @@ button {
   color: #ffffff;
   background: #4862ff;
   font-weight: 700;
+}
+
+button:disabled {
+  opacity: 0.65;
+}
+
+.danger {
+  background: #b42318;
+}
+
+.admin-actions {
+  gap: 14px;
+}
+
+.notice {
+  padding: 18px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.notice.success {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.notice.error {
+  color: #b42318;
+  background: #fee4e2;
 }
 
 .status-card p {

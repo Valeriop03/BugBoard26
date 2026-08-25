@@ -3,10 +3,32 @@
   <p>Pagina dedicata alle issue archiviate dagli amministratori.</p>
 </section>
 
-<section class="empty">
-  @if ((archivedIssues$ | async)?.length) {
-    <p>Le issue archiviate verranno mostrate qui.</p>
+<section class="table">
+  <div class="row heading">
+    <span>ID</span>
+    <span>Titolo</span>
+    <span>Tipo</span>
+    <span>Priorita</span>
+    <span>Stato</span>
+    <span>Assegnata a</span>
+  </div>
+
+  @if (isLoading) {
+    <div class="message-row">Caricamento archivio...</div>
+  } @else if (errorMessage) {
+    <div class="message-row error">{{ errorMessage }}</div>
+  } @else if (archivedIssues.length === 0) {
+    <div class="message-row">Non ci sono issue archiviate.</div>
   } @else {
-    <p>Non ci sono issue archiviate nei dati di esempio.</p>
+    @for (issue of archivedIssues; track issue.id) {
+      <a class="row issue-row" [routerLink]="['/issues', issue.id]">
+        <strong>#{{ issue.id.toString().padStart(2, '0') }}</strong>
+        <span>{{ issue.title }}</span>
+        <span class="pill neutral">{{ issue.type }}</span>
+        <span class="pill priority">{{ issue.priority || '-' }}</span>
+        <span class="pill status">{{ issue.status }}</span>
+        <span>{{ issue.assignedToEmail || 'Non assegnata' }}</span>
+      </a>
+    }
   }
 </section>

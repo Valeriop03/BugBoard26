@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { API_BASE_URL } from '../api.config';
@@ -41,6 +41,15 @@ export interface CreateIssueRequest {
   assignedToId?: number | null;
 }
 
+export interface IssueListFilters {
+  keyword?: string;
+  type?: IssueType | '';
+  status?: IssueStatus | '';
+  priority?: IssuePriority | '';
+  sortBy?: 'Date' | 'Priority' | 'Status' | 'Title';
+  sortDirection?: 'Asc' | 'Desc';
+}
+
 const issueTypeToApiMap: Record<IssueType, ApiIssueType> = {
   QUESTION: 'Question',
   BUG: 'Bug',
@@ -61,6 +70,14 @@ const issueStatusFromApiMap: Record<ApiIssueStatus, IssueStatus> = {
   Resolved: 'RESOLVED',
   Closed: 'CLOSED',
   Duplicate: 'DUPLICATE'
+};
+
+const issueStatusToApiMap: Record<IssueStatus, ApiIssueStatus> = {
+  TODO: 'Todo',
+  IN_PROGRESS: 'InProgress',
+  RESOLVED: 'Resolved',
+  CLOSED: 'Closed',
+  DUPLICATE: 'Duplicate'
 };
 
 const issueTypeFromApiMap: Record<ApiIssueType, IssueType> = {
@@ -84,8 +101,10 @@ export class IssuesService {
   constructor(private readonly http: HttpClient) {
   }
 
-  getIssues(): Observable<Issue[]> {
-    return this.http.get<ApiIssue[]>(`${API_BASE_URL}/issues`)
+  getIssues(filters: IssueListFilters = {}): Observable<Issue[]> {
+    return this.http.get<ApiIssue[]>(`${API_BASE_URL}/issues`, {
+      params: this.buildIssueParams(filters)
+    })
       .pipe(map(issues => issues.map(issue => this.mapIssue(issue))));
   }
 
@@ -111,6 +130,59 @@ export class IssuesService {
 
   suggestAssignee(): Observable<SuggestedAssignee> {
     return this.http.get<ApiSuggestedAssignee>(`${API_BASE_URL}/issues/suggest-assignee`);
+  }
+
+  updateStatus(id: number, status: IssueStatus): Observable<Issue> {
+    return this.http.patch<ApiIssue>(`${API_BASE_URL}/issues/${id}/status`, {
+      status: issueStatusToApiMap[status]
+    }).pipe(map(issue => this.mapIssue(issue)));
+  }
+
+  archiveIssue(id: number): Observable<Issue> {
+    return this.http.patch<ApiIssue>(`${API_BASE_URL}/issues/${id}/archive`, {})
+      .pipe(map(issue => this.mapIssue(issue)));
+  }
+
+  markAsDuplicate(id: number, originalIssueId: number): Observable<Issue> {
+    return this.http.patch<ApiIssue>(`${API_BASE_URL}/issues/${id}/duplicate`, { originalIssueId })
+      .pipe(map(issue => this.mapIssue(issue)));
+  }
+
+  exportIssues(filters: IssueListFilters = {}): Observable<Blob> {
+    return this.http.get(`${API_BASE_URL}/issues/export`, {
+      params: this.buildIssueParams(filters),
+      responseType: 'blob'
+    });
+  }
+
+  private buildIssueParams(filters: IssueListFilters): HttpParams {
+    let params = new HttpParams();
+
+    if (filters.keyword?.trim()) {
+      params = params.set('keyword', filters.keyword.trim());
+    }
+
+    if (filters.type) {
+      params = params.set('type', issueTypeToApiMap[filters.type]);
+    }
+
+    if (filters.status) {
+      params = params.set('status', issueStatusToApiMap[filters.status]);
+    }
+
+    if (filters.priority) {
+      params = params.set('priority', issuePriorityToApiMap[filters.priority]);
+    }
+
+    if (filters.sortBy) {
+      params = params.set('sortBy', filters.sortBy);
+    }
+
+    if (filters.sortDirection) {
+      params = params.set('sortDirection', filters.sortDirection);
+    }
+
+    return params;
   }
 
   private mapIssue(issue: ApiIssue): Issue {

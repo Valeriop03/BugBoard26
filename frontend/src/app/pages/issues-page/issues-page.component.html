@@ -7,32 +7,51 @@
 </section>
 
 <section class="filters">
-  <input class="search" placeholder="Cerca qui la tua issue...">
+  <input
+    class="search"
+    name="keyword"
+    placeholder="Cerca qui la tua issue..."
+    [(ngModel)]="keyword"
+    (ngModelChange)="onSearchChange()">
   <div class="filter-grid">
     <label>
       Tipo
-      <select>
-        <option>BUG</option>
+      <select name="type" [(ngModel)]="type" (ngModelChange)="loadIssues()">
+        <option value="">Tutti</option>
+        @for (option of typeOptions; track option) {
+          <option [value]="option">{{ option }}</option>
+        }
       </select>
     </label>
     <label>
       Stato
-      <select>
-        <option>IN_PROGRESS</option>
+      <select name="status" [(ngModel)]="status" (ngModelChange)="loadIssues()">
+        <option value="">Tutti</option>
+        @for (option of statusOptions; track option) {
+          <option [value]="option">{{ option }}</option>
+        }
       </select>
     </label>
     <label>
       Priorita
-      <select>
-        <option>HIGH</option>
+      <select name="priority" [(ngModel)]="priority" (ngModelChange)="loadIssues()">
+        <option value="">Tutte</option>
+        @for (option of priorityOptions; track option) {
+          <option [value]="option">{{ option }}</option>
+        }
       </select>
     </label>
     <label>
       Ordina per
-      <select>
-        <option>Data creazione desc</option>
+      <select name="sort" [(ngModel)]="sort" (ngModelChange)="loadIssues()">
+        @for (option of sortOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
       </select>
     </label>
+  </div>
+  <div class="filter-actions">
+    <button class="secondary" type="button" (click)="resetFilters()">Pulisci</button>
   </div>
 </section>
 
@@ -66,7 +85,12 @@
   }
 
   <div class="table-footer">
-    <button type="button">Export CSV</button>
+    <button type="button" (click)="exportCsv()" [disabled]="isExporting">
+      {{ isExporting ? 'Esporto...' : 'Export CSV' }}
+    </button>
     <span>L'export rispetta i filtri applicati nella lista</span>
+    @if (exportMessage) {
+      <span class="export-message">{{ exportMessage }}</span>
+    }
   </div>
 </section>

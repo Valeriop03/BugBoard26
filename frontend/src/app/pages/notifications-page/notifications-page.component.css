@@ -6,6 +6,17 @@ p {
   margin: 0;
 }
 
+.message {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+.message.error {
+  color: #b42318;
+  background: #fef3f2;
+}
+
 .page-header {
   margin-bottom: 20px;
 }
@@ -34,13 +45,61 @@ small {
   border-left: 4px solid #2563eb;
 }
 
+a.button,
 a {
   color: #2563eb;
   white-space: nowrap;
 }
 
+.notification-body {
+  display: grid;
+  gap: 8px;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.actions {
+  display: grid;
+  justify-items: end;
+  align-content: start;
+  gap: 10px;
+}
+
+.badge {
+  padding: 7px 12px;
+  border-radius: 999px;
+  color: #9a3412;
+  background: #fff7ed;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge.read {
+  color: #166534;
+  background: #f0fdf4;
+}
+
+button {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #2563eb;
+  font-weight: 700;
+}
+
+button:disabled {
+  opacity: 0.7;
+}
+
 @media (max-width: 720px) {
   .notification {
     display: grid;
+  }
+
+  .actions {
+    justify-items: start;
   }
 }

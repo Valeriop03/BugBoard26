@@ -1,16 +1,27 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../api.config';
 import { User } from '../models/user.model';
+
+export interface CreateUserRequest {
+  email: string;
+  password: string;
+  role: User['role'];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
+  constructor(private readonly http: HttpClient) {
+  }
+
   getUsers(): Observable<User[]> {
-    return of([
-      { id: 1, email: 'admin@bugboard26.local', role: 'ADMIN', isActive: true },
-      { id: 2, email: 'dev@bugboard26.local', role: 'USER', isActive: true },
-      { id: 3, email: 'stakeholder@bugboard26.local', role: 'READONLY', isActive: true }
-    ]);
+    return this.http.get<User[]>(`${API_BASE_URL}/users`);
+  }
+
+  createUser(request: CreateUserRequest): Observable<User> {
+    return this.http.post<User>(`${API_BASE_URL}/users`, request);
   }
 }

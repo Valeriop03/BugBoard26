@@ -3,14 +3,43 @@
   <p>Elenco delle notifiche dell'utente autenticato.</p>
 </section>
 
+@if (actionErrorMessage) {
+  <p class="message error">{{ actionErrorMessage }}</p>
+}
+
 <section class="list">
-  @for (notification of notifications$ | async; track notification.id) {
-    <article class="notification" [class.unread]="!notification.isRead">
-      <div>
-        <p>{{ notification.message }}</p>
-        <small>{{ notification.createdAt }}</small>
-      </div>
-      <a [routerLink]="['/issues', notification.issueId]">Apri issue</a>
+  @if (isLoading) {
+    <article class="notification">
+      <p>Caricamento notifiche...</p>
     </article>
+  } @else if (errorMessage) {
+    <article class="notification message error">
+      <p>{{ errorMessage }}</p>
+    </article>
+  } @else if (notifications.length === 0) {
+    <article class="notification">
+      <p>Non ci sono notifiche da mostrare.</p>
+    </article>
+  } @else {
+    @for (notification of notifications; track notification.id) {
+      <article class="notification" [class.unread]="!notification.isRead">
+        <div class="notification-body">
+          <p class="title">{{ notification.issueTitle }}</p>
+          <p>{{ notification.message }}</p>
+          <small>{{ notification.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+        </div>
+        <div class="actions">
+          <span class="badge" [class.read]="notification.isRead">
+            {{ notification.isRead ? 'Letta' : 'Non letta' }}
+          </span>
+          @if (!notification.isRead) {
+            <button type="button" (click)="markAsRead(notification.id)" [disabled]="readingNotificationId === notification.id">
+              {{ readingNotificationId === notification.id ? 'Aggiornamento...' : 'Segna come letta' }}
+            </button>
+          }
+          <a [routerLink]="['/issues', notification.issueId]">Apri issue</a>
+        </div>
+      </article>
+    }
   }
 </section>

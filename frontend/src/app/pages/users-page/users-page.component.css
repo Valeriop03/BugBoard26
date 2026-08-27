@@ -1,7 +1,4 @@
 .page-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
   margin-bottom: 20px;
 }
 
@@ -14,14 +11,73 @@ p {
   color: #66717d;
 }
 
+.users-layout {
+  display: grid;
+  gap: 18px;
+}
+
+.form,
+.rules,
+.help {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid #d8dee6;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.form h2,
+.rules strong,
+.help strong {
+  margin: 0;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+
+input,
+select {
+  padding: 10px 12px;
+  border: 1px solid #cfd8e3;
+  border-radius: 8px;
+  font: inherit;
+}
+
 button {
-  height: fit-content;
-  padding: 10px 14px;
+  width: fit-content;
+  padding: 10px 16px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 8px;
   color: #ffffff;
   background: #2563eb;
   font-weight: 700;
+}
+
+button:disabled {
+  opacity: 0.7;
+}
+
+.message {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.message.error,
+.message-row.error {
+  color: #b42318;
+  background: #fef3f2;
+}
+
+.message.success {
+  color: #067647;
+  background: #ecfdf3;
 }
 
 .table {
@@ -50,8 +106,26 @@ button {
   font-weight: 700;
 }
 
+.message-row {
+  padding: 16px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: #1d4ed8;
+  background: #eff6ff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 @media (max-width: 720px) {
-  .page-header,
   .row {
     display: grid;
     grid-template-columns: 1fr;

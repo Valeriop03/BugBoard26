@@ -10,6 +10,10 @@ public class IssueListQuery
 
     public IssuePriority? Priority { get; set; }
 
+    public int? CreatedById { get; set; }
+
+    public int? AssignedToId { get; set; }
+
     public string? Keyword { get; set; }
 
     public IssueSortField SortBy { get; set; } = IssueSortField.Date;

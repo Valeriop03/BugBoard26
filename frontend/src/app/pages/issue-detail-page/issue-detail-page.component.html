@@ -71,7 +71,7 @@
     </article>
 
     <aside class="side">
-      @if (!isReadonly) {
+      @if (canChangeStatus) {
         <div class="status-card">
           <h3>Aggiorna stato</h3>
           <label>

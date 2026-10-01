@@ -38,8 +38,13 @@ export class IssueDetailPageComponent {
     return this.authService.getCurrentUser()?.role === 'ADMIN';
   }
 
-  get isReadonly(): boolean {
-    return this.authService.getCurrentUser()?.role === 'READONLY';
+  get canChangeStatus(): boolean {
+    const user = this.authService.getCurrentUser();
+
+    return !!this.issue && !!user && (
+      user.role === 'ADMIN' ||
+      (user.role === 'USER' && user.id === this.issue.assignedToId)
+    );
   }
 
   constructor() {
@@ -55,6 +60,11 @@ export class IssueDetailPageComponent {
   }
 
   updateStatus(): void {
+    if (!this.canChangeStatus) {
+      this.actionError = 'Non hai i permessi per questa operazione.';
+      return;
+    }
+
     if (!this.issue || this.isSavingStatus) {
       return;
     }
@@ -80,6 +90,11 @@ export class IssueDetailPageComponent {
   }
 
   archiveIssue(): void {
+    if (!this.isAdmin) {
+      this.actionError = 'Non hai i permessi per questa operazione.';
+      return;
+    }
+
     if (!this.issue || this.isArchiving) {
       return;
     }
@@ -103,6 +118,11 @@ export class IssueDetailPageComponent {
   }
 
   markAsDuplicate(): void {
+    if (!this.isAdmin) {
+      this.actionError = 'Non hai i permessi per questa operazione.';
+      return;
+    }
+
     if (!this.issue || !this.duplicateOfIssueId || this.isMarkingDuplicate) {
       this.actionError = "Inserisci l'ID della issue originale.";
       return;

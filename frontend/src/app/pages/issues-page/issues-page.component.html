@@ -3,7 +3,9 @@
     <h1>Lista issue</h1>
     <p>Vista riepilogativa con ricerca, filtro e ordinamento</p>
   </div>
-  <a class="primary-link" routerLink="/issues/new">+ Nuova Issue</a>
+  @if (canCreateIssue) {
+    <a class="primary-link" routerLink="/issues/new">+ Nuova Issue</a>
+  }
 </section>
 
 <section class="filters">

@@ -12,6 +12,7 @@
 \usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{xurl}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
@@ -72,7 +73,7 @@
                               & Emanuel Giuseppe Lupoli - N86004280 \\
                               & Emanuele Martucci - N86004084 \\
         \textbf{Modalita':} & Tradizionale \\
-        \textbf{Versione documento:} & 0.1 \\
+        \textbf{Versione documento:} & 0.2 \\
         \textbf{Data:} & \today \\
     \end{tabular}
     \vfill
@@ -188,7 +189,7 @@ RF-19 & Quando una issue viene marcata come duplicata, il sistema deve chiuderla
 \clearpage
 \section{Requisiti non funzionali}
 
-\begin{longtable}{>{\bfseries}p{0.12\textwidth} p{0.70\textwidth} p{0.12\textwidth}}
+\begin{longtable}{>{\bfseries}p{0.12\textwidth} p{0.63\textwidth} p{0.17\textwidth}}
 \toprule
 ID & Descrizione & Categoria \\
 \midrule
@@ -273,23 +274,31 @@ Requisiti collegati & RF-04, RF-05, RF-06, RF-07 \\
 \toprule
 Campo & Descrizione \\
 \midrule
-Attore primario & Utente normale assegnato alla issue \\
+Attore primario & Utente normale assegnato alla issue oppure amministratore \\
 Scopo & Aggiornare lo stato di avanzamento di una issue. \\
-Precondizioni & L'utente ha effettuato il login ed è assegnatario della issue, oppure è amministratore. \\
-Postcondizioni & Lo stato della issue viene aggiornato. Se il nuovo stato è \textit{RESOLVED}, viene creata una notifica per il segnalatore. \\
+Precondizioni & L'utente ha effettuato il login, non è readonly ed è assegnatario della issue oppure amministratore. \\
+Postcondizioni & Lo stato della issue viene aggiornato. Se la issue passa allo stato \textit{RESOLVED}, viene creata una notifica per il segnalatore. \\
 Scenario principale &
 \begin{enumerate}[noitemsep]
-    \item L'utente apre il dettaglio di una issue assegnata a lui.
+    \item L'utente apre il dettaglio della issue.
     \item Il sistema mostra lo stato corrente della issue.
     \item L'utente seleziona un nuovo stato.
     \item Il sistema verifica che l'utente sia autorizzato a modificare la issue.
     \item Il sistema aggiorna lo stato.
-    \item Se il nuovo stato è \textit{RESOLVED}, il sistema crea una notifica per il segnalatore.
+    \item Se la issue passa allo stato \textit{RESOLVED}, il sistema crea una notifica per il segnalatore.
 \end{enumerate} \\
-Estensioni & Se l'utente non è assegnatario e non è amministratore, il sistema rifiuta l'operazione. \\
-Requisiti collegati & RF-10, RF-11, RNF-02 \\
+Estensioni & Se l'utente è readonly, oppure non è assegnatario e non è amministratore, il sistema rifiuta l'operazione. \\
+Requisiti collegati & RF-10, RF-11, RF-17, RNF-02 \\
 \bottomrule
 \end{tabularx}
+
+\subsubsection{Confronto di UC-02 con il comportamento attuale}
+
+I requisiti RF-10, RF-11 e RF-17 restano invariati. Nel codice gli account devono essere attivi: \texttt{ADMIN} può cambiare stato anche senza assegnazione; \texttt{USER} soltanto se \path{AssignedToId} coincide con il proprio identificativo; \texttt{READONLY} è escluso anche se assegnatario.
+
+In \path{backend/BugBoard26.Api/Controllers/IssuesController.cs}, metodo \path{UpdateStatus}, un cambiamento effettivo aggiorna \texttt{Status} e \path{UpdatedAt}. L'ingresso in \texttt{RESOLVED} imposta \path{ResolvedAt} in UTC e crea una notifica non letta per \path{CreatedById}. La richiesta dello stato già corrente restituisce la issue senza cambiare date né creare notifiche. Il passaggio a uno stato diverso da \texttt{RESOLVED} azzera \path{ResolvedAt}; le notifiche precedenti restano conservate. Un successivo ingresso in \texttt{RESOLVED} crea una nuova notifica.
+
+Questi dettagli descrivono l'implementazione, senza introdurre una sequenza obbligatoria di transizioni. Le differenze dell'interfaccia e del diagramma sono annotate nel design, nelle sezioni sui ruoli e sul cambio stato con notifica. La checklist nella documentazione finale riporta prove ancora da eseguire.
 
 \IfFileExists{mock-up/Dettaglio issue.png}{
 \begin{figure}[H]
@@ -356,8 +365,8 @@ RF-06 & Controllo stato della issue appena creata. & Lo stato iniziale è \texti
 RF-07 & Accesso alla pagina lista issue. & Sono mostrate le issue non archiviate. \\
 RF-08 & Applicazione di filtri e ordinamenti. & La lista cambia coerentemente con i criteri scelti. \\
 RF-09 & Ricerca con parola chiave presente in titolo o descrizione. & Sono mostrate solo le issue compatibili con la ricerca. \\
-RF-10 & Cambio stato da parte dell'assegnatario e da parte di un utente non autorizzato. & L'assegnatario può modificare; l'utente non autorizzato viene bloccato. \\
-RF-11 & Cambio stato a \textit{RESOLVED}. & Il segnalatore riceve una notifica interna. \\
+RF-10 & Cambio stato come assegnatario, admin non assegnatario, USER non assegnatario e READONLY. & Assegnatario e admin possono modificare; gli altri casi sono rifiutati. \\
+RF-11 & Risoluzione e ripetizione della richiesta dello stesso stato. & Il passaggio a \textit{RESOLVED} notifica il segnalatore; la ripetizione non genera una seconda notifica. \\
 RF-12 & Download dell'export CSV. & Viene prodotto un file CSV leggibile con i dati principali delle issue. \\
 RF-13 & Archiviazione da parte di admin. & La issue viene marcata come archiviata. \\
 RF-14 & Consultazione lista principale dopo archiviazione. & La issue archiviata non compare nella lista principale. \\

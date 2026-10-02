@@ -72,7 +72,7 @@
     \begin{tabular}{ll}
         \textbf{Componenti} & Valerio Porcile, Emanuel Giuseppe Lupoli, Emanuele Martucci \\
         \textbf{Modalità} & Tradizionale \\
-        \textbf{Versione} & 1.0 \\
+        \textbf{Versione} & 1.1 \\
         \textbf{Data} & \today \\
     \end{tabular}
 
@@ -236,7 +236,7 @@ I controller rappresentano il punto di ingresso delle richieste HTTP. Ogni contr
     \item \texttt{AuthController}: login e generazione del token JWT;
     \item \texttt{UsersController}: creazione e consultazione degli utenti;
     \item \texttt{IssuesController}: creazione, ricerca, filtro, cambio stato, archiviazione, duplicati ed export;
-    \item \texttt{NotificationsController}: consultazione e lettura delle notifiche.
+    \item \path{NotificationsController}: consultazione e lettura delle notifiche.
 \end{itemize}
 
 \subsection{Servizi applicativi}
@@ -253,6 +253,8 @@ I principali servizi previsti sono:
     \item \texttt{AssignmentSuggestionService};
     \item \texttt{CsvExportService}.
 \end{itemize}
+
+Per cambio stato e notifiche, i controller usano direttamente \path{ApplicationDbContext}; \texttt{IssueDomainService} controlla i permessi. Servizi e repository qui previsti non sono implementati per questo flusso.
 
 \subsection{Repository}
 
@@ -367,11 +369,11 @@ Il frontend non accede direttamente al database e non contiene logica di busines
 
 \subsection{Uso di servizi applicativi}
 
-La logica applicativa è concentrata nei servizi. Questa scelta permette di mantenere i controller più semplici e di testare più facilmente le operazioni principali.
+Nel disegno previsto, la logica applicativa è concentrata nei servizi. Questa scelta permette di mantenere i controller più semplici e di testare più facilmente le operazioni principali.
 
 \subsection{Uso di repository}
 
-I repository sono stati introdotti per separare la logica applicativa dallo accesso ai dati. I servizi dipendono da interfacce, non da implementazioni concrete. Questo favorisce testabilità e sostituibilità delle implementazioni.
+I repository sono previsti per separare la logica applicativa dallo accesso ai dati. I servizi dipendono da interfacce, non da implementazioni concrete. Questo favorisce testabilità e sostituibilità delle implementazioni.
 
 \subsection{Gestione dei ruoli}
 
@@ -385,6 +387,20 @@ Il sistema prevede tre ruoli principali:
 
 Il controllo dei ruoli viene effettuato lato backend, in modo da impedire operazioni non autorizzate anche in caso di manipolazione della interfaccia frontend.
 
+\paragraph{Requisiti del cambio stato.}
+RF-10 e UC-02 consentono l'operazione all'assegnatario oppure all'amministratore; RF-17 esclude readonly dalle modifiche alle issue. RNF-02 richiede il controllo sul backend e RNF-05 richiede che l'interfaccia renda chiare le operazioni disponibili per ruolo.
+
+\paragraph{Comportamento attuale.}
+\path{IssuesController.UpdateStatus} espone PATCH \path{/api/issues/{id}/status} per \texttt{ADMIN}, \texttt{USER}. Verifica l'account attivo e chiama \path{IssueDomainService.CanChangeIssueStatus}: admin può agire su qualsiasi issue, USER deve essere assegnatario e READONLY è escluso anche se assegnato. Una richiesta non autorizzata è rifiutata con 403; l'account corrente assente o inattivo produce 401, una issue inesistente 404.
+
+\paragraph{Differenze e verifiche aperte.}
+\begin{itemize}
+    \item In \path{frontend/src/app/pages/issue-detail-page/issue-detail-page.component.html}, il blocco \texttt{!isReadonly} mostra il cambio stato anche ai USER non assegnatari. L'API rifiuta la richiesta, ma la disponibilità del comando non riflette UC-02 e RNF-05. Il componente TypeScript non verifica l'assegnazione prima dell'invio.
+    \item Il frontend propone \texttt{TODO}, \texttt{IN\_PROGRESS}, \texttt{RESOLVED}, \texttt{CLOSED} e disabilita il cambio per una issue \texttt{DUPLICATE}. \texttt{UpdateStatus} non implementa una matrice di transizioni né quel blocco: non va presentata come requisito una sequenza obbligatoria.
+    \item \texttt{UpdateStatus} accetta anche \texttt{Duplicate}, presente in \path{backend/BugBoard26.Api/Models/IssueStatus.cs}, senza riferimento all'originale. Un USER assegnatario può impostarlo tramite PATCH status, mentre il design riserva il contrassegno all'admin e UC-03 prevede il collegamento all'originale. Questa differenza va verificata via API e corretta nel codice in un intervento separato, senza modificare il requisito. Inoltre \texttt{MarkAsDuplicate} non azzera \texttt{ResolvedAt} su una issue già risolta: la gestione della data in quel percorso distinto resta da verificare.
+\end{itemize}
+Riferimenti: \path{backend/BugBoard26.Api/Controllers/IssuesController.cs}, metodi \texttt{UpdateStatus} e \texttt{MarkAsDuplicate}; \path{backend/BugBoard26.Api/Services/IssueDomainService.cs}, metodo \path{CanChangeIssueStatus}.
+
 \subsection{Suggerimento automatico dello assegnatario}
 
 Il suggerimento automatico dello assegnatario è realizzato considerando il carico di lavoro corrente degli utenti. Il criterio di base è selezionare lo utente normale con il minor numero di issue aperte assegnate.
@@ -393,7 +409,23 @@ Le issue risolte, duplicate o archiviate non vengono considerate come carico att
 
 \subsection{Gestione delle notifiche}
 
-Quando una issue viene portata allo stato \texttt{RESOLVED}, il sistema genera una notifica per lo utente che ha creato la issue. La notifica viene salvata nel database e può essere visualizzata dalla interfaccia utente.
+\paragraph{Requisito.}
+RF-11 richiede la notifica al segnalatore quando la issue passa a \texttt{RESOLVED}. Per la verifica di questo flusso, ogni utente deve consultare e segnare come lette soltanto le proprie notifiche.
+
+\paragraph{Comportamento attuale della risoluzione.}
+In \path{IssuesController.UpdateStatus}, se lo stato richiesto differisce dal corrente, vengono aggiornati \texttt{Status} e \texttt{UpdatedAt}. Per \texttt{RESOLVED} viene impostato \texttt{ResolvedAt} in UTC e aggiunta una \texttt{Notification} con \texttt{UserId = CreatedById}, \texttt{IssueId}, messaggio di risoluzione, \texttt{IsRead = false} e \texttt{CreatedAt} in UTC. Una sola chiamata \texttt{SaveChangesAsync} persiste issue e notifica.
+
+La ripetizione dello stato corrente risponde 200 con la issue, senza scritture, date nuove o ulteriori notifiche. Uscendo da \texttt{RESOLVED}, \texttt{ResolvedAt} viene azzerato senza eliminare o cambiare la lettura delle notifiche precedenti. Un nuovo ingresso in \texttt{RESOLVED} imposta una nuova data e crea una nuova notifica. Non è presente un invio email o un aggiornamento in tempo reale della pagina notifiche.
+
+\paragraph{Comportamento attuale delle notifiche.}
+\path{NotificationsController.GetAll} restituisce con GET \path{/api/notifications} solo le notifiche con \texttt{UserId} uguale all'utente corrente, dalla più recente. \texttt{MarkAsRead}, PATCH \path{/api/notifications/{id}/read}, verifica il proprietario prima di impostare \texttt{IsRead = true}. Restituisce 403 per la notifica altrui, 404 per un ID inesistente e 401 per account corrente assente o inattivo. Anche ADMIN può operare solo sulle proprie notifiche. Ripetere la lettura di una propria notifica restituisce 200 e mantiene \texttt{IsRead = true}; non esiste un endpoint di dettaglio notifica per ID.
+
+La pagina Angular carica l'elenco all'apertura, evidenzia le notifiche non lette e aggiorna l'elemento con la risposta del PATCH. Il pulsante \emph{Segna come letta} è mostrato solo per notifiche non lette. Il dettaglio issue visualizza \texttt{ResolvedAt}; \texttt{IssuesService} converte i nomi di stato Angular nei nomi API, ad esempio \texttt{RESOLVED} in \texttt{Resolved}.
+
+Riferimenti: \path{backend/BugBoard26.Api/Controllers/NotificationsController.cs}; modelli \path{backend/BugBoard26.Api/Models/Issue.cs} e \path{backend/BugBoard26.Api/Models/Notification.cs}; pagine \path{frontend/src/app/pages/notifications-page/notifications-page.component.ts} e relativo HTML; \path{frontend/src/app/services/notifications.service.ts}.
+
+\paragraph{Differenza da chiarire.}
+RF-17 parla di readonly \emph{senza modificare dati}, mentre il design circoscrive il divieto alle issue. \texttt{NotificationsController.MarkAsRead} e la pagina notifiche non escludono READONLY: un account attivo di questo ruolo può segnare come letta una propria notifica. Se RF-17 vieta anche questa scrittura, il codice non è conforme; se il divieto riguarda solo le issue, il requisito va chiarito con il committente. RF-17 resta invariato e non si assume una nuova eccezione.
 
 \clearpage
 \subsection{Gestione dei duplicati}
@@ -430,9 +462,21 @@ I diagrammi comportamentali descrivono il flusso delle interazioni tra frontend,
         height=0.60\textheight,
         keepaspectratio
     ]{diagrammi_comportamentali/sequence_cambio_stato.png}
-    \caption{Sequence diagram: cambio stato con notifica}
+    \caption{Sequence diagram: cambio stato con notifica (disegno previsto)}
     \label{fig:sequence-cambio-stato-notifica}
 \end{figure}
+
+\paragraph{Confronto con UC-02 e con il codice.}
+Il diagramma rappresenta risoluzione e notifica previste da UC-02, ma non la struttura effettiva dei controller. \textbf{Il sorgente \texttt{sequence\_cambio\_stato.vpd} e il PNG non sono stati aggiornati}: il contenuto del progetto Visual Paradigm non è modificabile con gli strumenti disponibili. Occorre:
+\begin{enumerate}
+    \item sostituire \texttt{IssueService}, \texttt{IssueRepository}, \texttt{NotificationService}, \path{NotificationRepository} e \texttt{AppDbContext} con \texttt{IssueDomainService} e \path{ApplicationDbContext}; lasciare aggiornamento e persistenza sotto \texttt{IssuesController};
+    \item rappresentare controllo del ruolo/account attivo, caricamento della issue e chiamata \path{CanChangeIssueStatus}, con alternative 401, 404 e 403;
+    \item racchiudere gli aggiornamenti nel ramo \emph{stato richiesto diverso dal corrente}; il ramo \emph{stesso stato} restituisce 200 senza date nuove, notifica o salvataggio;
+    \item aggiornare \texttt{Status}/\texttt{UpdatedAt}; per il nuovo stato \texttt{RESOLVED}, impostare \texttt{ResolvedAt} e aggiungere una notifica non letta al segnalatore; altrimenti azzerare \texttt{ResolvedAt};
+    \item usare un unico \texttt{SaveChangesAsync} nel controller al posto dei due salvataggi mostrati; poi proiettare il risultato e rispondere 200 con \texttt{IssueResponse};
+    \item distinguere la creazione della notifica dalla consultazione e lettura successive tramite \path{NotificationsController}: filtro per destinatario, controllo proprietario e PATCH della propria notifica.
+\end{enumerate}
+Correggere \path{Documentazione/Secondo homework/diagrammi_comportamentali/sequence_cambio_stato.vpd}, quindi riesportare \texttt{sequence\_cambio\_stato.png}. L'annotazione non introduce vincoli sulle transizioni.
 
 \subsection{Contrassegno di una issue duplicata}
 
@@ -477,7 +521,7 @@ Restituisce le issue con ricerca, filtri e ordinamento. \\
 GET & \url{/api/issues/\{id\}} &
 Restituisce il dettaglio di una issue. \\
 PATCH & \url{/api/issues/\{id\}/status} &
-Modifica lo stato di una issue assegnata. \\
+Modifica lo stato per ADMIN o USER assegnatario; READONLY escluso. \\
 PATCH & \url{/api/issues/\{id\}/archive} &
 Archivia una issue. Operazione riservata agli amministratori. \\
 GET & \url{/api/issues/archived} &
@@ -489,7 +533,7 @@ Esporta le issue in formato CSV. \\
 GET & \url{/api/notifications} &
 Restituisce le notifiche dell'utente autenticato. \\
 PATCH & \url{/api/notifications/{id}/read} &
-Segna una notifica come letta. \\
+Segna una propria notifica come letta; 403 se appartiene ad altri. \\
 
 \bottomrule
 \end{tabularx}
@@ -511,6 +555,8 @@ Le funzionalità più adatte ai test automatici sono:
     \item generazione della notifica alla risoluzione;
     \item gestione del duplicato.
 \end{itemize}
+
+Per questo flusso, \path{backend/BugBoard26.Tests/IssueDomainServiceTests.cs} contiene casi per admin, assegnatario, USER non assegnatario, READONLY assegnatario e account inattivo. Verificano il predicato dei permessi, non la persistenza della risoluzione o l'isolamento delle notifiche. In questa revisione è stata svolta l'analisi statica; non sono stati eseguiti test applicativi o prove manuali. La checklist è in \path{Documentazione/Documentazione finale/readme.md}.
 
 \section{Conclusioni}
 

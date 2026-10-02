@@ -16,6 +16,7 @@ interface LoginResponse {
 export class AuthService {
   private readonly tokenKey = 'bugboard26-token';
   private readonly userKey = 'bugboard26-user';
+  private readonly expiresAtKey = 'bugboard26-expires-at';
 
   constructor(private readonly http: HttpClient) {
   }
@@ -26,6 +27,7 @@ export class AuthService {
         tap(response => {
           localStorage.setItem(this.tokenKey, response.token);
           localStorage.setItem(this.userKey, JSON.stringify(response.user));
+          localStorage.setItem(this.expiresAtKey, response.expiresAt);
         })
       );
   }
@@ -33,10 +35,11 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+    localStorage.removeItem(this.expiresAtKey);
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return this.getSession()?.token ?? null;
   }
 
   isLoggedIn(): boolean {
@@ -44,12 +47,34 @@ export class AuthService {
   }
 
   getCurrentUser(): User | null {
-    var storedUser = localStorage.getItem(this.userKey);
+    return this.getSession()?.user ?? null;
+  }
 
-    if (!storedUser) {
+  private getSession(): LoginResponse | null {
+    const token = localStorage.getItem(this.tokenKey);
+    const storedUser = localStorage.getItem(this.userKey);
+    const expiresAt = localStorage.getItem(this.expiresAtKey);
+
+    if (!token?.trim() || !storedUser || !expiresAt ||
+        !Number.isFinite(Date.parse(expiresAt)) || Date.parse(expiresAt) <= Date.now()) {
+      this.logout();
       return null;
     }
 
-    return JSON.parse(storedUser) as User;
+    try {
+      const user: User | null = JSON.parse(storedUser);
+
+      if (!user || !Number.isInteger(user.id) || user.id <= 0 ||
+          typeof user.email !== 'string' || !user.email.trim() ||
+          !['ADMIN', 'USER', 'READONLY'].includes(user.role) || user.isActive !== true) {
+        this.logout();
+        return null;
+      }
+
+      return { token, user, expiresAt };
+    } catch {
+      this.logout();
+      return null;
+    }
   }
 }

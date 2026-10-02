@@ -73,13 +73,15 @@ public class IssuesController : ControllerBase
 
         if (request.AssignedToId.HasValue)
         {
-            var assigneeExists = await _dbContext.Users
+            var assigneeIsValid = await _dbContext.Users
                 .AsNoTracking()
-                .AnyAsync(user => user.Id == request.AssignedToId.Value, cancellationToken);
+                .AnyAsync(user => user.Id == request.AssignedToId.Value &&
+                    user.IsActive && user.Role != UserRole.Readonly, cancellationToken);
 
-            if (!assigneeExists)
+            if (!assigneeIsValid)
             {
-                ModelState.AddModelError(nameof(request.AssignedToId), "Assigned user does not exist.");
+                ModelState.AddModelError(nameof(request.AssignedToId),
+                    "L'assegnatario deve essere un utente esistente, attivo e non READONLY.");
                 return ValidationProblem(ModelState);
             }
         }
@@ -209,6 +211,22 @@ public class IssuesController : ControllerBase
 
         var newStatus = request.Status!.Value;
 
+        if (newStatus == IssueStatus.Duplicate)
+        {
+            return BadRequest(new
+            {
+                message = $"Per contrassegnare un duplicato usa PATCH /api/issues/{id}/duplicate e indica la issue originale."
+            });
+        }
+
+        if (issue.Status == IssueStatus.Duplicate || issue.DuplicateOfIssueId.HasValue)
+        {
+            return Conflict(new
+            {
+                message = "Non e' possibile cambiare lo stato di una issue contrassegnata come duplicata."
+            });
+        }
+
         if (issue.Status != newStatus)
         {
             issue.Status = newStatus;
@@ -293,6 +311,7 @@ public class IssuesController : ControllerBase
 
         issue.Status = IssueStatus.Duplicate;
         issue.DuplicateOfIssueId = request.OriginalIssueId;
+        issue.ResolvedAt = null;
         issue.UpdatedAt = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync(cancellationToken);

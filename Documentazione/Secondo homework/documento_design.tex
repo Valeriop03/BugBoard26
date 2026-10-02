@@ -93,7 +93,7 @@ Le funzionalità considerate sono quelle assegnate al gruppo:
 \begin{itemize}
     \item autenticazione tramite email e password;
     \item creazione di utenti da parte degli amministratori;
-    \item creazione di issue da parte degli utenti autenticati;
+    \item creazione di issue da parte di ADMIN e USER autenticati;
     \item visualizzazione, ricerca, filtro e ordinamento delle issue;
     \item cambio stato delle issue assegnate;
     \item notifica al segnalatore quando una issue viene risolta;
@@ -113,7 +113,7 @@ La progettazione del sistema è stata guidata dai seguenti obiettivi:
     \item mantenere il backend indipendente dalla tecnologia utilizzata per la interfaccia utente;
     \item esporre le funzionalità tramite API REST;
     \item centralizzare la logica applicativa nel backend;
-    \item applicare una struttura a livelli, distinguendo controller, servizi, repository e persistenza;
+    \item distinguere controller, regole di dominio e persistenza tramite Entity Framework Core;
     \item limitare la complessità, mantenendo il sistema coerente con il lavoro di un gruppo di tre studenti;
     \item rendere il progetto facilmente testabile, estendibile e spiegabile in sede di discussione.
 \end{itemize}
@@ -135,13 +135,13 @@ Questa scelta permette di rispettare il vincolo di separazione tra frontend e ba
 \Needspace{10\baselineskip}
 \subsection{Component diagram}
 
-Il component diagram mostra la suddivisione logica del sistema. Il frontend contiene i componenti grafici e i servizi Angular che invocano le API del backend. Il backend è organizzato in controller, servizi applicativi, repository e DbContext. Il database contiene le tabelle principali del sistema.
+Il frontend contiene componenti e servizi Angular che invocano le API. Nel backend i controller usano \path{ApplicationDbContext}; \texttt{IssueDomainService} contiene regole di dominio e i servizi JWT e hashing gestiscono l'autenticazione. Non sono presenti repository applicativi.
 
 \IfFileExists{diagrammi_architetturali/component_diagram.png}{
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{diagrammi_architetturali/component_diagram.png}
-    \caption{Component diagram di BugBoard26}
+    \caption{Component diagram della progettazione iniziale, da allineare}
     \label{fig:component-diagram}
 \end{figure}
 }{
@@ -153,7 +153,7 @@ Il component diagram mostra la suddivisione logica del sistema. Il frontend cont
 \end{center}
 }
 
-Nel diagramma sono evidenziate le principali dipendenze tra i componenti: il frontend comunica con i controller del backend tramite API REST e JWT, i controller delegano la logica ai servizi, i servizi utilizzano repository e il livello di persistenza accede al database tramite Entity Framework Core.
+Il diagramma originale non è stato rigenerato. In \texttt{component\_diagram.vpd} e nel PNG occorre eliminare il livello Repository, collegare i controller ad \path{ApplicationDbContext} e mostrare \texttt{IssueDomainService} come dipendenza di \texttt{IssuesController}. Non si aggiungono classi al codice per riprodurre il disegno precedente.
 
 \Needspace{10\baselineskip}
 \subsection{Deployment diagram}
@@ -176,7 +176,7 @@ Il deployment diagram mostra una possibile distribuzione del sistema. Lo utente 
 \end{center}
 }
 
-La separazione in nodi distinti consente di eseguire le componenti in modo indipendente. In ambiente di sviluppo il database viene eseguito tramite Docker, mentre frontend e backend possono essere avviati separatamente. In una futura distribuzione, anche il backend e il frontend potrebbero essere eseguiti in container dedicati.
+Nell'avvio locale attuale Compose esegue PostgreSQL 16 e il backend .NET 10. Il backend usa \texttt{postgres:5432} e pubblica la porta interna 8080 su \texttt{localhost:5256}; Angular resta sul PC, sulla porta 4200. Il volume PostgreSQL esistente conserva i dati. In alternativa l'API può essere avviata con \texttt{dotnet run}, fermando prima il backend Docker. Il deployment diagram originale resta una vista logica: i dettagli locali sono in \path{docker/docker-compose.yml} e nel README principale.
 
 \clearpage
 \section{Scelte tecnologiche}
@@ -201,13 +201,13 @@ Nel frontend sono previsti componenti dedicati alle principali schermate:
 
 ASP.NET Core Web API è stato scelto per il backend perché supporta in modo nativo la creazione di API REST, la gestione della dependency injection, la autenticazione JWT e la integrazione con Entity Framework Core.
 
-Il backend è organizzato secondo una struttura a livelli:
+La struttura implementata distingue:
 
 \begin{itemize}
-    \item \textbf{Controller}: espongono gli endpoint REST;
-    \item \textbf{Service}: contengono la logica applicativa;
-    \item \textbf{Repository}: isolano lo accesso ai dati;
-    \item \textbf{DbContext}: rappresenta il collegamento con il database.
+    \item \textbf{Controller}: validano richieste, applicano autorizzazioni, interrogano il contesto e restituiscono DTO;
+    \item \textbf{IssueDomainService}: verifica i permessi di cambio stato e calcola il suggerimento dell'assegnatario;
+    \item \textbf{ApplicationDbContext}: mappa entità e relazioni e salva le modifiche tramite Entity Framework Core;
+    \item \textbf{Servizi di autenticazione}: \texttt{Pbkdf2PasswordHasher} e \texttt{JwtTokenService}, con le rispettive interfacce.
 \end{itemize}
 
 Questa struttura consente di separare le responsabilità e rende più semplice testare la logica applicativa.
@@ -241,34 +241,19 @@ I controller rappresentano il punto di ingresso delle richieste HTTP. Ogni contr
 
 \subsection{Servizi applicativi}
 
-I servizi contengono la logica del sistema. In questo modo i controller rimangono semplici e si limitano a ricevere le richieste e restituire le risposte.
-
-I principali servizi previsti sono:
-
-\begin{itemize}
-    \item \texttt{AuthService};
-    \item \texttt{UserService};
-    \item \texttt{IssueService};
-    \item \texttt{NotificationService};
-    \item \texttt{AssignmentSuggestionService};
-    \item \texttt{CsvExportService}.
-\end{itemize}
-
-Per cambio stato e notifiche, i controller usano direttamente \path{ApplicationDbContext}; \texttt{IssueDomainService} controlla i permessi. Servizi e repository qui previsti non sono implementati per questo flusso.
-
-\subsection{Repository}
-
-I repository isolano la logica di accesso ai dati. I servizi dipendono dalle interfacce dei repository e non direttamente dalla implementazione concreta. Questa scelta rende il sistema più testabile, poiché nei test è possibile sostituire i repository con implementazioni fittizie.
+\texttt{IssueDomainService} lavora su oggetti del dominio, senza dipendere dal database. Espone \texttt{CanChangeIssueStatus}, \texttt{SuggestAssignee} e \texttt{SearchIssues}. La ricerca API usa invece \texttt{ILike} nelle query di \texttt{IssuesController}; l'export CSV è costruito nello stesso controller. Il controller aggiorna stato e date, aggiunge la notifica e chiama \texttt{SaveChangesAsync}. Non esistono \texttt{IssueService}, \texttt{NotificationService} o repository nel codice attuale.
 
 \subsection{DbContext}
 
-\texttt{AppDbContext} rappresenta il punto di integrazione con Entity Framework Core. Al suo interno sono dichiarati i \texttt{DbSet} principali:
+\path{ApplicationDbContext} rappresenta il punto di integrazione con Entity Framework Core e PostgreSQL. Configura indici, lunghezze dei campi, conversioni degli enum e relazioni. Espone i \texttt{DbSet}:
 
 \begin{itemize}
     \item \texttt{Users};
     \item \texttt{Issues};
     \item \texttt{Notifications}.
 \end{itemize}
+
+\texttt{Program.cs} chiama \texttt{DatabaseSeeder.SeedAdminAsync} prima di accettare richieste. Il seeder esegue \texttt{Database.MigrateAsync()} e crea un admin attivo solo se manca un utente di ruolo ADMIN. Le migrazioni presenti sono in \path{backend/BugBoard26.Api/Migrations}; non serve una seconda procedura manuale per applicarle. Connessione, JWT e credenziali iniziali sono configurabili tramite variabili d'ambiente.
 
 \clearpage
 \section{Class diagram di design}
@@ -287,7 +272,7 @@ La vista dominio e persistenza mostra le entità principali del sistema e le rel
         height=0.72\textheight,
         keepaspectratio
     ]{diagrammi_dettaglio/class_diagram_parte1.png}
-    \caption{Class diagram: dominio e persistenza}
+    \caption{Class diagram iniziale: dominio e persistenza da allineare}
     \label{fig:class-domain-persistence}
 \end{figure}
 }{
@@ -299,17 +284,17 @@ La vista dominio e persistenza mostra le entità principali del sistema e le rel
 \end{center}
 }
 
-Le entità principali sono \texttt{User}, \texttt{Issue} e \texttt{Notification}. Una issue è creata da uno utente e può essere assegnata a uno utente. Una issue può inoltre essere marcata come duplicata di un altra issue. Le notifiche sono associate sia allo utente destinatario sia alla issue di riferimento.
+Le entità principali sono \texttt{User}, \texttt{Issue} e \texttt{Notification}. Una issue è creata da uno utente e può essere assegnata a uno utente. Una issue può inoltre essere marcata come duplicata di un altra issue. Le notifiche sono associate sia allo utente destinatario sia alla issue di riferimento. Nei modelli attuali tutti gli identificativi sono \texttt{int}, non GUID; \texttt{AssignedToId}, \texttt{DuplicateOfIssueId}, \texttt{ImagePath} e \texttt{ResolvedAt} sono opzionali. Anche questa vista storica va riallineata ai modelli, senza modificare il codice per riprodurla.
 
 \subsection{Vista servizi e repository}
 
-La vista servizi e repository mostra la organizzazione della logica applicativa del backend.
+La vista servizi e repository conserva il disegno iniziale e non rappresenta le classi effettivamente implementate.
 
 \IfFileExists{diagrammi_dettaglio/class_diagram_parte2.png}{
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{diagrammi_dettaglio/class_diagram_parte2.png}
-    \caption{Class diagram: servizi e repository}
+    \caption{Class diagram iniziale: servizi e repository non implementati}
     \label{fig:class-services-repositories}
 \end{figure}
 }{
@@ -321,7 +306,7 @@ La vista servizi e repository mostra la organizzazione della logica applicativa 
 \end{center}
 }
 
-I servizi applicativi utilizzano le interfacce dei repository per accedere ai dati. Le classi concrete dei repository implementano tali interfacce e usano \texttt{AppDbContext}. Questa struttura riduce lo accoppiamento tra logica applicativa e persistenza.
+In \texttt{class\_diagram.vpd} e nelle immagini restano da sostituire \texttt{AppDbContext} con \path{ApplicationDbContext} e i servizi/repository previsti con controller, \texttt{IssueDomainService}, hasher e servizio JWT realmente presenti. Gli attributi delle entità vanno confrontati con \path{backend/BugBoard26.Api/Models}. Il disegno storico non implica che queste correzioni siano già state eseguite.
 
 \clearpage
 \section{Schema della persistenza dati}
@@ -338,14 +323,14 @@ La persistenza dei dati è basata su tre tabelle principali:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{diagrammi_dettaglio/database_schema.png}
-    \caption{Schema della persistenza dati}
+    \caption{Schema iniziale della persistenza, da allineare alla migrazione}
     \label{fig:database-schema}
 \end{figure}
 }{
 \begin{center}
     \fbox{\parbox{0.85\textwidth}{
         \centering
-        Il file \texttt{diagrammi\_dettaglio/database\_schema.png} non è stato trovato. Lo schema può essere aggiunto dopo la definizione finale delle migration.
+        Il file \texttt{diagrammi\_dettaglio/database\_schema.png} non è stato trovato.
     }}
 \end{center}
 }
@@ -355,11 +340,13 @@ La persistenza dei dati è basata su tre tabelle principali:
 \textbf{Tabella} & \textbf{Descrizione} \\
 \midrule
 \endhead
-\texttt{Users} & Contiene gli utenti del sistema, le credenziali cifrate tramite hash, il ruolo e lo stato di attivazione. \\
+\texttt{Users} & Contiene gli utenti, l'hash della password, il ruolo e lo stato di attivazione. L'hashing non è cifratura reversibile. \\
 \texttt{Issues} & Contiene le issue create dagli utenti, il loro stato, la priorità, il tipo, lo assegnatario, le informazioni di archiviazione e lo eventuale collegamento a una issue duplicata. \\
 \texttt{Notifications} & Contiene le notifiche generate dal sistema, in particolare quelle relative alla risoluzione di una issue. \\
 \bottomrule
 \end{longtable}
+
+\path{database_schema.vpd} e il PNG non sono stati rigenerati. La migrazione iniziale usa chiavi \texttt{integer}, non GUID, e date \texttt{timestamp with time zone}. Occorre allineare le colonne: email 180 caratteri, hash 500, titolo 200, descrizione 4000, messaggio 500; mantenere \texttt{ImagePath} opzionale e correggere \texttt{UpdatedAt} non nullo, confrontando le relazioni con \path{ApplicationDbContext}. La tabella interna \path{__EFMigrationsHistory} registra le migrazioni applicate.
 
 \section{Principali scelte di design}
 
@@ -369,23 +356,25 @@ Il frontend non accede direttamente al database e non contiene logica di busines
 
 \subsection{Uso di servizi applicativi}
 
-Nel disegno previsto, la logica applicativa è concentrata nei servizi. Questa scelta permette di mantenere i controller più semplici e di testare più facilmente le operazioni principali.
+Le regole pure di \texttt{IssueDomainService} sono verificabili senza database. Le operazioni persistenti restano nei controller e sono verificate con richieste HTTP e PostgreSQL nei test di integrazione.
 
-\subsection{Uso di repository}
+\subsection{Accesso ai dati}
 
-I repository sono previsti per separare la logica applicativa dallo accesso ai dati. I servizi dipendono da interfacce, non da implementazioni concrete. Questo favorisce testabilità e sostituibilità delle implementazioni.
+I controller ricevono \path{ApplicationDbContext} tramite dependency injection. Le query di consultazione usano \texttt{AsNoTracking}; le operazioni di modifica lavorano sulle entità tracciate e chiamano \texttt{SaveChangesAsync}. Non viene introdotto un livello repository aggiuntivo.
 
 \subsection{Gestione dei ruoli}
 
 Il sistema prevede tre ruoli principali:
 
 \begin{itemize}
-    \item \texttt{ADMIN}: può gestire utenti, archiviare issue, esportare dati e contrassegnare duplicati;
+    \item \texttt{ADMIN}: può gestire utenti, creare issue, cambiare stato, archiviare e contrassegnare duplicati;
     \item \texttt{USER}: può creare issue, consultarle e cambiare lo stato delle issue assegnate;
-    \item \texttt{READONLY}: può solo consultare le issue, senza modificarle.
+    \item \texttt{READONLY}: può consultare le issue, senza crearle o modificarle.
 \end{itemize}
 
 Il controllo dei ruoli viene effettuato lato backend, in modo da impedire operazioni non autorizzate anche in caso di manipolazione della interfaccia frontend.
+
+Lista, dettaglio, archivio, ricerca ed export CSV sono accessibili a tutti e tre i ruoli autenticati. Nel frontend \texttt{canChangeStatus} mostra il pannello solo ad ADMIN o USER assegnatario; \texttt{canCreateIssue} e \texttt{issueCreationGuard} escludono READONLY dalla creazione, mentre \texttt{adminGuard} protegge la pagina utenti. Riferimenti: \path{frontend/src/app/pages/issue-detail-page/issue-detail-page.component.ts}, \path{frontend/src/app/services/auth.guard.ts} e \path{frontend/src/app/app.routes.ts}.
 
 \paragraph{Requisiti del cambio stato.}
 RF-10 e UC-02 consentono l'operazione all'assegnatario oppure all'amministratore; RF-17 esclude readonly dalle modifiche alle issue. RNF-02 richiede il controllo sul backend e RNF-05 richiede che l'interfaccia renda chiare le operazioni disponibili per ruolo.
@@ -395,17 +384,14 @@ RF-10 e UC-02 consentono l'operazione all'assegnatario oppure all'amministratore
 
 \paragraph{Differenze e verifiche aperte.}
 \begin{itemize}
-    \item In \path{frontend/src/app/pages/issue-detail-page/issue-detail-page.component.html}, il blocco \texttt{!isReadonly} mostra il cambio stato anche ai USER non assegnatari. L'API rifiuta la richiesta, ma la disponibilità del comando non riflette UC-02 e RNF-05. Il componente TypeScript non verifica l'assegnazione prima dell'invio.
     \item Il frontend propone \texttt{TODO}, \texttt{IN\_PROGRESS}, \texttt{RESOLVED}, \texttt{CLOSED} e disabilita il cambio per una issue \texttt{DUPLICATE}. \texttt{UpdateStatus} non implementa una matrice di transizioni né quel blocco: non va presentata come requisito una sequenza obbligatoria.
-    \item \texttt{UpdateStatus} accetta anche \texttt{Duplicate}, presente in \path{backend/BugBoard26.Api/Models/IssueStatus.cs}, senza riferimento all'originale. Un USER assegnatario può impostarlo tramite PATCH status, mentre il design riserva il contrassegno all'admin e UC-03 prevede il collegamento all'originale. Questa differenza va verificata via API e corretta nel codice in un intervento separato, senza modificare il requisito. Inoltre \texttt{MarkAsDuplicate} non azzera \texttt{ResolvedAt} su una issue già risolta: la gestione della data in quel percorso distinto resta da verificare.
+    \item \texttt{UpdateStatus} accetta ancora \texttt{Duplicate} senza riferimento all'originale, anche per un USER assegnatario; UC-03 riserva il contrassegno all'admin e richiede l'originale. \texttt{MarkAsDuplicate} conserva l'eventuale \texttt{ResolvedAt}. Questi punti backend restano da verificare dopo il merge delle correzioni del collega: questa revisione documentale non li dichiara risolti e non modifica i requisiti.
 \end{itemize}
 Riferimenti: \path{backend/BugBoard26.Api/Controllers/IssuesController.cs}, metodi \texttt{UpdateStatus} e \texttt{MarkAsDuplicate}; \path{backend/BugBoard26.Api/Services/IssueDomainService.cs}, metodo \path{CanChangeIssueStatus}.
 
 \subsection{Suggerimento automatico dello assegnatario}
 
-Il suggerimento automatico dello assegnatario è realizzato considerando il carico di lavoro corrente degli utenti. Il criterio di base è selezionare lo utente normale con il minor numero di issue aperte assegnate.
-
-Le issue risolte, duplicate o archiviate non vengono considerate come carico attivo. In caso di parità è possibile scegliere un criterio stabile, per esempio ordinamento per email.
+\texttt{IssueDomainService.SuggestAssignee} considera gli utenti attivi non READONLY, inclusi gli ADMIN, e conta le issue non archiviate in stato \texttt{TODO} o \texttt{IN\_PROGRESS}. Sceglie il carico minore e, a parità, l'identificativo utente minore. Questo descrive il criterio implementato, senza assumere un ordinamento per email.
 
 \subsection{Gestione delle notifiche}
 
@@ -438,7 +424,7 @@ Solo gli amministratori possono archiviare una issue. Una issue archiviata non v
 
 \section{Diagrammi comportamentali}
 
-I diagrammi comportamentali descrivono il flusso delle interazioni tra frontend, controller, servizi, repository e database per alcune funzionalità centrali del sistema. Sono stati scelti i casi relativi alla creazione di una issue, al cambio stato con generazione della notifica e alla gestione dei duplicati, perché rappresentano parti significative della logica applicativa.
+Il diagramma di cambio stato è allineato ai controller e al contesto effettivi. I diagrammi di creazione e duplicazione conservano invece il disegno iniziale: nei rispettivi \texttt{.vpd} e PNG restano da eliminare i servizi/repository assenti e da rappresentare le query e il salvataggio di \texttt{IssuesController} tramite \path{ApplicationDbContext}.
 
 \subsection{Creazione di una issue}
 
@@ -458,25 +444,17 @@ I diagrammi comportamentali descrivono il flusso delle interazioni tra frontend,
 \begin{figure}[H]
     \centering
     \includegraphics[
-        width=0.85\textwidth,
-        height=0.60\textheight,
+        width=\textwidth,
+        height=0.82\textheight,
         keepaspectratio
     ]{diagrammi_comportamentali/sequence_cambio_stato.png}
-    \caption{Sequence diagram: cambio stato con notifica (disegno previsto)}
+    \caption{Cambio stato con notifica: flusso implementato}
     \label{fig:sequence-cambio-stato-notifica}
 \end{figure}
 
+\clearpage
 \paragraph{Confronto con UC-02 e con il codice.}
-Il diagramma rappresenta risoluzione e notifica previste da UC-02, ma non la struttura effettiva dei controller. \textbf{Il sorgente \texttt{sequence\_cambio\_stato.vpd} e il PNG non sono stati aggiornati}: il contenuto del progetto Visual Paradigm non è modificabile con gli strumenti disponibili. Occorre:
-\begin{enumerate}
-    \item sostituire \texttt{IssueService}, \texttt{IssueRepository}, \texttt{NotificationService}, \path{NotificationRepository} e \texttt{AppDbContext} con \texttt{IssueDomainService} e \path{ApplicationDbContext}; lasciare aggiornamento e persistenza sotto \texttt{IssuesController};
-    \item rappresentare controllo del ruolo/account attivo, caricamento della issue e chiamata \path{CanChangeIssueStatus}, con alternative 401, 404 e 403;
-    \item racchiudere gli aggiornamenti nel ramo \emph{stato richiesto diverso dal corrente}; il ramo \emph{stesso stato} restituisce 200 senza date nuove, notifica o salvataggio;
-    \item aggiornare \texttt{Status}/\texttt{UpdatedAt}; per il nuovo stato \texttt{RESOLVED}, impostare \texttt{ResolvedAt} e aggiungere una notifica non letta al segnalatore; altrimenti azzerare \texttt{ResolvedAt};
-    \item usare un unico \texttt{SaveChangesAsync} nel controller al posto dei due salvataggi mostrati; poi proiettare il risultato e rispondere 200 con \texttt{IssueResponse};
-    \item distinguere la creazione della notifica dalla consultazione e lettura successive tramite \path{NotificationsController}: filtro per destinatario, controllo proprietario e PATCH della propria notifica.
-\end{enumerate}
-Correggere \path{Documentazione/Secondo homework/diagrammi_comportamentali/sequence_cambio_stato.vpd}, quindi riesportare \texttt{sequence\_cambio\_stato.png}. L'annotazione non introduce vincoli sulle transizioni.
+Il sorgente aggiornato è \path{sequence_cambio_stato.puml}; il PNG è generato localmente da quel sorgente con PlantUML. Il vecchio \texttt{.vpd} non è stato modificato e conserva la progettazione iniziale: non va usato per rigenerare il nuovo PNG. Il diagramma rappresenta autorizzazione, controllo dell'account attivo, caricamento della issue, \path{CanChangeIssueStatus}, richiesta dello stesso stato senza scritture, date, eventuale notifica e un solo \path{SaveChangesAsync}. La consultazione e lettura della notifica sono operazioni successive di \path{NotificationsController}, descritte nella sezione dedicata. Non viene introdotta una matrice di transizioni.
 
 \subsection{Contrassegno di una issue duplicata}
 
@@ -493,7 +471,7 @@ Correggere \path{Documentazione/Secondo homework/diagrammi_comportamentali/seque
 
 
 \clearpage
-\section{API principali previste}
+\section{API principali implementate}
 
 \begin{table}[H]
 \centering
@@ -513,9 +491,9 @@ Effettua il login e restituisce il token JWT. \\
 POST & \url{/api/users} &
 Crea un nuovo utente. Operazione riservata agli amministratori. \\
 GET & \url{/api/users} &
-Restituisce la lista degli utenti. \\
+Restituisce la lista degli utenti; solo ADMIN. \\
 POST & \url{/api/issues} &
-Crea una nuova issue. \\
+Crea una nuova issue; ADMIN o USER. \\
 GET & \url{/api/issues} &
 Restituisce le issue con ricerca, filtri e ordinamento. \\
 GET & \url{/api/issues/\{id\}} &
@@ -527,7 +505,7 @@ Archivia una issue. Operazione riservata agli amministratori. \\
 GET & \url{/api/issues/archived} &
 Restituisce le issue archiviate. \\
 PATCH & \url{/api/issues/\{id\}/duplicate} &
-Contrassegna una issue come duplicata. \\
+Contrassegna una issue come duplicata; solo ADMIN. \\
 GET & \url{/api/issues/export} &
 Esporta le issue in formato CSV. \\
 GET & \url{/api/notifications} &
@@ -544,19 +522,20 @@ Segna una propria notifica come letta; 403 se appartiene ad altri. \\
 \clearpage
 \section{Testabilità}
 
-La progettazione è stata impostata per rendere testabili le parti principali della logica applicativa. In particolare, i servizi non dipendono direttamente dal database, ma dalle interfacce dei repository. Questo consente di testare i servizi usando dati controllati.
+\path{backend/BugBoard26.Tests/IssueDomainServiceTests.cs} verifica regole pure di ricerca, carico e autorizzazione. I test di integrazione avviano \texttt{Program} tramite \path{WebApplicationFactory}, usano JWT ottenuti con il login reale, Npgsql e un PostgreSQL dedicato sulla porta 55432. Ogni caso crea un database temporaneo distinto; non usa il database di sviluppo né repository simulati.
 
-Le funzionalità più adatte ai test automatici sono:
+\texttt{IssueStatusIntegrationTests} verifica risoluzione da parte dell'assegnatario con segnalatore distinto, date e notifica persistite, ADMIN non assegnatario, rifiuto di USER non assegnatario e READONLY, ripetizione di \texttt{Resolved} senza nuove date/notifiche, 401 senza token e 404 per issue assente. \texttt{NotificationsIntegrationTests} verifica elenco personale ordinato, lettura persistita per USER/ADMIN/READONLY, rifiuto di notifiche altrui, 401, 404 ed elenco vuoto. Il successo di questi test descrive il comportamento attuale, non chiarisce da solo RF-17.
+
+La riapertura dopo \texttt{RESOLVED}, una seconda risoluzione e la ripetizione del PATCH read non hanno casi dedicati in questi due file: restano nella checklist manuale. Esiti realmente eseguiti e limiti sono registrati in \path{Documentazione}/\texttt{Documentazione finale}/\path{readme.md}; la compilazione LaTeX non è una prova applicativa.
+
+\section{Limiti e verifiche dopo il merge}
 
 \begin{itemize}
-    \item suggerimento dello assegnatario;
-    \item verifica dei permessi per il cambio stato;
-    \item ricerca e filtro delle issue;
-    \item generazione della notifica alla risoluzione;
-    \item gestione del duplicato.
+    \item Upload immagini non implementato: \texttt{ImagePath} è presente nel modello, ma non esiste un endpoint di upload né un campo corrispondente nel DTO di creazione.
+    \item Gestione \texttt{Duplicate} tramite PATCH status e \texttt{ResolvedAt} nel percorso duplicate ancora da ricontrollare dopo il merge del collega.
+    \item RF-17 da chiarire sulla lettura delle proprie notifiche per READONLY; nessuna eccezione viene aggiunta al requisito.
+    \item Diagrammi iniziali diversi dal cambio stato ancora da allineare come indicato nelle relative sezioni; notifiche senza email o aggiornamento realtime.
 \end{itemize}
-
-Per questo flusso, \path{backend/BugBoard26.Tests/IssueDomainServiceTests.cs} contiene casi per admin, assegnatario, USER non assegnatario, READONLY assegnatario e account inattivo. Verificano il predicato dei permessi, non la persistenza della risoluzione o l'isolamento delle notifiche. In questa revisione è stata svolta l'analisi statica; non sono stati eseguiti test applicativi o prove manuali. La checklist è in \path{Documentazione/Documentazione finale/readme.md}.
 
 \section{Conclusioni}
 

@@ -298,7 +298,7 @@ I requisiti RF-10, RF-11 e RF-17 restano invariati. Nel codice gli account devon
 
 In \path{backend/BugBoard26.Api/Controllers/IssuesController.cs}, metodo \path{UpdateStatus}, un cambiamento effettivo aggiorna \texttt{Status} e \path{UpdatedAt}. L'ingresso in \texttt{RESOLVED} imposta \path{ResolvedAt} in UTC e crea una notifica non letta per \path{CreatedById}. La richiesta dello stato già corrente restituisce la issue senza cambiare date né creare notifiche. Il passaggio a uno stato diverso da \texttt{RESOLVED} azzera \path{ResolvedAt}; le notifiche precedenti restano conservate. Un successivo ingresso in \texttt{RESOLVED} crea una nuova notifica.
 
-Questi dettagli descrivono l'implementazione, senza introdurre una sequenza obbligatoria di transizioni. Le differenze dell'interfaccia e del diagramma sono annotate nel design, nelle sezioni sui ruoli e sul cambio stato con notifica. La checklist nella documentazione finale riporta prove ancora da eseguire.
+Questi dettagli descrivono l'implementazione, senza introdurre una sequenza obbligatoria di transizioni. Il frontend mostra ora il cambio stato solo ad ADMIN o USER assegnatario; il diagramma aggiornato e i punti backend ancora da verificare dopo il merge sono descritti nel design. La documentazione finale distingue i test automatici eseguiti dalle prove manuali ancora da svolgere. Il requisito RF-05 resta invariato, ma l'upload immagini non è ancora implementato.
 
 \IfFileExists{mock-up/Dettaglio issue.png}{
 \begin{figure}[H]

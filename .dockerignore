@@ -1,0 +1,14 @@
+.git
+**/bin
+**/obj
+**/node_modules
+**/dist
+**/.angular
+**/*.log
+**/*.user
+**/*.suo
+frontend
+Documentazione
+backend/BugBoard26.Tests
+tmp
+*.pdf

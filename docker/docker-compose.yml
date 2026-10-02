@@ -3,13 +3,39 @@ services:
     image: postgres:16
     container_name: bugboard26-postgres
     environment:
-      POSTGRES_DB: bugboard26
-      POSTGRES_USER: bugboard26
-      POSTGRES_PASSWORD: bugboard26
+      POSTGRES_DB: ${POSTGRES_DB:-bugboard26}
+      POSTGRES_USER: ${POSTGRES_USER:-bugboard26}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bugboard26}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
       - bugboard26-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  backend:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-bugboard26};Username=${POSTGRES_USER:-bugboard26};Password=${POSTGRES_PASSWORD:-bugboard26}"
+      Jwt__Key: ${JWT_KEY:-bugboard26-development-secret-key-change-before-release}
+      Jwt__Issuer: ${JWT_ISSUER:-BugBoard26}
+      Jwt__Audience: ${JWT_AUDIENCE:-BugBoard26Client}
+      Jwt__ExpiresMinutes: ${JWT_EXPIRES_MINUTES:-120}
+      DefaultAdmin__Email: ${DEFAULT_ADMIN_EMAIL:-admin@bugboard26.local}
+      DefaultAdmin__Password: ${DEFAULT_ADMIN_PASSWORD:-Admin123!}
+    ports:
+      - "127.0.0.1:5256:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   bugboard26-postgres-data:

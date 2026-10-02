@@ -1,0 +1,60 @@
+@startuml
+title Cambio stato issue - implementazione attuale
+hide footbox
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam sequenceMessageAlign center
+
+actor "Utente / frontend" as User
+participant "IssuesController" as Api
+participant "IssueDomainService" as Domain
+database "ApplicationDbContext" as Db
+
+User -> Api: PATCH /api/issues/{id}/status\nJWT + UpdateIssueStatusRequest
+note over User, Api
+  Pipeline JWT e Authorize: 401 senza token valido;
+  ruolo diverso da ADMIN/USER: 403. DTO non valido: 400.
+end note
+
+Api -> Db: Users.AsNoTracking().SingleOrDefaultAsync(id, IsActive)\nGetCurrentUserAsync: ID dal claim sub
+Db --> Api: currentUser
+break Account assente o inattivo
+  Api --> User: 401
+end
+Api -> Db: Issues.SingleOrDefaultAsync(id)
+Db --> Api: issue
+break Issue inesistente
+  Api --> User: 404
+end
+Api -> Domain: CanChangeIssueStatus(currentUser, issue)
+Domain --> Api: ADMIN oppure USER assegnatario attivo
+break Permesso negato
+  Api --> User: 403
+end
+
+alt Stato richiesto diverso dal corrente
+  Api -> Api: Status = nuovo stato; UpdatedAt = UTC
+  alt Nuovo stato = Resolved
+    Api -> Api: ResolvedAt = UTC
+    Api -> Db: Notifications.Add: UserId = CreatedById, IssueId,\nIsRead = false, messaggio, CreatedAt = UTC
+  else Altro nuovo stato
+    Api -> Api: ResolvedAt = null
+  end
+  Api -> Db: SaveChangesAsync() - issue e notifica insieme
+  Db --> Api: modifiche salvate in PostgreSQL
+else Stato gia' corrente
+  note over Api, Db: Nessun aggiornamento di date, notifica o salvataggio
+end
+Api -> Db: ProjectToResponse(...AsNoTracking()).SingleAsync(id)
+Db --> Api: IssueResponse
+Api --> User: 200 + IssueResponse
+
+note over User, Db
+  Le notifiche precedenti restano salvate.
+  Consultazione e lettura successive: NotificationsController,
+  GET filtrato per destinatario e PATCH con controllo del proprietario.
+  Nessuna matrice di transizioni aggiunta: i limiti sui duplicati
+  restano da verificare dopo il merge delle correzioni backend.
+end note
+@enduml

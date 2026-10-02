@@ -28,3 +28,18 @@ export const adminGuard: CanActivateFn = () => {
 
   return router.createUrlTree(['/issues']);
 };
+
+export const issueCreationGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (!authService.isLoggedIn()) {
+    return router.createUrlTree(['/login']);
+  }
+
+  const role = authService.getCurrentUser()?.role;
+
+  return role === 'ADMIN' || role === 'USER'
+    ? true
+    : router.createUrlTree(['/issues']);
+};

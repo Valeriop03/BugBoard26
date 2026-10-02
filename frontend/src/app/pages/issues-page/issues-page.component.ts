@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Issue, IssuePriority, IssueStatus, IssueType } from '../../models/issue.model';
 import { IssueListFilters, IssuesService } from '../../services/issues.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-issues-page',
@@ -14,6 +15,12 @@ import { IssueListFilters, IssuesService } from '../../services/issues.service';
 })
 export class IssuesPageComponent {
   private readonly issuesService = inject(IssuesService);
+  private readonly authService = inject(AuthService);
+
+  get canCreateIssue(): boolean {
+    const role = this.authService.getCurrentUser()?.role;
+    return role === 'ADMIN' || role === 'USER';
+  }
 
   readonly typeOptions: IssueType[] = ['QUESTION', 'BUG', 'DOCUMENTATION', 'FEATURE'];
   readonly statusOptions: IssueStatus[] = ['TODO', 'IN_PROGRESS', 'RESOLVED', 'CLOSED', 'DUPLICATE'];

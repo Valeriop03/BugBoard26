@@ -22,6 +22,7 @@ interface ApiIssue {
   assignedToEmail: string | null;
   duplicateOfIssueId: number | null;
   isArchived: boolean;
+  hasImage: boolean;
   createdAt: string;
   updatedAt: string;
   resolvedAt: string | null;
@@ -132,6 +133,17 @@ export class IssuesService {
     return this.http.get<ApiSuggestedAssignee>(`${API_BASE_URL}/issues/suggest-assignee`);
   }
 
+  uploadImage(id: number, image: File): Observable<Issue> {
+    const data = new FormData();
+    data.append('image', image);
+    return this.http.post<ApiIssue>(`${API_BASE_URL}/issues/${id}/image`, data)
+      .pipe(map(issue => this.mapIssue(issue)));
+  }
+
+  getImage(id: number): Observable<Blob> {
+    return this.http.get(`${API_BASE_URL}/issues/${id}/image`, { responseType: 'blob' });
+  }
+
   updateStatus(id: number, status: IssueStatus): Observable<Issue> {
     return this.http.patch<ApiIssue>(`${API_BASE_URL}/issues/${id}/status`, {
       status: issueStatusToApiMap[status]
@@ -199,6 +211,7 @@ export class IssuesService {
       assignedToEmail: issue.assignedToEmail,
       duplicateOfIssueId: issue.duplicateOfIssueId,
       isArchived: issue.isArchived,
+      hasImage: issue.hasImage === true,
       createdAt: issue.createdAt,
       updatedAt: issue.updatedAt,
       resolvedAt: issue.resolvedAt

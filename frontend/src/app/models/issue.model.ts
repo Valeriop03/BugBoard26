@@ -15,6 +15,7 @@ export interface Issue {
   assignedToEmail: string | null;
   duplicateOfIssueId: number | null;
   isArchived: boolean;
+  hasImage: boolean;
   createdAt: string;
   updatedAt: string;
   resolvedAt: string | null;

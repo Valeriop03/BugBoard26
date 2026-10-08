@@ -13,7 +13,7 @@ describe('IssueFormPageComponent validazione', () => {
   let form: NgForm;
 
   beforeEach(() => {
-    service = jasmine.createSpyObj('IssuesService', ['suggestAssignee', 'createIssue']);
+    service = jasmine.createSpyObj('IssuesService', ['suggestAssignee', 'createIssue', 'uploadImage']);
     service.suggestAssignee.and.returnValue(of({ userId: 2, email: 'user@example.local', openAssignedIssues: 0 }));
     form = { invalid: false, control: { markAllAsTouched: jasmine.createSpy('markAllAsTouched') } } as unknown as NgForm;
     TestBed.configureTestingModule({ providers: [
@@ -75,6 +75,89 @@ describe('IssueFormPageComponent validazione', () => {
     service.createIssue.and.returnValue(of({ id: 6 } as Issue));
     page.submit(form);
     expect(service.createIssue).toHaveBeenCalledTimes(2);
+    fixture.destroy();
+  });
+  for (const file of [
+    new File(['text'], 'note.txt', { type: 'text/plain' }),
+    new File(['text'], 'fake.png', { type: 'text/plain' }),
+    new File([], 'empty.png', { type: 'image/png' }),
+    new File([new Uint8Array(5242881)], 'large.jpg', { type: 'image/jpeg' })
+  ]) {
+    it(`rifiuta immagine ${file.name}`, () => {
+      const fixture = TestBed.createComponent(IssueFormPageComponent);
+      const page = fixture.componentInstance;
+      page.title = 'Titolo';
+      page.description = 'Descrizione';
+      page.selectImage({ target: { files: [file], value: file.name } } as unknown as Event);
+      page.submit(form);
+      expect(page.imageError).not.toBe('');
+      expect(page.selectedImage).toBeNull();
+      expect(service.createIssue).not.toHaveBeenCalled();
+      fixture.destroy();
+    });
+  }
+
+  it('carica dopo la creazione e mantiene il blocco durante upload', () => {
+    const fixture = TestBed.createComponent(IssueFormPageComponent);
+    const page = fixture.componentInstance;
+    const file = new File(['png'], 'screen.png', { type: 'image/png' });
+    const upload = new Subject<Issue>();
+    service.createIssue.and.returnValue(of({ id: 8 } as Issue));
+    service.uploadImage.and.returnValue(upload);
+    page.title = 'Titolo';
+    page.description = 'Descrizione';
+    page.selectImage({ target: { files: [file] } } as unknown as Event);
+    page.submit(form);
+    page.submit(form);
+    page.retryImageUpload();
+    expect(page.isSubmitting).toBeTrue();
+    expect(service.createIssue).toHaveBeenCalledTimes(1);
+    expect(service.uploadImage).toHaveBeenCalledOnceWith(8, file);
+    expect(router.navigate).not.toHaveBeenCalled();
+    upload.next({ id: 8, hasImage: true } as Issue);
+    upload.complete();
+    expect(router.navigate).toHaveBeenCalledWith(['/issues', 8]);
+    expect(page.isSubmitting).toBeFalse();
+    fixture.destroy();
+  });
+
+  it('riprova solo upload dopo un errore senza creare una seconda issue', () => {
+    const fixture = TestBed.createComponent(IssueFormPageComponent);
+    const page = fixture.componentInstance;
+    const file = new File(['jpeg'], 'screen.jpg', { type: 'image/jpeg' });
+    const upload = new Subject<Issue>();
+    service.createIssue.and.returnValue(of({ id: 9 } as Issue));
+    service.uploadImage.and.returnValue(upload);
+    page.title = 'Titolo';
+    page.description = 'Descrizione';
+    page.selectedImage = file;
+    page.submit(form);
+    upload.error(new HttpErrorResponse({ status: 400, error: { message: 'File non valido.' } }));
+    expect(page.createdIssueId).toBe(9);
+    expect(page.errorMessage).toBe('File non valido.');
+    expect(page.isSubmitting).toBeFalse();
+    page.submit(form);
+    service.uploadImage.and.returnValue(of({ id: 9, hasImage: true } as Issue));
+    page.retryImageUpload();
+    expect(service.createIssue).toHaveBeenCalledTimes(1);
+    expect(service.uploadImage).toHaveBeenCalledTimes(2);
+    expect(router.navigate).toHaveBeenCalledWith(['/issues', 9]);
+    fixture.destroy();
+  });
+
+  it('rimuove la selezione e permette la creazione senza immagine', () => {
+    const fixture = TestBed.createComponent(IssueFormPageComponent);
+    const page = fixture.componentInstance;
+    const input = { value: 'screen.png' } as HTMLInputElement;
+    page.selectedImage = new File(['png'], 'screen.png', { type: 'image/png' });
+    page.removeImage(input);
+    page.title = 'Titolo';
+    page.description = 'Descrizione';
+    service.createIssue.and.returnValue(of({ id: 10 } as Issue));
+    page.submit(form);
+    expect(input.value).toBe('');
+    expect(service.uploadImage).not.toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['/issues', 10]);
     fixture.destroy();
   });
 });

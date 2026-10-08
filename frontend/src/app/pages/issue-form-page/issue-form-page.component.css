@@ -78,6 +78,36 @@ textarea {
   font-weight: 400;
 }
 
+.issue-fields {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.image-selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  overflow-wrap: anywhere;
+}
+
+.secondary {
+  background: #ffffff;
+  color: #3157ff;
+  padding: 8px 12px;
+}
+
+.saved-message {
+  font-size: 14px;
+  font-weight: 400;
+  color: #166534;
+  overflow-wrap: anywhere;
+}
+
 input,
 select,
 textarea {

@@ -7,8 +7,14 @@
   <form class="form" #issueForm="ngForm" (ngSubmit)="submit(issueForm)">
     <h2>NUOVA ISSUE</h2>
     @if (errorMessage) {
-      <p class="form-message error">{{ errorMessage }}</p>
+      <p class="form-message error" role="alert">{{ errorMessage }}</p>
     }
+
+    @if (createdIssueId !== null) {
+      <p class="saved-message" role="status">Issue #{{ createdIssueId }} salvata. {{ isSubmitting ? 'Caricamento immagine...' : 'Il caricamento dell\'immagine non e stato completato.' }}</p>
+    }
+
+    <fieldset class="issue-fields" [disabled]="isSubmitting || createdIssueId !== null">
 
     <label>
       Titolo
@@ -48,9 +54,28 @@
 
     </div>
 
+    </fieldset>
+
+    <label>
+      Immagine opzionale
+      <input #imageInput type="file" accept=".png,.jpg,.jpeg,image/png,image/jpeg" (change)="selectImage($event)" [disabled]="isSubmitting" aria-describedby="image-error">
+    </label>
+    @if (selectedImage || imageError) {
+      <div class="image-selection">
+        @if (selectedImage) { <span>{{ selectedImage.name }}</span> }
+        <button class="secondary" type="button" (click)="removeImage(imageInput)" [disabled]="isSubmitting">Rimuovi selezione</button>
+      </div>
+    }
+    @if (imageError) { <small class="field-error" id="image-error" role="alert">{{ imageError }}</small> }
+
     <div class="actions">
-      <button type="submit" [disabled]="isSubmitting">{{ isSubmitting ? 'Creazione...' : 'Crea Issue' }}</button>
-      <a routerLink="/issues">Annulla</a>
+      @if (createdIssueId === null) {
+        <button type="submit" [disabled]="isSubmitting">{{ isSubmitting ? 'Salvataggio...' : 'Crea Issue' }}</button>
+        <a routerLink="/issues">Annulla</a>
+      } @else {
+        <button type="button" (click)="retryImageUpload()" [disabled]="isSubmitting || !selectedImage || !!imageError">{{ isSubmitting ? 'Caricamento...' : 'Riprova caricamento' }}</button>
+        @if (!isSubmitting) { <a [routerLink]="['/issues', createdIssueId]">Apri issue senza immagine</a> }
+      }
     </div>
   </form>
 

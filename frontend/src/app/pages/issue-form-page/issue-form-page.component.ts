@@ -3,7 +3,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { finalize } from 'rxjs';
+import { finalize, of, switchMap } from 'rxjs';
 import { IssuePriority, IssueType } from '../../models/issue.model';
 import { SuggestedAssignee } from '../../models/suggested-assignee.model';
 import { CreateIssueRequest, IssuesService } from '../../services/issues.service';
@@ -32,6 +32,39 @@ export class IssueFormPageComponent {
   isSubmitting = false;
   errorMessage = '';
   submitAttempted = false;
+  selectedImage: File | null = null;
+  imageError = '';
+  createdIssueId: number | null = null;
+
+  selectImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    this.selectedImage = null;
+    this.imageError = '';
+
+    if (!file) {
+      return;
+    }
+
+    if (!/\.(png|jpe?g)$/i.test(file.name) ||
+        (file.type !== '' && !['image/png', 'image/jpeg'].includes(file.type))) {
+      this.imageError = 'Seleziona un file PNG o JPEG.';
+    } else if (file.size === 0 || file.size > 5242880) {
+      this.imageError = 'Il file deve essere non vuoto e non superare 5 MiB.';
+    } else {
+      this.selectedImage = file;
+    }
+
+    if (this.imageError) {
+      input.value = '';
+    }
+  }
+
+  removeImage(input: HTMLInputElement): void {
+    this.selectedImage = null;
+    this.imageError = '';
+    input.value = '';
+  }
 
   get titleError(): string {
     return this.title.trim().length < 3 ? 'Inserisci almeno 3 caratteri.' :
@@ -48,14 +81,14 @@ export class IssueFormPageComponent {
   }
 
   submit(form: NgForm): void {
-    if (this.isSubmitting) {
+    if (this.isSubmitting || this.createdIssueId !== null) {
       return;
     }
 
     this.errorMessage = '';
     this.submitAttempted = true;
 
-    if (form.invalid || this.titleError || this.descriptionError) {
+    if (form.invalid || this.titleError || this.descriptionError || this.imageError) {
       form.control.markAllAsTouched();
       return;
     }
@@ -71,7 +104,10 @@ export class IssueFormPageComponent {
     };
 
     this.issuesService.createIssue(request)
-      .pipe(takeUntilDestroyed(this.destroyRef), finalize(() => {
+      .pipe(switchMap(issue => {
+        this.createdIssueId = issue.id;
+        return this.selectedImage ? this.issuesService.uploadImage(issue.id, this.selectedImage) : of(issue);
+      }), takeUntilDestroyed(this.destroyRef), finalize(() => {
         this.isSubmitting = false;
       }))
       .subscribe({
@@ -79,9 +115,38 @@ export class IssueFormPageComponent {
           this.router.navigate(['/issues', issue.id]);
         },
         error: error => {
-          this.errorMessage = this.getCreateErrorMessage(error);
+          this.errorMessage = this.createdIssueId === null
+            ? this.getCreateErrorMessage(error)
+            : this.getUploadErrorMessage(error);
         }
       });
+  }
+
+  retryImageUpload(): void {
+    if (this.createdIssueId === null || !this.selectedImage || this.imageError || this.isSubmitting) {
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.errorMessage = '';
+    this.issuesService.uploadImage(this.createdIssueId, this.selectedImage)
+      .pipe(takeUntilDestroyed(this.destroyRef), finalize(() => { this.isSubmitting = false; }))
+      .subscribe({
+        next: issue => { this.router.navigate(['/issues', issue.id]); },
+        error: error => { this.errorMessage = this.getUploadErrorMessage(error); }
+      });
+  }
+
+  private getUploadErrorMessage(error: unknown): string {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 403) {
+        return "Non hai i permessi per caricare l'immagine.";
+      }
+      if (error.status === 400) {
+        return this.getValidationMessage(error) || "L'immagine non e valida.";
+      }
+    }
+    return "Non e stato possibile caricare l'immagine. Puoi riprovare.";
   }
 
   private loadSuggestedAssignee(): void {

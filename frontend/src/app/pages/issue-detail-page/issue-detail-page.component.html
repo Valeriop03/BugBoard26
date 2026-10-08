@@ -67,7 +67,15 @@
       </dl>
 
       <h3>Immagine allegata</h3>
-      <span class="file">Nessuna immagine disponibile</span>
+      @if (isLoadingImage) {
+        <p role="status">Caricamento immagine...</p>
+      } @else if (imageError) {
+        <p role="alert">{{ imageError }}</p>
+      } @else if (imageUrl) {
+        <img class="issue-image" [src]="imageUrl" [alt]="'Immagine allegata alla issue #' + issue.id + ': ' + issue.title" (error)="imageLoadFailed()">
+      } @else {
+        <span class="file">Nessuna immagine disponibile</span>
+      }
     </article>
 
     <aside class="side">

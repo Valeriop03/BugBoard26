@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -19,6 +20,7 @@ export class IssueDetailPageComponent {
   private readonly router = inject(Router);
   private readonly issuesService = inject(IssuesService);
   private readonly authService = inject(AuthService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly statusOptions: IssueStatus[] = ['TODO', 'IN_PROGRESS', 'RESOLVED', 'CLOSED'];
 
@@ -33,6 +35,9 @@ export class IssueDetailPageComponent {
   errorMessage = '';
   actionMessage = '';
   actionError = '';
+  imageUrl: string | null = null;
+  isLoadingImage = false;
+  imageError = '';
 
   get isAdmin(): boolean {
     return this.authService.getCurrentUser()?.role === 'ADMIN';
@@ -48,6 +53,11 @@ export class IssueDetailPageComponent {
   }
 
   constructor() {
+    this.destroyRef.onDestroy(() => {
+      if (this.imageUrl) {
+        URL.revokeObjectURL(this.imageUrl);
+      }
+    });
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     if (!Number.isInteger(id) || id <= 0) {
@@ -74,7 +84,7 @@ export class IssueDetailPageComponent {
     this.isSavingStatus = true;
 
     this.issuesService.updateStatus(this.issue.id, this.selectedStatus)
-      .pipe(finalize(() => {
+      .pipe(takeUntilDestroyed(this.destroyRef), finalize(() => {
         this.isSavingStatus = false;
       }))
       .subscribe({
@@ -104,7 +114,7 @@ export class IssueDetailPageComponent {
     this.isArchiving = true;
 
     this.issuesService.archiveIssue(this.issue.id)
-      .pipe(finalize(() => {
+      .pipe(takeUntilDestroyed(this.destroyRef), finalize(() => {
         this.isArchiving = false;
       }))
       .subscribe({
@@ -133,7 +143,7 @@ export class IssueDetailPageComponent {
     this.isMarkingDuplicate = true;
 
     this.issuesService.markAsDuplicate(this.issue.id, this.duplicateOfIssueId)
-      .pipe(finalize(() => {
+      .pipe(takeUntilDestroyed(this.destroyRef), finalize(() => {
         this.isMarkingDuplicate = false;
       }))
       .subscribe({
@@ -152,12 +162,15 @@ export class IssueDetailPageComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.issuesService.getIssueById(id).subscribe({
+    this.issuesService.getIssueById(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: issue => {
         this.issue = issue;
         this.selectedStatus = issue.status;
         this.duplicateOfIssueId = issue.duplicateOfIssueId;
         this.isLoading = false;
+        if (issue.hasImage) {
+          this.loadImage(issue.id);
+        }
       },
       error: error => {
         this.isLoading = false;
@@ -170,6 +183,30 @@ export class IssueDetailPageComponent {
         this.errorMessage = 'Non e stato possibile caricare il dettaglio della issue.';
       }
     });
+  }
+
+  imageLoadFailed(): void {
+    if (this.imageUrl) {
+      URL.revokeObjectURL(this.imageUrl);
+      this.imageUrl = null;
+    }
+    this.imageError = "Non e stato possibile visualizzare l'immagine.";
+  }
+
+  private loadImage(id: number): void {
+    this.isLoadingImage = true;
+    this.imageError = '';
+    this.issuesService.getImage(id)
+      .pipe(takeUntilDestroyed(this.destroyRef), finalize(() => { this.isLoadingImage = false; }))
+      .subscribe({
+        next: blob => {
+          if (this.imageUrl) {
+            URL.revokeObjectURL(this.imageUrl);
+          }
+          this.imageUrl = URL.createObjectURL(blob);
+        },
+        error: () => { this.imageError = "Non e stato possibile caricare l'immagine."; }
+      });
   }
 
   private getActionErrorMessage(error: unknown, fallback: string): string {

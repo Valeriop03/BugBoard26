@@ -120,6 +120,20 @@ select {
   font: inherit;
 }
 
+.issue-image {
+  display: block;
+  max-width: 100%;
+  max-height: 600px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.detail {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 input {
   min-width: 0;
   padding: 13px 14px;
@@ -172,6 +186,8 @@ button:disabled {
 }
 
 @media (max-width: 720px) {
+  dl div { grid-template-columns: 1fr; gap: 6px; }
+  .detail { padding: 20px; }
   .detail-layout,
   dl {
     grid-template-columns: 1fr;

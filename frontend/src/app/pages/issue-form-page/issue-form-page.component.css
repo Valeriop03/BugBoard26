@@ -36,7 +36,7 @@ h3 {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -70,6 +70,22 @@ textarea {
 
 textarea {
   resize: vertical;
+}
+
+.field-error {
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+input,
+select,
+textarea {
+  min-width: 0;
+}
+
+.assignee strong {
+  overflow-wrap: anywhere;
 }
 
 .actions {
@@ -129,7 +145,7 @@ button:disabled {
 }
 
 .assignee strong {
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .suggestion p,
@@ -153,6 +169,8 @@ button:disabled {
 }
 
 @media (max-width: 720px) {
+  .form { padding: 20px; }
+  .actions { flex-wrap: wrap; }
   .create-layout,
   .grid {
     grid-template-columns: 1fr;

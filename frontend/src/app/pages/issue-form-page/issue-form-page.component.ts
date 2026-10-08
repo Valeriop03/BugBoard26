@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { IssuePriority, IssueType } from '../../models/issue.model';
@@ -16,6 +17,7 @@ import { CreateIssueRequest, IssuesService } from '../../services/issues.service
 export class IssueFormPageComponent {
   private readonly issuesService = inject(IssuesService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly issueTypeOptions: IssueType[] = ['QUESTION', 'BUG', 'DOCUMENTATION', 'FEATURE'];
   readonly issuePriorityOptions: IssuePriority[] = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
@@ -29,29 +31,47 @@ export class IssueFormPageComponent {
   isLoadingSuggestion = true;
   isSubmitting = false;
   errorMessage = '';
+  submitAttempted = false;
+
+  get titleError(): string {
+    return this.title.trim().length < 3 ? 'Inserisci almeno 3 caratteri.' :
+      this.title.length > 200 ? 'Il titolo deve avere al massimo 200 caratteri.' : '';
+  }
+
+  get descriptionError(): string {
+    return this.description.trim().length < 3 ? 'Inserisci almeno 3 caratteri.' :
+      this.description.length > 4000 ? 'La descrizione deve avere al massimo 4000 caratteri.' : '';
+  }
 
   constructor() {
     this.loadSuggestedAssignee();
   }
 
-  submit(): void {
+  submit(form: NgForm): void {
     if (this.isSubmitting) {
       return;
     }
 
     this.errorMessage = '';
+    this.submitAttempted = true;
+
+    if (form.invalid || this.titleError || this.descriptionError) {
+      form.control.markAllAsTouched();
+      return;
+    }
+
     this.isSubmitting = true;
 
     const request: CreateIssueRequest = {
-      title: this.title,
-      description: this.description,
+      title: this.title.trim(),
+      description: this.description.trim(),
       type: this.type,
       priority: this.priority || null,
       assignedToId: this.suggestedAssignee?.userId ?? null
     };
 
     this.issuesService.createIssue(request)
-      .pipe(finalize(() => {
+      .pipe(takeUntilDestroyed(this.destroyRef), finalize(() => {
         this.isSubmitting = false;
       }))
       .subscribe({
@@ -66,7 +86,7 @@ export class IssueFormPageComponent {
 
   private loadSuggestedAssignee(): void {
     this.issuesService.suggestAssignee()
-      .pipe(finalize(() => {
+      .pipe(takeUntilDestroyed(this.destroyRef), finalize(() => {
         this.isLoadingSuggestion = false;
       }))
       .subscribe({

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { inject } from '@angular/core';
+import { DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { finalize } from 'rxjs';
+import { Subject, catchError, defer, finalize, of, switchMap, timer } from 'rxjs';
 import { Issue, IssuePriority, IssueStatus, IssueType } from '../../models/issue.model';
 import { IssueListFilters, IssuesService } from '../../services/issues.service';
 import { AuthService } from '../../services/auth.service';
@@ -16,6 +17,8 @@ import { AuthService } from '../../services/auth.service';
 export class IssuesPageComponent {
   private readonly issuesService = inject(IssuesService);
   private readonly authService = inject(AuthService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly searches = new Subject<number>();
 
   get canCreateIssue(): boolean {
     const role = this.authService.getCurrentUser()?.role;
@@ -45,26 +48,30 @@ export class IssuesPageComponent {
   status: IssueStatus | '' = '';
   priority: IssuePriority | '' = '';
   sort = 'Date-Desc';
-  private searchTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
+    this.searches.pipe(
+      switchMap(delay => {
+        const filters = this.buildFilters();
+        this.isLoading = true;
+        this.errorMessage = '';
+
+        return timer(delay).pipe(
+          switchMap(() => defer(() => this.issuesService.getIssues(filters))),
+          catchError(() => {
+            this.errorMessage = 'Non e stato possibile caricare le issue.';
+            return of([] as Issue[]);
+          }),
+          finalize(() => { this.isLoading = false; })
+        );
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(issues => { this.issues = issues; });
     this.loadIssues();
   }
 
   loadIssues(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    this.issuesService.getIssues(this.buildFilters()).subscribe({
-      next: issues => {
-        this.issues = issues;
-        this.isLoading = false;
-      },
-      error: () => {
-        this.errorMessage = 'Non e stato possibile caricare le issue.';
-        this.isLoading = false;
-      }
-    });
+    this.searches.next(0);
   }
 
   resetFilters(): void {
@@ -77,11 +84,7 @@ export class IssuesPageComponent {
   }
 
   onSearchChange(): void {
-    if (this.searchTimer) {
-      clearTimeout(this.searchTimer);
-    }
-
-    this.searchTimer = setTimeout(() => this.loadIssues(), 350);
+    this.searches.next(350);
   }
 
   exportCsv(): void {
@@ -93,7 +96,7 @@ export class IssuesPageComponent {
     this.exportMessage = '';
 
     this.issuesService.exportIssues(this.buildFilters())
-      .pipe(finalize(() => {
+      .pipe(takeUntilDestroyed(this.destroyRef), finalize(() => {
         this.isExporting = false;
       }))
       .subscribe({

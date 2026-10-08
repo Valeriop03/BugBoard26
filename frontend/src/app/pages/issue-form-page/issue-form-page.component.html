@@ -4,7 +4,7 @@
 </section>
 
 <section class="create-layout">
-  <form class="form" (ngSubmit)="submit()">
+  <form class="form" #issueForm="ngForm" (ngSubmit)="submit(issueForm)">
     <h2>NUOVA ISSUE</h2>
     @if (errorMessage) {
       <p class="form-message error">{{ errorMessage }}</p>
@@ -12,12 +12,18 @@
 
     <label>
       Titolo
-      <input name="title" [(ngModel)]="title" placeholder="Errore login con password corretta" required minlength="3">
+      <input name="title" #titleField="ngModel" [(ngModel)]="title" placeholder="Errore login con password corretta" required minlength="3" maxlength="200" [attr.aria-invalid]="(titleField.touched || submitAttempted) && !!titleError" aria-describedby="title-error">
+      @if ((titleField.touched || submitAttempted) && titleError) {
+        <small class="field-error" id="title-error">{{ titleError }}</small>
+      }
     </label>
 
     <label>
       Descrizione
-      <textarea name="description" rows="6" [(ngModel)]="description" placeholder="Quando un utente inserisce una password valida, il sistema mostra un errore generico e non completa il login" required minlength="3"></textarea>
+      <textarea name="description" #descriptionField="ngModel" rows="6" [(ngModel)]="description" placeholder="Quando un utente inserisce una password valida, il sistema mostra un errore generico e non completa il login" required minlength="3" maxlength="4000" [attr.aria-invalid]="(descriptionField.touched || submitAttempted) && !!descriptionError" aria-describedby="description-error"></textarea>
+      @if ((descriptionField.touched || submitAttempted) && descriptionError) {
+        <small class="field-error" id="description-error">{{ descriptionError }}</small>
+      }
     </label>
 
     <div class="grid">
@@ -40,10 +46,6 @@
         </select>
       </label>
 
-      <label>
-        Immagine
-        <input type="text" value="login-error.png" readonly>
-      </label>
     </div>
 
     <div class="actions">

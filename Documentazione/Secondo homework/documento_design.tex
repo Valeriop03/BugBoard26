@@ -51,6 +51,7 @@
 
 \setlist[itemize]{topsep=4pt,itemsep=2pt}
 \setlist[enumerate]{topsep=4pt,itemsep=2pt}
+\setlength{\emergencystretch}{2em}
 
 \begin{document}
 
@@ -79,7 +80,7 @@
     \vfill
 \end{titlepage}
 
-\tableofcontents
+{\small\tableofcontents}
 \clearpage
 
 \section{Introduzione}
@@ -93,7 +94,7 @@ Le funzionalità considerate sono quelle assegnate al gruppo:
 \begin{itemize}
     \item autenticazione tramite email e password;
     \item creazione di utenti da parte degli amministratori;
-    \item creazione di issue da parte di ADMIN e USER autenticati;
+    \item creazione di issue da parte di ADMIN e USER autenticati, con immagine opzionale caricata separatamente;
     \item visualizzazione, ricerca, filtro e ordinamento delle issue;
     \item cambio stato delle issue assegnate;
     \item notifica al segnalatore quando una issue viene risolta;
@@ -141,7 +142,7 @@ Il frontend contiene componenti e servizi Angular che invocano le API. Nel backe
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{diagrammi_architetturali/component_diagram.png}
-    \caption{Component diagram della progettazione iniziale, da allineare}
+    \caption{Componenti effettivi: controller, regole pure e persistenza EF}
     \label{fig:component-diagram}
 \end{figure}
 }{
@@ -153,7 +154,7 @@ Il frontend contiene componenti e servizi Angular che invocano le API. Nel backe
 \end{center}
 }
 
-Il diagramma originale non è stato rigenerato. In \texttt{component\_diagram.vpd} e nel PNG occorre eliminare il livello Repository, collegare i controller ad \path{ApplicationDbContext} e mostrare \texttt{IssueDomainService} come dipendenza di \texttt{IssuesController}. Non si aggiungono classi al codice per riprodurre il disegno precedente.
+Il PNG è rigenerato da \path{diagrammi_architetturali/component_diagram.puml}. Il sorgente PlantUML sostituisce il relativo \texttt{.vpd}, conservato soltanto come storico. Sono rappresentati anche i servizi di hashing/JWT e \texttt{IssueImageStorage}, già presente nel checkout; la sua presenza non equivale al collaudo del flusso immagini in Docker.
 
 \Needspace{10\baselineskip}
 \subsection{Deployment diagram}
@@ -176,7 +177,7 @@ Il deployment diagram mostra una possibile distribuzione del sistema. Lo utente 
 \end{center}
 }
 
-Nell'avvio locale attuale Compose esegue PostgreSQL 16 e il backend .NET 10. Il backend usa \texttt{postgres:5432} e pubblica la porta interna 8080 su \texttt{localhost:5256}; Angular resta sul PC, sulla porta 4200. Il volume PostgreSQL esistente conserva i dati. In alternativa l'API può essere avviata con \texttt{dotnet run}, fermando prima il backend Docker. Il deployment diagram originale resta una vista logica: i dettagli locali sono in \path{docker/docker-compose.yml} e nel README principale.
+Nell'avvio locale attuale Compose esegue PostgreSQL 16 e il backend .NET 10. Il backend usa \texttt{postgres:5432} e pubblica la porta interna 8080 su \texttt{localhost:5256}; Angular resta sul PC, sulla porta 4200. I volumi nominati conservano database e file immagine; il secondo è montato in \path{/var/lib/bugboard26/issue-images}. In alternativa l'API può essere avviata con \texttt{dotnet run}, fermando prima il backend Docker. Il deployment diagram originale resta una vista logica: i dettagli locali sono in \path{docker/docker-compose.yml} e nel README principale.
 
 \clearpage
 \section{Scelte tecnologiche}
@@ -185,7 +186,7 @@ Nell'avvio locale attuale Compose esegue PostgreSQL 16 e il backend .NET 10. Il 
 
 Angular è stato scelto per realizzare una Single Page Application strutturata in componenti. Questa tecnologia permette di separare la presentazione dalla logica di accesso alle API e offre strumenti già integrati per routing, form, servizi e gestione delle chiamate HTTP.
 
-Nel frontend sono previsti componenti dedicati alle principali schermate:
+Nel frontend sono presenti componenti dedicati alle principali schermate:
 
 \begin{itemize}
     \item login;
@@ -207,7 +208,8 @@ La struttura implementata distingue:
     \item \textbf{Controller}: validano richieste, applicano autorizzazioni, interrogano il contesto e restituiscono DTO;
     \item \textbf{IssueDomainService}: verifica i permessi di cambio stato e calcola il suggerimento dell'assegnatario;
     \item \textbf{ApplicationDbContext}: mappa entità e relazioni e salva le modifiche tramite Entity Framework Core;
-    \item \textbf{Servizi di autenticazione}: \texttt{Pbkdf2PasswordHasher} e \texttt{JwtTokenService}, con le rispettive interfacce.
+    \item \textbf{Servizi di autenticazione}: \texttt{Pbkdf2PasswordHasher} e \texttt{JwtTokenService}, con le rispettive interfacce;
+    \item \textbf{IssueImageStorage}: validazione e memorizzazione dei file immagine, separati dalle righe PostgreSQL.
 \end{itemize}
 
 Questa struttura consente di separare le responsabilità e rende più semplice testare la logica applicativa.
@@ -235,7 +237,7 @@ I controller rappresentano il punto di ingresso delle richieste HTTP. Ogni contr
 \begin{itemize}
     \item \texttt{AuthController}: login e generazione del token JWT;
     \item \texttt{UsersController}: creazione e consultazione degli utenti;
-    \item \texttt{IssuesController}: creazione, ricerca, filtro, cambio stato, archiviazione, duplicati ed export;
+    \item \texttt{IssuesController}: creazione, ricerca, filtro, cambio stato, archiviazione, duplicati, export, suggerimento assegnatario e API immagini;
     \item \path{NotificationsController}: consultazione e lettura delle notifiche.
 \end{itemize}
 
@@ -258,7 +260,7 @@ I controller rappresentano il punto di ingresso delle richieste HTTP. Ogni contr
 \clearpage
 \section{Class diagram di design}
 
-Per migliorare la leggibilità, il class diagram è stato suddiviso in due viste complementari. La prima descrive il dominio e la persistenza, mentre la seconda mostra servizi, repository e dipendenze principali.
+Il sorgente \path{diagrammi_dettaglio/class_diagram.puml} genera tre PNG: due viste di dettaglio per dominio/persistenza e controller/dipendenze, più la vista d'insieme \path{class_diagram.png}. Sostituisce il \texttt{class\_diagram.vpd} storico; non introduce repository o servizi assenti dal codice.
 
 \subsection{Vista dominio e persistenza}
 
@@ -272,7 +274,7 @@ La vista dominio e persistenza mostra le entità principali del sistema e le rel
         height=0.72\textheight,
         keepaspectratio
     ]{diagrammi_dettaglio/class_diagram_parte1.png}
-    \caption{Class diagram iniziale: dominio e persistenza da allineare}
+    \caption{Class diagram: dominio e ApplicationDbContext}
     \label{fig:class-domain-persistence}
 \end{figure}
 }{
@@ -284,17 +286,15 @@ La vista dominio e persistenza mostra le entità principali del sistema e le rel
 \end{center}
 }
 
-Le entità principali sono \texttt{User}, \texttt{Issue} e \texttt{Notification}. Una issue è creata da uno utente e può essere assegnata a uno utente. Una issue può inoltre essere marcata come duplicata di un altra issue. Le notifiche sono associate sia allo utente destinatario sia alla issue di riferimento. Nei modelli attuali tutti gli identificativi sono \texttt{int}, non GUID; \texttt{AssignedToId}, \texttt{DuplicateOfIssueId}, \texttt{ImagePath} e \texttt{ResolvedAt} sono opzionali. Anche questa vista storica va riallineata ai modelli, senza modificare il codice per riprodurla.
+\subsection{Vista controller e dipendenze}
 
-\subsection{Vista servizi e repository}
-
-La vista servizi e repository conserva il disegno iniziale e non rappresenta le classi effettivamente implementate.
+La seconda vista mostra i controller e le dipendenze ricevute tramite injection. Le operazioni sono elencate per nome, con firme abbreviate per leggibilità; DTO e dipendenze di framework sono indicati nella legenda, senza riprodurre l'intera API di ASP.NET Core.
 
 \IfFileExists{diagrammi_dettaglio/class_diagram_parte2.png}{
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\textwidth]{diagrammi_dettaglio/class_diagram_parte2.png}
-    \caption{Class diagram iniziale: servizi e repository non implementati}
+    \includegraphics[width=\textwidth,height=0.75\textheight,keepaspectratio]{diagrammi_dettaglio/class_diagram_parte2.png}
+    \caption{Class diagram: controller e servizi implementati}
     \label{fig:class-services-repositories}
 \end{figure}
 }{
@@ -306,7 +306,7 @@ La vista servizi e repository conserva il disegno iniziale e non rappresenta le 
 \end{center}
 }
 
-In \texttt{class\_diagram.vpd} e nelle immagini restano da sostituire \texttt{AppDbContext} con \path{ApplicationDbContext} e i servizi/repository previsti con controller, \texttt{IssueDomainService}, hasher e servizio JWT realmente presenti. Gli attributi delle entità vanno confrontati con \path{backend/BugBoard26.Api/Models}. Il disegno storico non implica che queste correzioni siano già state eseguite.
+\path{ApplicationDbContext} eredita da \texttt{DbContext}; i controller da \texttt{ControllerBase}. \path{Pbkdf2PasswordHasher} e \texttt{JwtTokenService} implementano le due interfacce di autenticazione. \path{IssueDomainService} non accede al database. \texttt{HealthController} non riceve il contesto: il suo endpoint non prova la disponibilità di PostgreSQL.
 
 \clearpage
 \section{Schema della persistenza dati}
@@ -323,7 +323,7 @@ La persistenza dei dati è basata su tre tabelle principali:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{diagrammi_dettaglio/database_schema.png}
-    \caption{Schema iniziale della persistenza, da allineare alla migrazione}
+    \caption{Schema PostgreSQL effettivo: tipi, nullabilità e chiavi esterne}
     \label{fig:database-schema}
 \end{figure}
 }{
@@ -335,6 +335,7 @@ La persistenza dei dati è basata su tre tabelle principali:
 \end{center}
 }
 
+\Needspace{12\baselineskip}
 \begin{longtable}{p{0.22\textwidth} p{0.68\textwidth}}
 \toprule
 \textbf{Tabella} & \textbf{Descrizione} \\
@@ -346,7 +347,7 @@ La persistenza dei dati è basata su tre tabelle principali:
 \bottomrule
 \end{longtable}
 
-\path{database_schema.vpd} e il PNG non sono stati rigenerati. La migrazione iniziale usa chiavi \texttt{integer}, non GUID, e date \texttt{timestamp with time zone}. Occorre allineare le colonne: email 180 caratteri, hash 500, titolo 200, descrizione 4000, messaggio 500; mantenere \texttt{ImagePath} opzionale e correggere \texttt{UpdatedAt} non nullo, confrontando le relazioni con \path{ApplicationDbContext}. La tabella interna \path{__EFMigrationsHistory} registra le migrazioni applicate.
+Il PNG è generato da \path{diagrammi_dettaglio/database_schema.puml}, sostituto del \texttt{.vpd} storico, confrontato con \path{ApplicationDbContext} e la migrazione \texttt{InitialCreate}. Le PK sono \texttt{integer} con identity; le date sono \texttt{timestamp with time zone}. L'email ha indice univoco; tutte le FK hanno un indice. La cancellazione del segnalatore o dell'originale duplicato è \texttt{Restrict}, quella dell'assegnatario è \texttt{SetNull}; le notifiche usano \texttt{Cascade} per entrambe le FK. Gli enum sono stringhe, senza vincoli CHECK aggiuntivi. La validazione di account attivi, ruoli e autoreferenza è nel controller, non nello schema. La tabella tecnica \path{__EFMigrationsHistory} è omessa dal diagramma.
 
 \section{Principali scelte di design}
 
@@ -374,7 +375,7 @@ Il sistema prevede tre ruoli principali:
 
 Il controllo dei ruoli viene effettuato lato backend, in modo da impedire operazioni non autorizzate anche in caso di manipolazione della interfaccia frontend.
 
-Lista, dettaglio, archivio, ricerca ed export CSV sono accessibili a tutti e tre i ruoli autenticati. Nel frontend \texttt{canChangeStatus} mostra il pannello solo ad ADMIN o USER assegnatario; \texttt{canCreateIssue} e \texttt{issueCreationGuard} escludono READONLY dalla creazione, mentre \texttt{adminGuard} protegge la pagina utenti. Riferimenti: \path{frontend/src/app/pages/issue-detail-page/issue-detail-page.component.ts}, \path{frontend/src/app/services/auth.guard.ts} e \path{frontend/src/app/app.routes.ts}.
+Lista, dettaglio, archivio, ricerca, export CSV e suggerimento assegnatario sono accessibili a tutti e tre i ruoli autenticati. Nel frontend \texttt{canChangeStatus} mostra il pannello solo ad ADMIN o USER assegnatario; \texttt{canCreateIssue} e \texttt{issueCreationGuard} escludono READONLY dalla creazione, mentre \texttt{adminGuard} protegge la pagina utenti. Riferimenti: \path{frontend/src/app/pages/issue-detail-page/issue-detail-page.component.ts}, \path{frontend/src/app/services/auth.guard.ts} e \path{frontend/src/app/app.routes.ts}.
 
 \paragraph{Requisiti del cambio stato.}
 RF-10 e UC-02 consentono l'operazione all'assegnatario oppure all'amministratore; RF-17 esclude readonly dalle modifiche alle issue. RNF-02 richiede il controllo sul backend e RNF-05 richiede che l'interfaccia renda chiare le operazioni disponibili per ruolo.
@@ -382,16 +383,20 @@ RF-10 e UC-02 consentono l'operazione all'assegnatario oppure all'amministratore
 \paragraph{Comportamento attuale.}
 \path{IssuesController.UpdateStatus} espone PATCH \path{/api/issues/{id}/status} per \texttt{ADMIN}, \texttt{USER}. Verifica l'account attivo e chiama \path{IssueDomainService.CanChangeIssueStatus}: admin può agire su qualsiasi issue, USER deve essere assegnatario e READONLY è escluso anche se assegnato. Una richiesta non autorizzata è rifiutata con 403; l'account corrente assente o inattivo produce 401, una issue inesistente 404.
 
-\paragraph{Differenze e verifiche aperte.}
+\paragraph{Duplicati e transizioni.}
 \begin{itemize}
-    \item Il frontend propone \texttt{TODO}, \texttt{IN\_PROGRESS}, \texttt{RESOLVED}, \texttt{CLOSED} e disabilita il cambio per una issue \texttt{DUPLICATE}. \texttt{UpdateStatus} non implementa una matrice di transizioni né quel blocco: non va presentata come requisito una sequenza obbligatoria.
-    \item \texttt{UpdateStatus} accetta ancora \texttt{Duplicate} senza riferimento all'originale, anche per un USER assegnatario; UC-03 riserva il contrassegno all'admin e richiede l'originale. \texttt{MarkAsDuplicate} conserva l'eventuale \texttt{ResolvedAt}. Questi punti backend restano da verificare dopo il merge delle correzioni del collega: questa revisione documentale non li dichiara risolti e non modifica i requisiti.
+    \item Il frontend propone \texttt{TODO}, \texttt{IN\_PROGRESS}, \texttt{RESOLVED}, \texttt{CLOSED} e disabilita il cambio per una issue \texttt{DUPLICATE}. Non esiste una matrice generale di transizioni: non va inventata una sequenza obbligatoria.
+    \item Nel codice ora presente \texttt{UpdateStatus} rifiuta il nuovo stato \texttt{Duplicate} con 400, anche per ADMIN; richiede il percorso dedicato con originale. Se la issue è già \texttt{Duplicate}, oppure ha \texttt{DuplicateOfIssueId}, restituisce 409. Questi controlli precedono anche la richiesta dello stesso stato. Le precedenti annotazioni sul merge delle correzioni non descrivono più il checkout attuale.
 \end{itemize}
 Riferimenti: \path{backend/BugBoard26.Api/Controllers/IssuesController.cs}, metodi \texttt{UpdateStatus} e \texttt{MarkAsDuplicate}; \path{backend/BugBoard26.Api/Services/IssueDomainService.cs}, metodo \path{CanChangeIssueStatus}.
 
 \subsection{Suggerimento automatico dello assegnatario}
 
 \texttt{IssueDomainService.SuggestAssignee} considera gli utenti attivi non READONLY, inclusi gli ADMIN, e conta le issue non archiviate in stato \texttt{TODO} o \texttt{IN\_PROGRESS}. Sceglie il carico minore e, a parità, l'identificativo utente minore. Questo descrive il criterio implementato, senza assumere un ordinamento per email.
+
+In \texttt{IssuesController.Create}, \texttt{AssignedToId} può essere nullo. Se valorizzato, deve identificare un utente esistente, attivo e non READONLY: ADMIN e USER attivi sono validi. In caso contrario l'API restituisce 400 \texttt{ValidationProblem} senza creare la issue. Il suggerimento non sostituisce questo controllo sul backend.
+
+GET \path{/api/issues/suggest-assignee} restituisce ID, email e carico; senza candidati risponde 404. Non modifica né assegna automaticamente una issue e non genera una notifica di assegnazione.
 
 \subsection{Gestione delle notifiche}
 
@@ -401,12 +406,14 @@ RF-11 richiede la notifica al segnalatore quando la issue passa a \texttt{RESOLV
 \paragraph{Comportamento attuale della risoluzione.}
 In \path{IssuesController.UpdateStatus}, se lo stato richiesto differisce dal corrente, vengono aggiornati \texttt{Status} e \texttt{UpdatedAt}. Per \texttt{RESOLVED} viene impostato \texttt{ResolvedAt} in UTC e aggiunta una \texttt{Notification} con \texttt{UserId = CreatedById}, \texttt{IssueId}, messaggio di risoluzione, \texttt{IsRead = false} e \texttt{CreatedAt} in UTC. Una sola chiamata \texttt{SaveChangesAsync} persiste issue e notifica.
 
-La ripetizione dello stato corrente risponde 200 con la issue, senza scritture, date nuove o ulteriori notifiche. Uscendo da \texttt{RESOLVED}, \texttt{ResolvedAt} viene azzerato senza eliminare o cambiare la lettura delle notifiche precedenti. Un nuovo ingresso in \texttt{RESOLVED} imposta una nuova data e crea una nuova notifica. Non è presente un invio email o un aggiornamento in tempo reale della pagina notifiche.
+Per una issue non duplicata, la ripetizione dello stato corrente valido risponde 200 senza scritture, date nuove o ulteriori notifiche. Uscendo da \texttt{RESOLVED}, \texttt{ResolvedAt} viene azzerato senza eliminare o cambiare la lettura delle notifiche precedenti. Un nuovo ingresso in \texttt{RESOLVED} imposta una nuova data e crea una nuova notifica. Non è presente un invio email o un aggiornamento in tempo reale della pagina notifiche.
 
 \paragraph{Comportamento attuale delle notifiche.}
 \path{NotificationsController.GetAll} restituisce con GET \path{/api/notifications} solo le notifiche con \texttt{UserId} uguale all'utente corrente, dalla più recente. \texttt{MarkAsRead}, PATCH \path{/api/notifications/{id}/read}, verifica il proprietario prima di impostare \texttt{IsRead = true}. Restituisce 403 per la notifica altrui, 404 per un ID inesistente e 401 per account corrente assente o inattivo. Anche ADMIN può operare solo sulle proprie notifiche. Ripetere la lettura di una propria notifica restituisce 200 e mantiene \texttt{IsRead = true}; non esiste un endpoint di dettaglio notifica per ID.
 
 La pagina Angular carica l'elenco all'apertura, evidenzia le notifiche non lette e aggiorna l'elemento con la risposta del PATCH. Il pulsante \emph{Segna come letta} è mostrato solo per notifiche non lette. Il dettaglio issue visualizza \texttt{ResolvedAt}; \texttt{IssuesService} converte i nomi di stato Angular nei nomi API, ad esempio \texttt{RESOLVED} in \texttt{Resolved}.
+
+Il controller notifiche non usa l'attributo \texttt{Authorize}: entrambi i metodi controllano il claim \texttt{sub} e l'account attivo tramite \texttt{GetCurrentUserAsync}. Questo controllo interno produce 401 in assenza di un utente valido; non si descrive un attributo assente dal codice.
 
 Riferimenti: \path{backend/BugBoard26.Api/Controllers/NotificationsController.cs}; modelli \path{backend/BugBoard26.Api/Models/Issue.cs} e \path{backend/BugBoard26.Api/Models/Notification.cs}; pagine \path{frontend/src/app/pages/notifications-page/notifications-page.component.ts} e relativo HTML; \path{frontend/src/app/services/notifications.service.ts}.
 
@@ -416,15 +423,29 @@ RF-17 parla di readonly \emph{senza modificare dati}, mentre il design circoscri
 \clearpage
 \subsection{Gestione dei duplicati}
 
-Solo gli amministratori possono contrassegnare una issue come duplicata. Quando questo avviene, la issue viene collegata a una issue principale e il suo stato viene impostato a \texttt{DUPLICATE}. In questo modo rimane tracciabile ma non viene più considerata come issue aperta da risolvere.
+UC-03 riserva il contrassegno all'amministratore e richiede la issue originale. \path{MarkAsDuplicate} imposta \texttt{Status} a \texttt{Duplicate}, collega \path{DuplicateOfIssueId}, azzera \texttt{ResolvedAt} e aggiorna \texttt{UpdatedAt} in UTC. Rifiuta l'autoreferenza con 400, restituisce 404 se manca la issue da contrassegnare e 400 se manca l'originale. Salva una volta, senza nuova notifica di risoluzione. Le notifiche precedenti restano presenti. Non sono implementati controlli ulteriori su catene o cicli di duplicati. L'autorizzazione del metodo usa il ruolo JWT ADMIN, senza il lookup dell'account attivo usato da \texttt{UpdateStatus}.
 
 \subsection{Archiviazione}
 
 Solo gli amministratori possono archiviare una issue. Una issue archiviata non viene mostrata nella lista principale, ma resta accessibile da una sezione dedicata. Questa scelta permette di non eliminare dati utili e di conservare la tracciabilità delle segnalazioni.
 
+\subsection{Consultazione ed export CSV}
+
+Lista ed export condividono la query di \texttt{IssuesController}: escludono gli archiviati, filtrano per \texttt{Type}, \texttt{Status}, \texttt{Priority}, \texttt{CreatedById}, \texttt{AssignedToId} e \texttt{Keyword}. La ricerca usa \texttt{ILike} su titolo e descrizione; l'ordinamento usa data, priorità, stato o titolo, ascendente o discendente. L'archivio usa invece una query separata, ordinata per \texttt{UpdatedAt} decrescente.
+
+L'export UTF-8 contiene ID, titolo, tipo, priorità, stato, email di segnalatore/assegnatario e data di creazione. Gestisce virgole, virgolette e ritorni a capo. Non comprende immagini, descrizione o notifiche e non è un backup completo del database.
+
+\subsection{Immagine opzionale della issue}
+
+POST \path{/api/issues/{id}/image} carica o sostituisce una immagine: \path{multipart/form-data}, campo \texttt{image}, per ADMIN o USER segnalatore, non il solo assegnatario. READONLY è escluso. GET consente lettura autenticata anche degli archiviati; il DTO espone \texttt{HasImage}, non il percorso fisico.
+
+\texttt{IssueImageStorage} ammette PNG/JPEG fino a 5 MiB, controlla estensione e marcatori, non decodifica completa o antivirus. Salva con nome GUID fuori da \texttt{wwwroot}; PostgreSQL conserva \texttt{ImagePath}. Il controller usa transazione e lock sulla issue per la sostituzione, rimuove il vecchio file e pulisce quello nuovo se il salvataggio fallisce. Database e filesystem non formano una transazione distribuita.
+
+Docker usa un volume immagini, scrivibile dall'utente non root. L'avvio sul PC salva nella cartella \path{uploads/issue-images} dell'API, senza condividere i file del container. Collaudo end-to-end e persistenza restano da confermare con i colleghi.
+
 \section{Diagrammi comportamentali}
 
-Il diagramma di cambio stato è allineato ai controller e al contesto effettivi. I diagrammi di creazione e duplicazione conservano invece il disegno iniziale: nei rispettivi \texttt{.vpd} e PNG restano da eliminare i servizi/repository assenti e da rappresentare le query e il salvataggio di \texttt{IssuesController} tramite \path{ApplicationDbContext}.
+Le sequenze sono rigenerate dai rispettivi sorgenti \texttt{.puml} nella cartella \path{diagrammi_comportamentali}; i \texttt{.vpd} originali restano storici e non vanno usati per riesportare questi PNG. Creazione e duplicazione mostrano query e salvataggio del controller sul contesto, senza repository o servizi intermedi. Il flusso del cambio stato è mantenuto, con i soli controlli 400/409 sui duplicati aggiunti e la nota obsoleta sul merge rimossa.
 
 \subsection{Creazione di una issue}
 
@@ -432,7 +453,7 @@ Il diagramma di cambio stato è allineato ai controller e al contesto effettivi.
     \centering
     \includegraphics[
         width=0.95\textwidth,
-        height=0.70\textheight,
+        height=0.82\textheight,
         keepaspectratio
     ]{diagrammi_comportamentali/sequence_creazione_issue.png}
     \caption{Sequence diagram: creazione di una issue}
@@ -454,7 +475,7 @@ Il diagramma di cambio stato è allineato ai controller e al contesto effettivi.
 
 \clearpage
 \paragraph{Confronto con UC-02 e con il codice.}
-Il sorgente aggiornato è \path{sequence_cambio_stato.puml}; il PNG è generato localmente da quel sorgente con PlantUML. Il vecchio \texttt{.vpd} non è stato modificato e conserva la progettazione iniziale: non va usato per rigenerare il nuovo PNG. Il diagramma rappresenta autorizzazione, controllo dell'account attivo, caricamento della issue, \path{CanChangeIssueStatus}, richiesta dello stesso stato senza scritture, date, eventuale notifica e un solo \path{SaveChangesAsync}. La consultazione e lettura della notifica sono operazioni successive di \path{NotificationsController}, descritte nella sezione dedicata. Non viene introdotta una matrice di transizioni.
+Il sorgente aggiornato è \path{sequence_cambio_stato.puml}. Sono mantenuti autorizzazione, account attivo, caricamento della issue, \path{CanChangeIssueStatus}, date, eventuale notifica e un solo \path{SaveChangesAsync}. I controlli sui duplicati precedono il confronto con lo stato corrente: il ramo senza scritture riguarda quindi solo stati validi di issue non duplicate. Consultazione e lettura della notifica restano operazioni successive di \path{NotificationsController}. Non viene introdotta una matrice generale di transizioni.
 
 \subsection{Contrassegno di una issue duplicata}
 
@@ -462,7 +483,7 @@ Il sorgente aggiornato è \path{sequence_cambio_stato.puml}; il PNG è generato 
     \centering
     \includegraphics[
         width=0.85\textwidth,
-        height=0.60\textheight,
+        height=0.78\textheight,
         keepaspectratio
     ]{diagrammi_comportamentali/sequence_issue_duplicata.png}
     \caption{Sequence diagram: contrassegno di una issue duplicata}
@@ -473,19 +494,20 @@ Il sorgente aggiornato è \path{sequence_cambio_stato.puml}; il PNG è generato 
 \clearpage
 \section{API principali implementate}
 
-\begin{table}[H]
-\centering
-\renewcommand{\arraystretch}{1.45}
-\setlength{\extrarowheight}{3pt}
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.15}
+\setlength{\extrarowheight}{2pt}
 
-\begin{tabularx}{\textwidth}{
+\begin{longtable}{
     L{0.13\textwidth}
     L{0.40\textwidth}
-    X
+    p{0.37\textwidth}
 }
 \toprule
 \textbf{Metodo} & \textbf{Endpoint} & \textbf{Descrizione} \\
 \midrule
+\endhead
 POST & \url{/api/auth/login} &
 Effettua il login e restituisce il token JWT. \\
 POST & \url{/api/users} &
@@ -496,28 +518,33 @@ POST & \url{/api/issues} &
 Crea una nuova issue; ADMIN o USER. \\
 GET & \url{/api/issues} &
 Restituisce le issue con ricerca, filtri e ordinamento. \\
-GET & \url{/api/issues/\{id\}} &
+GET & \path{/api/issues/{id}} &
 Restituisce il dettaglio di una issue. \\
-PATCH & \url{/api/issues/\{id\}/status} &
+PATCH & \path{/api/issues/{id}/status} &
 Modifica lo stato per ADMIN o USER assegnatario; READONLY escluso. \\
-PATCH & \url{/api/issues/\{id\}/archive} &
+PATCH & \path{/api/issues/{id}/archive} &
 Archivia una issue. Operazione riservata agli amministratori. \\
 GET & \url{/api/issues/archived} &
 Restituisce le issue archiviate. \\
-PATCH & \url{/api/issues/\{id\}/duplicate} &
+PATCH & \path{/api/issues/{id}/duplicate} &
 Contrassegna una issue come duplicata; solo ADMIN. \\
 GET & \url{/api/issues/export} &
 Esporta le issue in formato CSV. \\
+GET & \path{/api/issues/suggest-assignee} &
+Suggerisce un utente attivo non READONLY; accessibile a tutti i ruoli. \\
+POST & \path{/api/issues/{id}/image} &
+Carica o sostituisce l'immagine; ADMIN o USER segnalatore. \\
+GET & \path{/api/issues/{id}/image} &
+Legge l'immagine con autenticazione; 404 se assente. \\
 GET & \url{/api/notifications} &
 Restituisce le notifiche dell'utente autenticato. \\
 PATCH & \url{/api/notifications/{id}/read} &
 Segna una propria notifica come letta; 403 se appartiene ad altri. \\
 
 \bottomrule
-\end{tabularx}
-\caption{Endpoint principali esposti dal backend}
-\label{tab:endpoint-backend}
-\end{table}
+\caption{Endpoint principali esposti dal backend}\label{tab:endpoint-backend}
+\end{longtable}
+\endgroup
 
 \clearpage
 \section{Testabilità}
@@ -526,15 +553,22 @@ Segna una propria notifica come letta; 403 se appartiene ad altri. \\
 
 \texttt{IssueStatusIntegrationTests} verifica risoluzione da parte dell'assegnatario con segnalatore distinto, date e notifica persistite, ADMIN non assegnatario, rifiuto di USER non assegnatario e READONLY, ripetizione di \texttt{Resolved} senza nuove date/notifiche, 401 senza token e 404 per issue assente. \texttt{NotificationsIntegrationTests} verifica elenco personale ordinato, lettura persistita per USER/ADMIN/READONLY, rifiuto di notifiche altrui, 401, 404 ed elenco vuoto. Il successo di questi test descrive il comportamento attuale, non chiarisce da solo RF-17.
 
-La riapertura dopo \texttt{RESOLVED}, una seconda risoluzione e la ripetizione del PATCH read non hanno casi dedicati in questi due file: restano nella checklist manuale. Esiti realmente eseguiti e limiti sono registrati in \path{Documentazione}/\texttt{Documentazione finale}/\path{readme.md}; la compilazione LaTeX non è una prova applicativa.
+\path{IssueDuplicateValidationIntegrationTests} verifica 400 per \texttt{Duplicate} via status, 409 per issue già duplicate (anche marcatori legacy), azzeramento di \texttt{ResolvedAt} e assenza di nuove notifiche nel percorso dedicato. \path{IssueAssigneeValidationIntegrationTests} verifica assegnazione nulla, ADMIN/USER attivi validi e rifiuto di account inesistenti, inattivi o READONLY. Sono presenti anche test di immagini, export CSV e suggerimento assegnatario.
 
-\section{Limiti e verifiche dopo il merge}
+La riapertura dopo \texttt{RESOLVED}, una seconda risoluzione e la ripetizione del PATCH read non hanno casi dedicati nei due file di stato/notifiche: restano nella checklist manuale. Esiti e limiti sono registrati in \path{Documentazione/Documentazione finale/readme.md}; la compilazione LaTeX non è una prova applicativa. La prova locale preliminare del 9 ottobre sul commit \texttt{15ca2e2} ha eseguito solo i test di dominio con coverage parziale. La suite PostgreSQL e le verifiche dei colleghi non sono dichiarate concluse; non si fissa un conteggio finale di test o copertura.
+
+\subsection{Analisi qualità backend}
+
+È predisposta una sola soluzione: SonarQube Server locale, senza pubblicazione cloud. \path{quality/coverage.runsettings} riusa \texttt{coverlet.collector} già presente e genera OpenCover per l'assembly API, escludendo migrazioni, \texttt{bin/obj} e sorgenti generati, non controller o altro codice applicativo. \path{quality/analyze-backend.ps1} esegue build Release e test; la modalità Analysis aggiunge \texttt{begin/end} e importa il report soltanto dopo il successo dei test. Richiede server locale, progetto già esistente e token nella sessione, senza crearli. Istruzioni ed esiti sono in \path{Documentazione/Documentazione finale/qualita_backend.md}. L'analisi Sonar e il Quality Gate non sono stati eseguiti.
+
+\section{Limiti e verifiche aperte}
 
 \begin{itemize}
-    \item Upload immagini non implementato: \texttt{ImagePath} è presente nel modello, ma non esiste un endpoint di upload né un campo corrispondente nel DTO di creazione.
-    \item Gestione \texttt{Duplicate} tramite PATCH status e \texttt{ResolvedAt} nel percorso duplicate ancora da ricontrollare dopo il merge del collega.
+    \item Nel checkout sono presenti endpoint immagini, \path{IssueImageStorage} e test dedicati. Il collaudo frontend/API e la persistenza dei file con ricreazione del container restano da verificare sul setup condiviso; non si dichiara completata la consegna immagini dei colleghi sulla sola lettura del codice.
     \item RF-17 da chiarire sulla lettura delle proprie notifiche per READONLY; nessuna eccezione viene aggiunta al requisito.
-    \item Diagrammi iniziali diversi dal cambio stato ancora da allineare come indicato nelle relative sezioni; notifiche senza email o aggiornamento realtime.
+    \item I \texttt{.vpd} conservano il disegno storico; per le viste aggiornate usare i sorgenti PlantUML e PNG corrispondenti. Il deployment originale resta una vista logica, non rigenerata in questa attività.
+    \item Suite di integrazione con coverage e analisi SonarQube da eseguire quando database/server saranno disponibili. Resta l'avviso NU1903 sulla dipendenza \texttt{Microsoft.OpenApi} 2.0.0, non aggiornata in questa attività.
+    \item Notifiche senza email o aggiornamento realtime.
 \end{itemize}
 
 \section{Conclusioni}

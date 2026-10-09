@@ -1,0 +1,40 @@
+@startuml
+title Contrassegno duplicato - flusso implementato
+hide footbox
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 16
+actor "ADMIN / frontend" as User
+participant IssuesController as Api
+database ApplicationDbContext as Db
+User -> Api : PATCH /api/issues/{id}/duplicate\nJWT + DuplicateIssueRequest(OriginalIssueId)
+note over User, Api
+  Pipeline JWT e Authorize: 401 token non valido;
+  403 ruolo non ADMIN; DTO non valido 400.
+end note
+break id = OriginalIssueId
+  Api --> User : 400 - issue duplicata di se stessa
+end
+Api -> Db : Issues.SingleOrDefaultAsync(id)
+Db --> Api : issue
+break Issue da duplicare inesistente
+  Api --> User : 404
+end
+Api -> Db : Issues.AsNoTracking().AnyAsync(OriginalIssueId)
+Db --> Api : originale esistente?
+break Originale inesistente
+  Api --> User : 400 - originale non trovato
+end
+Api -> Api : Status = Duplicate; DuplicateOfIssueId = OriginalIssueId\nResolvedAt = null; UpdatedAt = UTC
+Api -> Db : SaveChangesAsync()
+Db --> Api : modifiche salvate
+Api -> Db : ProjectToResponse(...AsNoTracking()).SingleAsync(id)
+Db --> Api : IssueResponse
+Api --> User : 200 + IssueResponse
+note over Api, Db
+  Non crea una notifica di risoluzione; conserva quelle precedenti.
+  Il metodo usa il ruolo JWT, senza GetCurrentUserAsync
+  e senza IssueDomainService. Non valida catene o cicli
+  ulteriori rispetto al controllo di autoreferenza.
+end note
+@enduml

@@ -1,0 +1,191 @@
+@startuml class_diagram_parte1
+!pragma layout smetana
+title Dominio e persistenza - proprieta' scalari
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 16
+skinparam classAttributeIconSize 0
+hide empty methods
+class User {
+  Id : int
+  Email : string
+  PasswordHash : string
+  Role : UserRole
+  CreatedAt : DateTime
+  IsActive : bool
+}
+class Issue {
+  Id : int
+  Title : string
+  Description : string
+  Type : IssueType
+  Priority : IssuePriority?
+  Status : IssueStatus
+  CreatedById : int
+  AssignedToId : int?
+  DuplicateOfIssueId : int?
+  ImagePath : string?
+  IsArchived : bool
+  CreatedAt : DateTime
+  UpdatedAt : DateTime
+  ResolvedAt : DateTime?
+}
+class Notification {
+  Id : int
+  UserId : int
+  IssueId : int
+  Message : string
+  IsRead : bool
+  CreatedAt : DateTime
+}
+class ApplicationDbContext {
+  Users : DbSet<User>
+  Issues : DbSet<Issue>
+  Notifications : DbSet<Notification>
+  # OnModelCreating(modelBuilder)
+}
+User "1" -- "0..*" Issue : CreatedBy / CreatedIssues
+User "0..1" -- "0..*" Issue : AssignedTo / AssignedIssues
+Issue "0..*" --> "0..1" Issue : DuplicateOfIssue
+User "1" -- "0..*" Notification : User / Notifications
+Issue "1" -- "0..*" Notification : Issue / Notifications
+ApplicationDbContext ..> User
+ApplicationDbContext ..> Issue
+ApplicationDbContext ..> Notification
+legend bottom
+  Eredita da DbContext. ? indica nullabilita'.
+  Enum: UserRole
+  (Admin, User, Readonly);
+  IssueType (Question, Bug,
+  Documentation, Feature);
+  IssuePriority (Low, Medium,
+  High, Critical);
+  IssueStatus (Todo, InProgress,
+  Resolved, Closed, Duplicate).
+endlegend
+@enduml
+
+@startuml class_diagram_parte2
+!pragma layout smetana
+left to right direction
+title Controller e dipendenze reali
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 16
+skinparam classAttributeIconSize 0
+hide empty members
+class AuthController {
+  + Login(request)
+}
+class UsersController {
+  + GetUsers()
+  + CreateUser(request)
+}
+class IssuesController {
+  + Create(...)
+  + GetAll(...)
+  + GetById(...)
+  + UpdateStatus(...)
+  + Archive(...)
+  + MarkAsDuplicate(...)
+  + GetArchived(...)
+  + SuggestAssignee(...)
+  + Export(...)
+  + UploadImage(...)
+  + GetImage(...)
+}
+class NotificationsController {
+  + GetAll(cancellationToken)
+  + MarkAsRead(id, cancellationToken)
+}
+class HealthController {
+  + Get()
+}
+class ApplicationDbContext
+class IssueDomainService {
+  + SearchIssues(issues, keyword)
+  + CanChangeIssueStatus(user, issue)
+  + SuggestAssignee(users, issues)
+}
+interface IPasswordHasher {
+  + Hash(password)
+  + Verify(password, passwordHash)
+}
+class Pbkdf2PasswordHasher
+interface IJwtTokenService {
+  + CreateToken(user)
+}
+class JwtTokenService
+class IssueImageStorage {
+  + ValidateAsync(...)
+  + SaveAsync(...)
+  + OpenRead(name)
+  + Delete(name)
+  + GetContentType(name)
+}
+AuthController --> ApplicationDbContext
+UsersController --> ApplicationDbContext
+IssuesController --> ApplicationDbContext
+NotificationsController --> ApplicationDbContext
+IssuesController --> IssueDomainService
+IssuesController --> IssueImageStorage
+AuthController --> IPasswordHasher
+UsersController --> IPasswordHasher
+AuthController --> IJwtTokenService
+Pbkdf2PasswordHasher ..|> IPasswordHasher
+JwtTokenService ..|> IJwtTokenService
+legend bottom
+  Operazioni elencate per nome; firme abbreviate con (...).
+  DTO e dipendenze di framework omessi per leggibilita':
+  ILogger<IssuesController>, IConfiguration, IWebHostEnvironment.
+  I controller ereditano da ControllerBase; nessun repository.
+endlegend
+@enduml
+
+@startuml class_diagram
+!pragma layout smetana
+title Classi principali - vista d'insieme
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 16
+hide empty members
+package Controllers {
+  class AuthController
+  class UsersController
+  class IssuesController
+  class NotificationsController
+  class HealthController
+}
+package Services {
+  class IssueDomainService
+  class IssueImageStorage
+  interface IPasswordHasher
+  class Pbkdf2PasswordHasher
+  interface IJwtTokenService
+  class JwtTokenService
+}
+class ApplicationDbContext
+package Models {
+  class User
+  class Issue
+  class Notification
+}
+AuthController --> ApplicationDbContext
+UsersController --> ApplicationDbContext
+IssuesController --> ApplicationDbContext
+NotificationsController --> ApplicationDbContext
+AuthController --> IPasswordHasher
+UsersController --> IPasswordHasher
+AuthController --> IJwtTokenService
+IssuesController --> IssueDomainService
+IssuesController --> IssueImageStorage
+Pbkdf2PasswordHasher ..|> IPasswordHasher
+JwtTokenService ..|> IJwtTokenService
+ApplicationDbContext ..> User
+ApplicationDbContext ..> Issue
+ApplicationDbContext ..> Notification
+note bottom of ApplicationDbContext
+  Le due viste di dettaglio riportano
+  proprieta', navigazioni e operazioni.
+end note
+@enduml

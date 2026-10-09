@@ -1,0 +1,54 @@
+@startuml
+!pragma layout smetana
+left to right direction
+title BugBoard26 - casi d'uso e ruoli
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 18
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor Utente
+actor USER
+actor ADMIN
+actor READONLY
+Utente <|-- USER
+Utente <|-- ADMIN
+Utente <|-- READONLY
+
+rectangle BugBoard26 {
+  usecase "Effettuare login" as Login
+  usecase "Consultare issue\n(lista e dettaglio)" as List
+  usecase "Cercare, filtrare\ne ordinare issue" as Search
+  usecase "Visualizzare issue archiviate" as Archived
+  usecase "Esportare elenco CSV" as Export
+  usecase "Suggerire assegnatario" as Suggest
+  usecase "UC-01\nCreare issue" as Create
+  usecase "UC-02\nCambiare stato issue" as Status
+  usecase "Notificare risoluzione\nal segnalatore" as Notify
+  usecase "Creare utenti" as Users
+  usecase "Archiviare issue" as Archive
+  usecase "UC-03\nContrassegnare duplicato" as Duplicate
+}
+
+Utente -- Login
+Utente -- List
+Utente -- Search
+Utente -- Archived
+Utente -- Export
+Utente -- Suggest
+USER -- Create
+ADMIN -- Create
+USER -- Status
+ADMIN -- Status
+ADMIN -- Users
+ADMIN -- Archive
+ADMIN -- Duplicate
+Notify .up.> Status : <<extend>>\n[ingresso in Resolved]
+legend bottom
+  Login pubblico; tutti gli altri casi richiedono autenticazione.
+  UC-02: USER solo assegnatario; ADMIN anche senza assegnazione.
+  UC-03: stato Duplicate e originale, senza comando separato di chiusura.
+  READONLY non modifica issue; lettura proprie notifiche / RF-17 da chiarire.
+endlegend
+@enduml

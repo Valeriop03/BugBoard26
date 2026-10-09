@@ -1,0 +1,56 @@
+@startuml
+!pragma layout smetana
+title PostgreSQL - ApplicationDbContext / InitialCreate
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 16
+skinparam classAttributeIconSize 0
+hide methods
+entity Users {
+  * Id : integer <<PK, identity>>
+  --
+  * Email : varchar(180) <<UNIQUE>>
+  * PasswordHash : varchar(500)
+  * Role : varchar(30)
+  * CreatedAt : timestamptz
+  * IsActive : boolean
+}
+entity Issues {
+  * Id : integer <<PK, identity>>
+  --
+  * Title : varchar(200)
+  * Description : varchar(4000)
+  * Type : varchar(30)
+  Priority : varchar(30) NULL
+  * Status : varchar(30)
+  * CreatedById : integer <<FK>>
+  AssignedToId : integer NULL <<FK>>
+  DuplicateOfIssueId : integer NULL <<FK>>
+  ImagePath : varchar(500) NULL
+  * IsArchived : boolean
+  * CreatedAt : timestamptz
+  * UpdatedAt : timestamptz
+  ResolvedAt : timestamptz NULL
+}
+entity Notifications {
+  * Id : integer <<PK, identity>>
+  --
+  * UserId : integer <<FK>>
+  * IssueId : integer <<FK>>
+  * Message : varchar(500)
+  * IsRead : boolean
+  * CreatedAt : timestamptz
+}
+Users "1" -- "0..*" Issues : CreatedById / RESTRICT
+Users "0..1" -- "0..*" Issues : AssignedToId / SET NULL
+Issues "0..*" --> "0..1" Issues : DuplicateOfIssueId / RESTRICT
+Users "1" -- "0..*" Notifications : UserId / CASCADE
+Issues "1" -- "0..*" Notifications : IssueId / CASCADE
+note bottom of Issues
+  * = NOT NULL; PK identity BY DEFAULT.
+  Indici su tutte le FK; indice UNIQUE su Users.Email.
+  Enum salvati come stringhe, senza vincoli CHECK aggiuntivi.
+  Validazione assegnatari e duplicati nel controller, non in CHECK SQL.
+  __EFMigrationsHistory e' una tabella tecnica, omessa.
+end note
+@enduml

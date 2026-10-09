@@ -11,7 +11,7 @@ Questo repository e' organizzato con frontend e backend separati:
 
 ## Requisiti assegnati
 
-Il gruppo implementa solo le funzionalita' assegnate: autenticazione con ruoli, creazione e consultazione issue, filtri e ricerca, cambio stato per assegnatario/admin, notifiche di risoluzione, export CSV, archiviazione, suggerimento assegnatario, modalita' readonly e gestione duplicati.
+Il gruppo implementa solo le funzionalita' assegnate: autenticazione con ruoli, creazione e consultazione issue con immagine opzionale, filtri e ricerca, cambio stato per assegnatario/admin, notifiche di risoluzione, export CSV, archiviazione, suggerimento assegnatario, modalita' readonly e gestione duplicati. Stato del codice e verifiche ancora aperte: [Documentazione finale](Documentazione/Documentazione%20finale/readme.md).
 
 ## Prerequisiti
 
@@ -42,6 +42,8 @@ Invoke-RestMethod http://localhost:5256/api/health
 ```
 
 `up -d` non garantisce che l'API abbia gia' terminato le migrazioni. Attendere nei log il messaggio `Now listening on` e verificare che `/api/health` risponda prima del login.
+
+`/api/health` conferma che l'API risponde, ma non interroga PostgreSQL: una lettura autenticata delle issue verifica anche l'accesso ai dati.
 
 Il Dockerfile usa l'SDK .NET 10 per restore e publish, poi copia il risultato in un'immagine con il solo runtime ASP.NET Core. Il processo gira con l'utente non root dell'immagine. Nel container l'API ascolta sulla porta `8080`, pubblicata solo sul PC locale come `5256`.
 
@@ -126,6 +128,8 @@ dotnet run --project backend/BugBoard26.Api/BugBoard26.Api.csproj --launch-profi
 
 Il profilo `http` ascolta su `http://localhost:5256`. Non avviare contemporaneamente il backend Docker e quello sul PC sulla stessa porta.
 
+Con questo avvio le immagini sono in `backend/BugBoard26.Api/uploads/issue-images`; la variabile `IssueImages__Directory` permette di scegliere un'altra directory scrivibile, non pubblica. Docker usa invece il volume `bugboard26-issue-images` in `/var/lib/bugboard26/issue-images`. Cambiare modalita' di avvio riusa il database, ma **non trasferisce i file immagine**: il riferimento puo' esistere mentre GET image risponde 404 nella directory diversa.
+
 Con database, porta o credenziali diversi dai valori predefiniti, impostare la connessione prima di `dotnet run`, per esempio se e' stata scelta la porta `5433`:
 
 ```powershell
@@ -164,7 +168,7 @@ npm --prefix frontend run build
 docker compose -f docker/docker-compose.yml down
 ```
 
-Il volume nominato `bugboard26-postgres-data` del Compose esistente e' mantenuto. L'arresto senza `-v` conserva i dati; non usare `down -v` o eliminare il volume se si vogliono mantenere utenti e issue. Usare lo stesso file Compose e nome di progetto per riutilizzare il volume esistente.
+I volumi nominati `bugboard26-postgres-data` e `bugboard26-issue-images` conservano rispettivamente dati relazionali e immagini. L'arresto senza `-v` conserva entrambi; non usare `down -v` o eliminare i volumi. Usare lo stesso file Compose e nome di progetto per riutilizzarli. Il Dockerfile prepara la directory immagini con permessi per l'utente non root; il collaudo con ricreazione del container resta distinto da questa verifica dei file.
 
 Per un riavvio ordinato, senza rimuovere container o dati:
 
@@ -175,10 +179,24 @@ docker compose -f docker/docker-compose.yml up -d --wait
 
 Dopo che `/api/health` risponde, accedere di nuovo e confrontare lista, archivio e dettaglio delle issue con quelli prima dell'arresto.
 
+## Qualita' backend
+
+E' predisposta l'analisi con **SonarQube Server locale**, senza SonarCloud o workflow pubblicati. Coverlet, gia' nel progetto test, genera OpenCover. Per la coverage completa, con il PostgreSQL di test disponibile:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File quality/analyze-backend.ps1 -Mode Coverage
+```
+
+`Bypass` vale solo per quel processo, non cambia la policy globale; usare soltanto dopo aver controllato lo script. Per server, scanner, token nella sessione e modalita' Analysis vedere [qualita_backend.md](Documentazione/Documentazione%20finale/qualita_backend.md). Il comando non crea account o progetti. I report sono in una nuova cartella temporanea per ogni esecuzione, non nel repository. Migrazioni e file generati sono esclusi dalla coverage, non il codice applicativo.
+
+Prova locale preliminare del 9 ottobre 2026 sul commit `15ca2e2`: build Release e test di dominio superati con coverage **parziale**. Non e' il risultato finale della suite che stanno verificando i colleghi. Integrazione non eseguita: Docker non risponde. Analisi SonarQube e Quality Gate solo predisposti: mancano server, scanner e token.
+
 ## Limiti attuali
 
-- Upload immagini non implementato, anche se previsto dai requisiti e dal modello.
-- Gestione dei duplicati tramite PATCH status e coerenza di `ResolvedAt` nel percorso duplicate da ricontrollare dopo il merge delle correzioni backend.
+Il PATCH status ora rifiuta `Duplicate` (400) e le issue gia' duplicate (409); il percorso dedicato azzera `ResolvedAt`. Gli assegnatari indicati devono esistere, essere attivi e non READONLY. Le annotazioni precedenti sul merge di queste correzioni non sono piu' attuali.
+
+- Endpoint immagini e test sono presenti nel checkout. Il collaudo completo del lavoro dei colleghi, inclusa la persistenza dei file dopo ricreazione del container, resta da verificare; non e' dichiarato concluso dalla sola lettura del codice.
 - Portata di READONLY sulla lettura delle proprie notifiche da chiarire rispetto a RF-17; il codice attuale la consente.
+- Resta l'avviso NU1903 su `Microsoft.OpenApi` 2.0.0; nessuna dipendenza e' stata aggiornata in questa revisione.
 
 Requisiti, design, sorgenti dei diagrammi e verifiche sono in [Documentazione](Documentazione), non in una cartella `docs`.

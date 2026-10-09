@@ -1,0 +1,37 @@
+@startuml
+!pragma layout smetana
+title Componenti implementati
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 16
+skinparam componentStyle rectangle
+top to bottom direction
+component "Frontend Angular\ncomponenti + servizi HTTP" as Front
+package "ASP.NET Core Web API" {
+  component "JWT / autorizzazione\nProgram.cs" as Auth
+  component "Controller\nAuth, Users, Issues,\nNotifications, Health" as Controllers
+  component "IssueDomainService\nregole pure" as Domain
+  component "IPasswordHasher\nPbkdf2PasswordHasher" as Hash
+  component "IJwtTokenService\nJwtTokenService" as Jwt
+  component "IssueImageStorage\nfile locali" as Images
+  component "ApplicationDbContext\nEntity Framework Core / Npgsql" as Db
+}
+database "PostgreSQL\nUsers / Issues / Notifications" as Pg
+folder "Directory immagini\nIssueImages:Directory" as Files
+Front --> Auth : HTTP + JWT
+Auth --> Controllers
+Controllers --> Domain : Issues
+Controllers --> Hash : Auth / Users
+Controllers --> Jwt : Auth
+Controllers --> Images : Issues
+Controllers --> Db : query / salvataggi EF
+Domain -[hidden]down-> Hash
+Hash -[hidden]down-> Jwt
+Images -[hidden]down-> Db
+Db --> Pg
+Images --> Files
+legend bottom
+  EF usato da Auth, Users, Issues, Notifications; non da Health.
+  DatabaseSeeder: migrazioni e admin all'avvio; nessun repository.
+endlegend
+@enduml

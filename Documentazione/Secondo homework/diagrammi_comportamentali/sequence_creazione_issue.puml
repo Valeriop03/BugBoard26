@@ -1,0 +1,42 @@
+@startuml
+title Creazione issue - flusso implementato
+hide footbox
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 16
+actor "Utente / frontend" as User
+participant IssuesController as Api
+database ApplicationDbContext as Db
+User -> Api : POST /api/issues\nJWT + CreateIssueRequest
+note over User, Api
+  Pipeline: token non valido 401; READONLY 403;
+  DTO non valido 400. ADMIN e USER ammessi.
+end note
+Api -> Db : GetCurrentUserAsync()\nUsers.AsNoTracking(): ID dal sub, IsActive
+Db --> Api : currentUser
+break Account assente / inattivo
+  Api --> User : 401
+end
+Api -> Api : Verifica ruolo; Trim titolo e descrizione
+break READONLY / titolo o descrizione non validi
+  Api --> User : 403 / 400
+end
+opt AssignedToId valorizzato
+  Api -> Db : Users.AsNoTracking().AnyAsync(id,\nIsActive, Role != Readonly)
+  Db --> Api : assegnatario valido?
+  break Assegnatario inesistente, inattivo o READONLY
+    Api --> User : 400 ValidationProblem
+  end
+end
+Api -> Api : new Issue: Status = Todo, CreatedById = currentUser.Id,\nAssignedToId opzionale, CreatedAt / UpdatedAt = UTC
+Api -> Db : Issues.Add(issue); SaveChangesAsync()
+Db --> Api : issue salvata, ID intero generato
+Api -> Db : ProjectToResponse(...AsNoTracking()).SingleAsync(id)
+Db --> Api : IssueResponse
+Api --> User : 201 CreatedAtAction(GetById) + IssueResponse
+note over Api, Db
+  Nessun repository o servizio applicativo intermedio.
+  L'immagine non fa parte del DTO di creazione:
+  l'upload usa un endpoint separato nel codice attuale.
+end note
+@enduml

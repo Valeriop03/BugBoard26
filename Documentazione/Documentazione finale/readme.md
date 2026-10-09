@@ -1,32 +1,54 @@
-La consegna finale include tutta la documentazione prodotta nelle prime fasi (eventualmente aggiornata e rivista) nonchè tutti i documenti sulla progettazione e implementazione non ancora realizzata nelle fasi precedenti.
+# Documentazione finale
 
-Eventuali materiali necessari alla presentazione e discussione del progetto possono essere anch'essi caricati in questa cartella.
+Stato del codice, verifiche e punti aperti. Istruzioni di installazione nel [README principale](../../README.md); perimetro del gruppo nella specifica requisiti, confrontato con la [traccia ufficiale](../../Progetto-SWE-2025-2026%20-%20canale%202%20-%20v1.1.pdf), paragrafi 3 e 8.
 
-Le informazioni riguardanti l'installazione e utilizzo del progetto vanno invece scritte nel readme della cartella principale, coerentemente con la modalità di fruizione dei normali progetti open source.
+## Allineamento documentazione - 9 ottobre 2026
 
-## Verifica implementazione e avvio locale - 2 ottobre 2026
-
-Revisione di UC-02, RF-10/RF-11/RF-17, RNF-02/RNF-05, architettura implementata, cambio stato, notifiche e avvio locale. I requisiti originali restano invariati; comportamento attuale e differenze sono distinti.
+Revisione sul commit `15ca2e2`: casi d'uso, architettura, schema dati, funzionalita' assegnate e avvio locale. I requisiti originali restano invariati; comportamento attuale e verifiche sono distinti. Gli altri colleghi stanno verificando frontend e test: i risultati storici non certificano la consegna finale.
 
 - [Specifica requisiti, UC-02 e matrice di verifica](../Primo%20homework/specifica_requisiti.tex).
 - [Design: ruoli, notifiche e confronto del diagramma](../Secondo%20homework/documento_design.tex).
-- Il diagramma aggiornato usa [sequence_cambio_stato.puml](../Secondo%20homework/diagrammi_comportamentali/sequence_cambio_stato.puml) e il relativo PNG, generato con PlantUML 1.2026.8. Il vecchio `.vpd` non è stato modificato: resta storico e non va usato per riesportare il PNG aggiornato.
+- I diagrammi aggiornati usano i sorgenti PlantUML e PNG indicati sotto. I `.vpd` non sono stati modificati: restano storici e non vanno usati per riesportare le immagini aggiornate.
 
-### Differenze da discutere
+### Funzionalita' nel checkout
 
-1. Il PATCH status accetta ancora `Duplicate` anche per un USER assegnatario, senza originale; il frontend disabilita invece il cambio di una issue duplicata. `MarkAsDuplicate` conserva l'eventuale `ResolvedAt`. Riferimento: `backend/BugBoard26.Api/Controllers/IssuesController.cs`, `UpdateStatus` e `MarkAsDuplicate`; confronto con UC-03. Sono punti da ricontrollare dopo il merge delle correzioni backend del collega, non correzioni completate in questa revisione. Non si inventano nuove regole sulle transizioni.
-2. READONLY può segnare come letta una propria notifica, comportamento verificato anche dai test. La portata di RF-17 ("senza modificare dati") va chiarita prima di considerarlo un'eccezione ammessa. Riferimento: `backend/BugBoard26.Api/Controllers/NotificationsController.cs`, `MarkAsRead`.
-3. Upload immagini non implementato: `Issue.ImagePath` esiste, ma mancano endpoint di upload e campo nel DTO di creazione; RF-05 non viene modificato per giustificare questa assenza.
-4. I diagrammi iniziali di componenti, classi, schema dati, creazione e duplicati restano da allineare. In `component_diagram.vpd`/PNG eliminare Repository e collegare i controller a `ApplicationDbContext` e `IssuesController` a `IssueDomainService`; in `class_diagram.vpd` e immagini sostituire `AppDbContext` e servizi/repository assenti con le classi reali. In `class_diagram` e `database_schema.vpd`/PNG sostituire GUID con identificativi interi e allineare colonne, lunghezze e nullabilità alla migrazione `InitialCreate`, come specificato nel design. Nei sorgenti e PNG `sequence_creazione_issue` e `sequence_issue_duplicata` rappresentare query e salvataggio del controller sul contesto, senza servizi/repository fittizi. Il design indica le rispettive cartelle. Solo il diagramma cambio stato è stato rigenerato.
+La tabella descrive **codice presente**, non prove end-to-end eseguite. Numeri della traccia come riportati nell'assegnazione della specifica.
+
+| N. | Comportamento attuale | Riferimento backend |
+| --- | --- | --- |
+| 1 | Login email/password, PBKDF2, JWT; seed ADMIN se assente. Solo ADMIN crea/elenca utenti; hash non esposto. | `AuthController`, `UsersController`, `DatabaseSeeder` |
+| 2 | ADMIN/USER creano una issue Todo; assegnatario opzionale validato. Immagine PNG/JPEG entro 5 MiB, upload separato per ADMIN o USER segnalatore; lettura autenticata. | `IssuesController.Create/UploadImage/GetImage`, `IssueImageStorage` |
+| 3, 11 | Lista senza archiviati; filtri tipo/stato/priorita'/segnalatore/assegnatario, ricerca titolo/descrizione, ordinamento data/priorita'/stato/titolo. Nessuna paginazione. | `IssueListQuery`, `IssuesController.ApplyIssueQuery/ApplySorting` |
+| 6 | ADMIN o USER assegnatario cambia stato; risoluzione notifica il segnalatore. Ogni account consulta/segna lette solo notifiche proprie. | `IssueDomainService.CanChangeIssueStatus`, `NotificationsController` |
+| 8 | CSV UTF-8 con stessa query e ordine della lista, incluse esclusione archiviati e filtri; accessibile anche a READONLY. Non esporta immagini o notifiche. | `IssuesController.Export` |
+| 13 | Solo ADMIN archivia; archivio separato e dettaglio conservato. Nessuna API di ripristino. | `IssuesController.Archive/GetArchived/GetById` |
+| 14 | Suggerimento consultabile da tutti i ruoli: candidati attivi ADMIN/USER, minimo carico Todo/InProgress non archiviato, parita' per ID. Non assegna automaticamente; 404 senza candidati. | `IssuesController.SuggestAssignee`, `IssueDomainService.SuggestAssignee` |
+| 15, 16 | READONLY consulta ma non modifica issue. Solo ADMIN marca Duplicate, collega l'originale e azzera ResolvedAt. | `IssuesController`, controlli descritti sotto |
+
+L'upload immagini **non e' assente**: codice, frontend e test sono gia' nel checkout. Restano da confermare collaudo completo e persistenza, non da dichiarare implementata una nuova funzionalita'. Commenti, dashboard, tag, cronologia, report mensili, scadenze e gestione separata delle assegnazioni con notifica non fanno parte dell'assegnazione qui documentata e non sono dichiarati presenti.
+
+### Comportamento attuale e punti aperti
+
+1. `IssuesController.UpdateStatus` ora rifiuta `Duplicate` con 400, anche per ADMIN, e il cambio di issue gia' duplicate con 409 (stato o riferimento all'originale valorizzato). `MarkAsDuplicate`, solo ADMIN, richiede un originale esistente diverso dalla issue e azzera `ResolvedAt`, senza notifica nuova. Controlli letti nel codice e coperti dai test dedicati presenti, **non eseguiti in questa revisione**. Non si inventa una matrice generale di transizioni.
+2. READONLY può segnare come letta una propria notifica, comportamento previsto anche dai test presenti. La portata di RF-17 ("senza modificare dati") va chiarita prima di considerarlo un'eccezione ammessa. Riferimento: `backend/BugBoard26.Api/Controllers/NotificationsController.cs`, `MarkAsRead`.
+3. `IssuesController.Create` accetta `AssignedToId` nullo; se indicato deve esistere ed essere attivo, ADMIN o USER. Inesistente/inattivo/READONLY: 400 senza creazione. `IssueAssigneeValidationIntegrationTests` verifica questi casi e la compatibilita' del suggerimento.
+4. Il DTO di creazione non include l'immagine: l'upload e' separato e un errore non annulla la issue gia' salvata. Dockerfile e Compose gia' configurano directory scrivibile non root e volume `bugboard26-issue-images`; nessun file Docker e' stato modificato. Con `dotnet run` i file sono invece in `uploads/issue-images` sotto la radice API: passare tra i due avvii non trasferisce i file. Validazione per estensione e marcatori PNG/JPEG, non decodifica completa o antivirus. RF-05 resta invariato.
 
 Le annotazioni obsolete sui permessi frontend sono state rimosse: `canChangeStatus` mostra il pannello solo ad ADMIN o USER assegnatario; `canCreateIssue` e `issueCreationGuard` escludono READONLY dalla creazione e `adminGuard` protegge la pagina utenti. Riferimenti: componente dettaglio issue, componente lista, `frontend/src/app/services/auth.guard.ts` e `app.routes.ts`.
 
-### Test e avvio realmente verificati
+### Verifiche precedenti - 2 ottobre 2026
 
 - `dotnet test backend/BugBoard26.slnx`: **56 superati, 0 falliti, 0 ignorati**, con PostgreSQL di test separato sulla porta 55432. Non sono stati modificati test o configurazioni. Rimane l'avviso NU1903 su `Microsoft.OpenApi` 2.0.0; aggiornare dipendenze non rientra in questa attività.
 - `IssueStatusIntegrationTests` copre permessi ADMIN/USER assegnatario, rifiuto USER non assegnatario e READONLY, risoluzione con date e notifica persistite, stesso stato senza nuove scritture, 401 e 404. `NotificationsIntegrationTests` copre elenco personale ordinato, lettura delle proprie notifiche, rifiuto delle altrui anche per ADMIN, 401, 404 ed elenco vuoto. La riapertura, seconda risoluzione e ripetizione del PATCH read restano senza casi dedicati in questi file.
 - `docker compose config`, build e avvio del backend .NET 10 verificati. `/api/health`, login admin, lista, archivio e dettaglio issue rispondono correttamente; lista senza token: 401. Provati anche login e lista dal frontend locale.
 - Riavvio ordinato con `stop backend postgres` e `up -d --wait`: stesso volume `docker_bugboard26-postgres-data`, stessi conteggi e impronte delle righe prima/dopo (**2 utenti, 3 issue, 0 notifiche, 1 migrazione**). Ripetuti login e letture API. Nessun dato di sviluppo creato, cancellato o modificato per la prova; i database temporanei dei test sono distinti.
+
+### Verifiche di questa revisione - 9 ottobre 2026
+
+- Prova locale preliminare sul commit `15ca2e2`: build Release e test di dominio superati con coverage OpenCover **parziale**; report, formato, assembly ed esclusioni controllati. Dettagli storici in [qualita_backend.md](qualita_backend.md). Non e' un conteggio definitivo: non sono stati rilanciati i test durante la verifica dei colleghi.
+- Suite PostgreSQL non eseguita: Docker Desktop non si avvia per il socket `dockerInference`. Non sono state ripetute le prove di avvio/persistenza del 2 ottobre, ne' eseguito il flusso immagini frontend/Docker.
+- `IssueDuplicateValidationIntegrationTests` copre il rifiuto 400/409 e date coerenti nel percorso dedicato; `IssueAssigneeValidationIntegrationTests` copre account validi, null e assegnatari non validi. Sono descritti sulla lettura dei test, non dichiarati superati oggi.
+- Analisi SonarQube non eseguita: manca server locale/scanner/token. Configurazione coverage verificata; integrazione scanner e Quality Gate ancora da provare.
 
 ### Checklist manuale - non eseguita
 
@@ -41,13 +63,21 @@ Preparare account attivi distinti: segnalatore S (USER), assegnatario A (USER), 
 - [ ] **USER non assegnatario:** come U il pannello cambio stato non compare; tentare il PATCH diretto. Atteso 403 e nessun cambiamento di stato, date o notifiche.
 - [ ] **READONLY:** come R il pannello cambio stato non compare; il PATCH diretto è rifiutato con 403 anche se l'account risultasse assegnatario. Nessun cambiamento di stato, date o notifiche.
 - [ ] **Notifica altrui:** con U, A, R e ADMIN controllare che GET non restituisca la notifica di S; usare il suo ID nel PATCH read deve dare 403 senza cambiarla. Un ID inesistente dà 404; senza autenticazione le API notifiche danno 401. Non è previsto un GET di dettaglio per ID.
-- [ ] **Differenze aperte:** con USER assegnatario provare su una issue separata il PATCH status `{"status":"Duplicate"}` senza originale: il codice attuale lo accetta, da confrontare con UC-03. Se esiste una notifica di proprietà di R, il suo PATCH read attualmente dà 200: registrare l'esito senza assumere risolta l'ambiguità RF-17; se manca il dato indicare "non verificato".
+- [ ] **Duplicati:** PATCH status `{"status":"Duplicate"}` da ADMIN o USER assegnatario: atteso 400. Come ADMIN usare il percorso duplicate con originale valido: 200, `resolvedAt: null`, nessuna nuova notifica. Autoreferenza/originale assente: 400; issue assente: 404; cambio stato successivo su duplicata: 409. USER e READONLY non possono usare il percorso duplicate (403).
+- [ ] **Assegnatari:** creare con ID inesistente, inattivo o READONLY: 400, nessuna issue aggiunta. Con ADMIN/USER attivo: 201; con `assignedToId: null`: 201 e nessuna assegnazione.
+- [ ] **RF-17 aperto:** se esiste una notifica di proprieta' di R, il suo PATCH read attualmente da' 200: registrare senza assumere risolta l'ambiguita'; se manca il dato indicare "non verificato".
+- [ ] **Immagini:** come S caricare una PNG/JPEG valida dal dettaglio, ricaricare e leggerla anche come R. U e R non possono caricare (403); file non valido o oltre 5 MiB: rifiuto senza sostituzione. Controllare persistenza dopo riavvio e ricreazione del solo backend Docker, senza eliminare volumi; il test di nuovo host non sostituisce questa prova Docker.
+- [ ] **Export e suggerimento:** come R confrontare gli ID di lista e CSV con gli stessi filtri/ordinamento, senza archiviati. Verificare che il suggerito sia attivo e non READONLY, con carico Todo/InProgress non archiviato minimo e parita' risolta per ID. La richiesta non deve modificare dati.
+
+### Strategia dei test presenti
+
+`IssueDomainServiceTests` verifica tre metodi non banali a due parametri: `SearchIssues(issues, keyword)`, `CanChangeIssueStatus(user, issue)` e `SuggestAssignee(users, issues)`. Le Theory distinguono ricerca nel titolo/descrizione o assenza di risultati, ruolo/assegnazione/attivazione e carichi diversi; il Fact copre l'assenza di candidati. Sono classi di equivalenza, non una dimostrazione di copertura strutturale completa. I test HTTP con PostgreSQL verificano anche autorizzazioni, persistenza e assenza di scritture nei casi rifiutati; immagini includono sostituzione, concorrenza e nuovo host, CSV escaping/filtri/ordine, suggerimento parita' ed esclusioni. Test plan, casi aggiuntivi ed esiti definitivi vanno concordati con il collega che sta verificando i test.
 
 ### Verifica documentale
 
-Sono stati confrontati requisiti, controller, `ApplicationDbContext`, `IssueDomainService`, modelli, migrazioni e pagine frontend con la documentazione. I test e le prove di avvio riportati sopra sono stati eseguiti; la checklist manuale completa cambio stato/notifiche **non è stata eseguita**. La compilazione LaTeX verifica i documenti, non il funzionamento dell'applicazione.
+Confrontati requisiti, controller, `ApplicationDbContext`, `IssueDomainService`, modelli, migrazione e test con la documentazione. Gli esiti del 2 ottobre restano storici; la revisione attuale non li estende ai commit successivi. La checklist manuale completa **non è stata eseguita**. La compilazione LaTeX verifica i documenti, non l'applicazione.
 
-Entrambi i sorgenti sono stati compilati con Tectonic 0.17.0 e i PDF di consegna aggiornati: **14 pagine per la specifica e 18 per il design**, copertina inclusa. Controllati i render e le pagine modificate; nessun testo fuori pagina rilevato. Restano avvisi non bloccanti Underfull nella specifica, sull'ancora della copertina e sulla configurazione dei font del compilatore portatile; i PDF sono generati correttamente.
+Compilati entrambi i sorgenti con Tectonic 0.17.0 e aggiornati i PDF di consegna: **14 pagine per la specifica e 21 per il design**, copertina inclusa. Renderizzate tutte le pagine e controllate in dettaglio le viste modificate. Il diagramma dei casi d'uso e' stato rigenerato e controllato insieme al nuovo sorgente: export/suggerimento comuni, notifica legata alla risoluzione e nessun comando separato di chiusura duplicato. Gli **8 PNG strutturali e di sequenza** sono gia' stati rigenerati nella revisione precedente; sorgenti riconfrontati con il codice e viste incorporate nei PDF ricontrollate. Il cambio stato non e' stato modificato di nuovo. Restano avvisi Underfull e avvisi non bloccanti del compilatore portatile su fontconfig e ancora della copertina, senza Overfull nel risultato finale. Questi controlli non equivalgono alle prove applicative.
 
 Per ricompilare, con Tectonic disponibile nel PATH, eseguire ciascun comando dalla cartella che contiene il relativo sorgente:
 
@@ -56,8 +86,38 @@ tectonic --untrusted specifica_requisiti.tex
 tectonic --untrusted documento_design.tex
 ```
 
-I PDF di consegna mantengono i nomi `Primo homework/Specifica Requisiti.pdf` e `Secondo homework/Documento_Design.pdf`; dopo una ricompilazione sostituirli con gli output `specifica_requisiti.pdf` e `documento_design.pdf`. Controllare indice, UC-02, architettura, ruoli, notifiche e diagramma. Per rigenerare il solo cambio stato, dalla cartella `Secondo homework`, con il JAR ufficiale PlantUML:
+I PDF di consegna mantengono i nomi `Primo homework/Specifica Requisiti.pdf` e `Secondo homework/Documento_Design.pdf`; dopo una ricompilazione sostituirli con gli output `specifica_requisiti.pdf` e `documento_design.pdf`. Controllare indice, UC-02, architettura, ruoli, notifiche e diagrammi. Per rigenerare le immagini, dalla cartella `Secondo homework`, con PlantUML 1.2026.8 e Java 21:
 
 ```powershell
-java '-Djava.awt.headless=true' -jar "C:\percorso\plantuml.jar" -tpng diagrammi_comportamentali/sequence_cambio_stato.puml
+java '-Djava.awt.headless=true' -jar "C:\percorso\plantuml.jar" -failfast2 -tpng diagrammi_architetturali/component_diagram.puml diagrammi_dettaglio/class_diagram.puml diagrammi_dettaglio/database_schema.puml diagrammi_comportamentali/sequence_creazione_issue.puml diagrammi_comportamentali/sequence_cambio_stato.puml diagrammi_comportamentali/sequence_issue_duplicata.puml
 ```
+
+Per il diagramma dei casi d'uso, dalla cartella `Primo homework`:
+
+```powershell
+java '-Djava.awt.headless=true' -jar "C:\percorso\plantuml.jar" -failfast2 -tpng UCD/use_case_diagram.puml
+```
+
+Le viste strutturali usano Smetana integrato nel JAR: non richiedono Graphviz. Sostituzioni dei sorgenti storici:
+
+| Sorgente PlantUML attuale | VPD storico sostituito | PNG generati |
+| --- | --- | --- |
+| `Primo homework/UCD/use_case_diagram.puml` | `use_case_diagram.vpd` | `use_case_diagram.png` |
+| `diagrammi_architetturali/component_diagram.puml` | `component_diagram.vpd` | `component_diagram.png` |
+| `diagrammi_dettaglio/class_diagram.puml` | `class_diagram.vpd` | `class_diagram.png`, `class_diagram_parte1.png`, `class_diagram_parte2.png` |
+| `diagrammi_dettaglio/database_schema.puml` | `database_schema.vpd` | `database_schema.png` |
+| `diagrammi_comportamentali/sequence_creazione_issue.puml` | `sequence_creazione_issue.vpd` | `sequence_creazione_issue.png` |
+| `diagrammi_comportamentali/sequence_issue_duplicata.puml` | `sequence_issue_duplicata.vpd` | `sequence_issue_duplicata.png` |
+| `diagrammi_comportamentali/sequence_cambio_stato.puml` | `sequence_cambio_stato.vpd` | `sequence_cambio_stato.png` |
+
+Il cambio stato conserva il flusso precedente, aggiungendo soltanto le guardie 400/409 e correggendo la nota sul merge. Il deployment originale non e' stato rigenerato: resta la vista logica gia' annotata nel design. Nessun `.vpd` viene dichiarato aggiornato.
+
+### Punti aperti per la consegna
+
+- [ ] Chiarire RF-17 sulle proprie notifiche READONLY, senza cambiare il requisito per giustificare il codice.
+- [ ] Acquisire il collaudo frontend/test dei colleghi su un checkout stabile, ripetere la suite con coverage completa e registrare commit/data degli esiti. Collaudare immagini e persistenza dei due volumi senza cancellare dati.
+- [ ] Produrre il report backend SonarQube effettivo: server locale, progetto esistente, scanner e token non sono disponibili. Configurazione pronta, analisi/importazione coverage/Quality Gate ancora da verificare.
+- [ ] Riunire requisiti, design del sistema e testing in capitoli distinti di un unico documento, come richiede il paragrafo 8 della traccia. I PDF separati dei homework sono aggiornati ma **non sostituiscono ancora questo documento finale**. Includere il test plan, la strategia e gli esiti consolidati con il collega.
+- [ ] Confermare l'uso dei sorgenti PlantUML rispetto al requisito CASE del paragrafo 3.2; se richiesto, sincronizzare le viste aggiornate in Visual Paradigm. I VPD storici non sono stati aggiornati e non rappresentano il modello attuale.
+
+Questi sono passaggi da completare, non attivita' dichiarate svolte da questa revisione.

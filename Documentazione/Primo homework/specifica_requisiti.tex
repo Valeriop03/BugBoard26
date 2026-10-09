@@ -132,7 +132,7 @@ Termine & Descrizione \\
 Issue & Segnalazione inserita nel sistema. Può rappresentare un bug, una domanda, un problema di documentazione o una richiesta di funzionalità. \\
 Utente autenticato & Utente che ha effettuato il login e possiede un ruolo nel sistema. \\
 Utente normale & Utente che può creare issue, consultarle e modificare lo stato delle issue assegnate a lui. \\
-Amministratore & Utente con privilegi aggiuntivi, tra cui creazione utenti, archiviazione, export e gestione dei duplicati. \\
+Amministratore & Utente con privilegi aggiuntivi: creazione utenti, cambio stato anche senza assegnazione, archiviazione e gestione dei duplicati. \\
 Utente readonly & Utente esterno che può visualizzare le issue e i relativi dettagli, senza modificarli. \\
 Assegnatario & Utente a cui è stata assegnata una issue. \\
 Segnalatore & Utente che ha creato la issue. \\
@@ -149,9 +149,9 @@ Notifica & Messaggio interno al sistema usato per comunicare eventi rilevanti ag
 \toprule
 Attore & Descrizione \\
 \midrule
-Utente autenticato & Attore generale che rappresenta qualsiasi utente che ha effettuato l'accesso al sistema. \\
+Utente autenticato & Qualsiasi ruolo dopo il login: consulta lista, dettagli e archivio, ricerca e filtra, esporta CSV e consulta il suggerimento assegnatario. \\
 Utente normale & Può creare issue, consultare le issue presenti, usare ricerca e filtri e cambiare lo stato delle issue assegnate a lui. \\
-Amministratore & Gestisce utenti e funzioni amministrative, come archiviazione, export, duplicati e suggerimento dell'assegnatario. \\
+Amministratore & Crea utenti e issue, cambia stato anche senza assegnazione, archivia e contrassegna duplicati. Export e suggerimento non sono esclusivi di questo ruolo. \\
 Utente readonly & Può consultare le issue, cercarle e filtrarle, ma non può effettuare operazioni di modifica. \\
 \bottomrule
 \end{tabularx}
@@ -207,12 +207,12 @@ RNF-08 & Il progetto deve essere eseguibile in locale seguendo le istruzioni pre
 \clearpage
 \section{Use Case Diagram}
 
-Il diagramma dei casi d'uso riassume le interazioni principali tra gli attori e il sistema. Gli attori specializzati ereditano dall'attore generale \textit{Utente autenticato}, mentre le funzioni amministrative sono riservate all'amministratore.
+Il diagramma riassume i casi d'uso assegnati. ADMIN, USER e READONLY specializzano l'attore generale \textit{Utente}: il login è pubblico, gli altri casi richiedono autenticazione. Il cambio stato è consentito a USER assegnatario oppure ADMIN; export e suggerimento sono consultazioni comuni. La notifica estende il cambio stato solo per un nuovo ingresso in \texttt{Resolved}. Il contrassegno duplicato include la chiusura logica, senza un comando separato.
 
 \IfFileExists{UCD/use_case_diagram.png}{
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\textwidth]{UCD/use_case_diagram.png}
+    \includegraphics[width=0.95\textwidth,height=0.76\textheight,keepaspectratio]{UCD/use_case_diagram.png}
     \caption{Use Case Diagram di BugBoard26}
     \label{fig:use-case-diagram}
 \end{figure}
@@ -225,6 +225,8 @@ Il diagramma dei casi d'uso riassume le interazioni principali tra gli attori e 
 \end{center}
 }
 
+Il PNG è rigenerato da \path{UCD/use_case_diagram.puml}; il \texttt{.vpd} resta storico. La lettura delle proprie notifiche per READONLY rimane un punto da chiarire rispetto a RF-17, non un'eccezione approvata dal diagramma.
+
 \clearpage
 \section{Descrizione dei casi d'uso principali}
 
@@ -234,7 +236,7 @@ Il diagramma dei casi d'uso riassume le interazioni principali tra gli attori e 
 \toprule
 Campo & Descrizione \\
 \midrule
-Attore primario & Utente normale \\
+Attore primario & Utente normale oppure amministratore \\
 Scopo & Inserire una nuova segnalazione nel sistema. \\
 Precondizioni & L'utente ha effettuato il login e non ha ruolo readonly. \\
 Postcondizioni & La issue viene salvata nello stato \textit{TODO} ed è visibile nella lista principale. \\
@@ -251,6 +253,9 @@ Estensioni & Se titolo o descrizione sono mancanti, il sistema segnala l'errore 
 Requisiti collegati & RF-04, RF-05, RF-06, RF-07 \\
 \bottomrule
 \end{tabularx}
+
+\paragraph{Comportamento implementato di UC-01.}
+\path{IssuesController.Create} salva i dati JSON senza immagine. L'assegnatario può essere omesso; se indicato deve esistere, essere attivo e non READONLY. L'immagine opzionale usa un successivo POST \path{/api/issues/{id}/image}: ADMIN oppure USER segnalatore, non il solo assegnatario. Un upload rifiutato non annulla la issue già creata. RF-05 resta invariato; collaudo frontend e persistenza sono elencati nella documentazione finale.
 
 \IfFileExists{mock-up/Creazione issue.png}{
 \begin{figure}[H]
@@ -298,7 +303,7 @@ I requisiti RF-10, RF-11 e RF-17 restano invariati. Nel codice gli account devon
 
 In \path{backend/BugBoard26.Api/Controllers/IssuesController.cs}, metodo \path{UpdateStatus}, un cambiamento effettivo aggiorna \texttt{Status} e \path{UpdatedAt}. L'ingresso in \texttt{RESOLVED} imposta \path{ResolvedAt} in UTC e crea una notifica non letta per \path{CreatedById}. La richiesta dello stato già corrente restituisce la issue senza cambiare date né creare notifiche. Il passaggio a uno stato diverso da \texttt{RESOLVED} azzera \path{ResolvedAt}; le notifiche precedenti restano conservate. Un successivo ingresso in \texttt{RESOLVED} crea una nuova notifica.
 
-Questi dettagli descrivono l'implementazione, senza introdurre una sequenza obbligatoria di transizioni. Il frontend mostra ora il cambio stato solo ad ADMIN o USER assegnatario; il diagramma aggiornato e i punti backend ancora da verificare dopo il merge sono descritti nel design. La documentazione finale distingue i test automatici eseguiti dalle prove manuali ancora da svolgere. Il requisito RF-05 resta invariato, ma l'upload immagini non è ancora implementato.
+Non si introduce una sequenza obbligatoria di transizioni. Il frontend mostra il cambio stato solo ad ADMIN o USER assegnatario. Il PATCH status rifiuta \texttt{Duplicate} con 400 e issue già duplicate con 409; il percorso ADMIN dedicato richiede l'originale e azzera \texttt{ResolvedAt}. Esiti delle verifiche e limiti restano distinti dai requisiti nella documentazione finale.
 
 \IfFileExists{mock-up/Dettaglio issue.png}{
 \begin{figure}[H]
@@ -336,7 +341,7 @@ Requisiti collegati & RF-18, RF-19, RNF-02 \\
 
 \section{Mock-up previsti}
 
-I mock-up saranno inseriti nella cartella \texttt{mock-up} e usati per descrivere le interazioni principali. In questa fase sono previsti almeno i seguenti:
+I mock-up di login, lista, creazione e dettaglio sono già nella cartella \texttt{mock-up}. Sono artefatti di progettazione, non screenshot dell'interfaccia attuale. Le schermate previste erano:
 
 \begin{itemize}[noitemsep]
     \item schermata di login;
@@ -360,7 +365,7 @@ RF-01 & Tentativo di login con credenziali corrette e non corrette. & Con creden
 RF-02 & Avvio del sistema con database inizializzato. & L'account amministratore di default è presente. \\
 RF-03 & Creazione di un utente dalla pagina admin. & Il nuovo utente viene salvato con il ruolo selezionato. \\
 RF-04 & Creazione issue con dati validi. & La issue viene creata correttamente. \\
-RF-05 & Creazione issue con priorità e immagine opzionali. & I dati opzionali vengono gestiti senza bloccare la creazione. \\
+RF-05 & Creazione con priorità opzionale, poi upload separato di una PNG/JPEG entro 5 MiB. & Issue salvata; immagine consultabile con autenticazione. Un upload non valido non annulla la issue. \\
 RF-06 & Controllo stato della issue appena creata. & Lo stato iniziale è \textit{TODO}. \\
 RF-07 & Accesso alla pagina lista issue. & Sono mostrate le issue non archiviate. \\
 RF-08 & Applicazione di filtri e ordinamenti. & La lista cambia coerentemente con i criteri scelti. \\

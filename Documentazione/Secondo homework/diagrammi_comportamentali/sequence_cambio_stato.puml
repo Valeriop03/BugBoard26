@@ -33,6 +33,13 @@ break Permesso negato
   Api --> User: 403
 end
 
+break Stato richiesto = Duplicate
+  Api --> User: 400 - usare il percorso duplicate con originale
+end
+break Issue gia' Duplicate o DuplicateOfIssueId valorizzato
+  Api --> User: 409 - cambio stato non consentito
+end
+
 alt Stato richiesto diverso dal corrente
   Api -> Api: Status = nuovo stato; UpdatedAt = UTC
   alt Nuovo stato = Resolved
@@ -54,7 +61,7 @@ note over User, Db
   Le notifiche precedenti restano salvate.
   Consultazione e lettura successive: NotificationsController,
   GET filtrato per destinatario e PATCH con controllo del proprietario.
-  Nessuna matrice di transizioni aggiunta: i limiti sui duplicati
-  restano da verificare dopo il merge delle correzioni backend.
+  Nessuna matrice generale di transizioni aggiunta.
+  I controlli sui duplicati precedono anche la richiesta dello stesso stato.
 end note
 @enduml

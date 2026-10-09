@@ -28,6 +28,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IPasswordHasher, Pbkdf2PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IssueDomainService>();
+builder.Services.AddScoped<IssueImageStorage>();
 
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("Jwt:Key non configurata.");

@@ -28,6 +28,8 @@ public class IssueResponse
 
     public bool IsArchived { get; init; }
 
+    public bool HasImage { get; init; }
+
     public DateTime CreatedAt { get; init; }
 
     public DateTime UpdatedAt { get; init; }

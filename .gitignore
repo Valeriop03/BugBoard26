@@ -10,3 +10,4 @@ coverage/
 *.suo
 *.log
 tmp/
+uploads/

@@ -1,6 +1,7 @@
 using BugBoard26.Api.Contracts.Issues;
 using BugBoard26.Api.Data;
 using BugBoard26.Api.Extensions;
+using BugBoard26.Api.Filters;
 using BugBoard26.Api.Models;
 using BugBoard26.Api.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -30,11 +31,16 @@ public class IssuesController : ControllerBase
 
     private readonly ApplicationDbContext _dbContext;
     private readonly IssueDomainService _issueDomainService;
+    private readonly IssueImageStorage _imageStorage;
+    private readonly ILogger<IssuesController> _logger;
 
-    public IssuesController(ApplicationDbContext dbContext, IssueDomainService issueDomainService)
+    public IssuesController(ApplicationDbContext dbContext, IssueDomainService issueDomainService,
+        IssueImageStorage imageStorage, ILogger<IssuesController> logger)
     {
         _dbContext = dbContext;
         _issueDomainService = issueDomainService;
+        _imageStorage = imageStorage;
+        _logger = logger;
     }
 
     [HttpPost]
@@ -183,6 +189,134 @@ public class IssuesController : ControllerBase
         }
 
         return Ok(issue);
+    }
+
+    [HttpPost("{id:int}/image")]
+    [ReadImageFormInAction]
+    [Authorize(Roles = UserRoleMapper.Admin + "," + UserRoleMapper.User)]
+    [RequestSizeLimit(IssueImageStorage.MaxImageBytes + 65536)]
+    [RequestFormLimits(MultipartBodyLengthLimit = IssueImageStorage.MaxImageBytes, ValueCountLimit = 8, ValueLengthLimit = 1024)]
+    public async Task<ActionResult<IssueResponse>> UploadImage(int id, CancellationToken cancellationToken)
+    {
+        var currentUser = await GetCurrentUserAsync(cancellationToken);
+        if (currentUser is null)
+        {
+            return Unauthorized();
+        }
+        if (currentUser.Role == UserRole.Readonly)
+        {
+            return Forbid();
+        }
+        var issue = await _dbContext.Issues.SingleOrDefaultAsync(issue => issue.Id == id, cancellationToken);
+        if (issue is null)
+        {
+            return NotFound();
+        }
+        if (currentUser.Role != UserRole.Admin && issue.CreatedById != currentUser.Id)
+        {
+            return Forbid();
+        }
+
+        byte[] data;
+        string extension;
+        try
+        {
+            if (!Request.HasFormContentType ||
+                !Request.ContentType!.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest(new { message = "Usa multipart/form-data con il campo image." });
+            }
+            var form = await Request.ReadFormAsync(cancellationToken);
+            if (form.Files.Count != 1 || form.Files.GetFile("image") is null)
+            {
+                return BadRequest(new { message = "Invia una sola immagine nel campo image." });
+            }
+            (data, extension) = await _imageStorage.ValidateAsync(form.Files.GetFile("image"), cancellationToken);
+        }
+        catch (ArgumentException exception)
+        {
+            return BadRequest(new { message = exception.Message });
+        }
+        catch (Exception exception) when (exception is InvalidDataException or BadHttpRequestException or IOException)
+        {
+            return BadRequest(new { message = "File o multipart non valido. Usa PNG/JPEG di massimo 5242880 byte (5 MiB)." });
+        }
+
+        string? newName = null;
+        var committed = false;
+        try
+        {
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+            // Serialize replacements of the same issue before writing any file.
+            _dbContext.Entry(issue).State = EntityState.Detached;
+            issue = await _dbContext.Issues.FromSqlInterpolated(
+                $"SELECT * FROM \"Issues\" WHERE \"Id\" = {id} FOR UPDATE")
+                .SingleOrDefaultAsync(cancellationToken);
+            if (issue is null)
+            {
+                return NotFound();
+            }
+            if (currentUser.Role != UserRole.Admin && issue.CreatedById != currentUser.Id)
+            {
+                return Forbid();
+            }
+
+            var oldName = issue.ImagePath;
+            newName = await _imageStorage.SaveAsync(data, extension, cancellationToken);
+            issue.ImagePath = newName;
+            issue.UpdatedAt = DateTime.UtcNow;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+            committed = true;
+            _imageStorage.Delete(oldName);
+
+            var updated = await ProjectToResponse(_dbContext.Issues.AsNoTracking())
+                .SingleAsync(issue => issue.Id == id, cancellationToken);
+            return Ok(updated);
+        }
+        catch (Exception exception) when (exception is DbUpdateException or Npgsql.NpgsqlException or IOException or UnauthorizedAccessException)
+        {
+            _logger.LogError(exception, "Errore durante il salvataggio dell'immagine per la issue {IssueId}.", id);
+            return StatusCode(500, new { message = "Non e' stato possibile completare il salvataggio dell'immagine." });
+        }
+        finally
+        {
+            if (!committed && newName is not null)
+            {
+                _imageStorage.Delete(newName);
+            }
+        }
+    }
+
+    [HttpGet("{id:int}/image")]
+    public async Task<IActionResult> GetImage(int id, CancellationToken cancellationToken)
+    {
+        if (await GetCurrentUserAsync(cancellationToken) is null)
+        {
+            return Unauthorized();
+        }
+        var issue = await _dbContext.Issues.AsNoTracking().SingleOrDefaultAsync(issue => issue.Id == id, cancellationToken);
+        if (issue is null)
+        {
+            return NotFound();
+        }
+        FileStream? stream;
+        try
+        {
+            stream = _imageStorage.OpenRead(issue.ImagePath);
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            _logger.LogError(exception, "Errore durante la lettura dell'immagine per la issue {IssueId}.", id);
+            return StatusCode(500, new { message = "Non e' stato possibile leggere l'immagine." });
+        }
+        if (stream is null)
+        {
+            return NotFound();
+        }
+        Response.Headers["X-Content-Type-Options"] = "nosniff";
+        Response.Headers.CacheControl = "private, no-store";
+        return File(stream, _imageStorage.GetContentType(issue.ImagePath!));
     }
 
     [HttpPatch("{id:int}/status")]
@@ -424,6 +558,7 @@ public class IssuesController : ControllerBase
             AssignedToEmail = issue.AssignedTo != null ? issue.AssignedTo.Email : null,
             DuplicateOfIssueId = issue.DuplicateOfIssueId,
             IsArchived = issue.IsArchived,
+            HasImage = issue.ImagePath != null && issue.ImagePath != "",
             CreatedAt = issue.CreatedAt,
             UpdatedAt = issue.UpdatedAt,
             ResolvedAt = issue.ResolvedAt

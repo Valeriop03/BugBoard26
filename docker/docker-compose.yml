@@ -31,6 +31,9 @@ services:
       Jwt__ExpiresMinutes: ${JWT_EXPIRES_MINUTES:-120}
       DefaultAdmin__Email: ${DEFAULT_ADMIN_EMAIL:-admin@bugboard26.local}
       DefaultAdmin__Password: ${DEFAULT_ADMIN_PASSWORD:-Admin123!}
+      IssueImages__Directory: /var/lib/bugboard26/issue-images
+    volumes:
+      - bugboard26-issue-images:/var/lib/bugboard26/issue-images
     ports:
       - "127.0.0.1:5256:8080"
     depends_on:
@@ -39,3 +42,4 @@ services:
 
 volumes:
   bugboard26-postgres-data:
+  bugboard26-issue-images:

@@ -11,4 +11,5 @@ frontend
 Documentazione
 backend/BugBoard26.Tests
 tmp
+**/uploads
 *.pdf

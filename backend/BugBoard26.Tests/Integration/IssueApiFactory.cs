@@ -17,6 +17,8 @@ public class IssueApiFactory : WebApplicationFactory<Program>
     private readonly string _testConnectionString;
     private bool _databaseCreated;
 
+    public string ImageDirectory { get; } = Path.Combine(Path.GetTempPath(), $"bugboard26-images-{Guid.NewGuid():N}");
+
     public IssueApiFactory()
     {
         var connection = new NpgsqlConnectionStringBuilder(
@@ -64,7 +66,8 @@ public class IssueApiFactory : WebApplicationFactory<Program>
         builder.ConfigureAppConfiguration((_, configuration) =>
             configuration.AddInMemoryCollection(new Dictionary<string, string?>
             {
-                ["ConnectionStrings:DefaultConnection"] = _testConnectionString
+                ["ConnectionStrings:DefaultConnection"] = _testConnectionString,
+                ["IssueImages:Directory"] = ImageDirectory
             }));
 
         builder.ConfigureServices(services =>
@@ -91,5 +94,20 @@ public class IssueApiFactory : WebApplicationFactory<Program>
         command.CommandText = $"DROP DATABASE \"{_databaseName}\" WITH (FORCE)";
         await command.ExecuteNonQueryAsync();
         _databaseCreated = false;
+    }
+
+    public override async ValueTask DisposeAsync()
+    {
+        try
+        {
+            await base.DisposeAsync();
+        }
+        finally
+        {
+            if (Directory.Exists(ImageDirectory))
+            {
+                Directory.Delete(ImageDirectory, true);
+            }
+        }
     }
 }

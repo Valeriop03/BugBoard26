@@ -1,5 +1,51 @@
 # Documentazione finale
 
+## Integrazione del 16 ottobre 2026 - documentazione ancora aperta
+
+La base è il **documento unico già creato da Valerio**, acquisito nuovamente prima dell'integrazione. Il suo riepilogo del collaudo frontend reale è conservato integralmente, con attribuzione della provenienza. Non è stato creato un secondo documento finale. Le note del 2 e 9 ottobre sotto restano storiche.
+
+- [Documento unico: sorgente](documentazione_finale.tex) e [PDF](documentazione_finale.pdf): requisiti, design del sistema/software e testing in capitoli distinti.
+- [Presentazione tecnica](presentazione/presentazione_tecnica.pptx): 9 slide, budget previsto di 9 minuti, prova cronometrata ancora da svolgere.
+- [Registro delle evidenze](evidenze.md): frontend reale riportato da Valerio, risultati backend/persistenza/Sonar attesi da amico 1, attività e chiarimenti aperti.
+- [Test plan: esiti da compilare](esiti_test_plan.csv): mantenuti TP-01--TP-10 e aggiunti TP-11--TP-14. I risultati attesi non sono esiti superati.
+- [Usabilità](usabilita.md): review tecnica, attività con utenti reali/potenziali e questionario, con modelli vuoti in `evidenze/`.
+- [Consegna e demo](consegna.md): coordinamento da confermare con Valerio, checklist release GitHub/invio individuale Teams e comandi Git soltanto proposti.
+- [Manifest dei diagrammi](diagrammi_manifest.json): corrispondenza sorgenti/PNG; VPD invariati e storici. Il nuovo deployment locale è distinto da quello precedente. Accettazione CASE ancora aperta.
+- [Verifica documentale](verifica_documentale.md): controlli effettivamente svolti e limiti. Non equivale a collaudo applicativo.
+
+Amico 1 depositerà suite backend completa, coverage, persistenza dopo ricreazione dei container e analisi SonarQube effettiva in `verifica-backend/`, alla radice. Valerio preparerà il report permanente delle prove frontend già svolte. I nuovi report non sono ancora disponibili al controllo. Il gruppo deve svolgere review e sessioni con utenti, raccogliere risposte reali e chiudere la conformità CASE. Nessun messaggio o consegna è stato inviato.
+
+**RF-17, decisione del gruppo del 16 ottobre 2026:** READONLY può consultare le proprie notifiche ma non segnarle come lette. Non è un chiarimento dei docenti. Backend e test sono affidati ad amico 1; frontend da allineare e verificare. Test plan e slide distinguono questo contratto dagli esiti tecnici ancora aperti. Il collaudo precedente non verifica il nuovo allineamento. La gestione del documento unico e della presentazione rimane a questa attività documentale.
+
+### Rigenerazione
+
+Prerequisiti: Python con Pillow, Tectonic 0.17.0 e, per i diagrammi, Java 21 con PlantUML 1.2026.8. Per le slide serve il runtime Node di Codex con `@oai/artifact-tool` e il finalizzatore della skill Presentations. Tutti i percorsi sono parametrizzabili in `rigenera.ps1`; il PowerPoint finale rimane modificabile anche senza questo runtime.
+
+Dalla radice della repository, se Tectonic è nel PATH:
+
+```powershell
+& '.\Documentazione\Documentazione finale\rigenera.ps1'
+# Per il solo documento:
+& '.\Documentazione\Documentazione finale\rigenera.ps1' -SoloDocumento
+```
+
+Sul PC di questa revisione è stato verificato anche il percorso portatile seguente:
+
+```powershell
+& '.\Documentazione\Documentazione finale\rigenera.ps1' `
+  -TectonicExecutable 'C:\Users\emanu\AppData\Local\Temp\bugboard26-document-tools-ea4e0bb253ba48668e3e70c648b514bf\tectonic\tectonic.exe'
+```
+
+La cartella temporanea non è una dipendenza da consegnare: se rimossa, indicare una propria installazione. Per rigenerare anche le immagini usare `-RigeneraDiagrammi -PlantUmlJar 'C:\percorso\plantuml.jar'`. Senza questo switch lo script verifica i PNG esistenti e interrompe la procedura se il sorgente incorporato non coincide. Non aggiorna VPD o codice applicativo. I frammenti `strategie_dominio.tex`, `test_plan.tex` e `vincoli_case.tex` devono restare accanto al documento unico; lo script non riscrive quest'ultimo.
+
+Gli output di lavoro sono sotto `_build/` e non vanno aggiunti alla consegna. Se esiste già un PPTX finale, una rigenerazione produce un nuovo nome con suffisso per preservare quello precedente: scegliere il file stampato dal comando dopo averlo controllato. La validazione automatica non sostituisce il controllo visivo di tutte le pagine e slide dopo modifiche. Nessuna build o suite applicativa viene eseguita da `rigenera.ps1`.
+
+---
+
+## Materiale e verifiche precedenti (storico)
+
+Le osservazioni seguenti su RF-17 descrivono codice e dubbi del 9 ottobre; la decisione del gruppo riportata sopra le supera come criterio di accettazione. Non attestano che backend, test o frontend siano già allineati. I PDF dei homework restano storici; la legenda del diagramma dei casi d’uso richiamato dal documento unico è aggiornata alla decisione del gruppo.
+
 Stato del codice, verifiche e punti aperti. Istruzioni di installazione nel [README principale](../../README.md); perimetro del gruppo nella specifica requisiti, confrontato con la [traccia ufficiale](../../Progetto-SWE-2025-2026%20-%20canale%202%20-%20v1.1.pdf), paragrafi 3 e 8.
 
 ## Allineamento documentazione - 9 ottobre 2026
@@ -65,7 +111,7 @@ Preparare account attivi distinti: segnalatore S (USER), assegnatario A (USER), 
 - [ ] **Notifica altrui:** con U, A, R e ADMIN controllare che GET non restituisca la notifica di S; usare il suo ID nel PATCH read deve dare 403 senza cambiarla. Un ID inesistente dà 404; senza autenticazione le API notifiche danno 401. Non è previsto un GET di dettaglio per ID.
 - [ ] **Duplicati:** PATCH status `{"status":"Duplicate"}` da ADMIN o USER assegnatario: atteso 400. Come ADMIN usare il percorso duplicate con originale valido: 200, `resolvedAt: null`, nessuna nuova notifica. Autoreferenza/originale assente: 400; issue assente: 404; cambio stato successivo su duplicata: 409. USER e READONLY non possono usare il percorso duplicate (403).
 - [ ] **Assegnatari:** creare con ID inesistente, inattivo o READONLY: 400, nessuna issue aggiunta. Con ADMIN/USER attivo: 201; con `assignedToId: null`: 201 e nessuna assegnazione.
-- [ ] **RF-17 aperto:** se esiste una notifica di proprieta' di R, il suo PATCH read attualmente da' 200: registrare senza assumere risolta l'ambiguita'; se manca il dato indicare "non verificato".
+- [ ] **RF-17, criterio aggiornato il 16 ottobre:** predisporre notifiche proprie per R; GET 200 con soli dati propri, PATCH read 403 senza scritture, anche su notifica già letta; UI senza comando e senza PATCH automatici. Registrare l’esito reale dopo l’allineamento backend/test e frontend; senza dati indicare "non verificato".
 - [ ] **Immagini:** come S caricare una PNG/JPEG valida dal dettaglio, ricaricare e leggerla anche come R. U e R non possono caricare (403); file non valido o oltre 5 MiB: rifiuto senza sostituzione. Controllare persistenza dopo riavvio e ricreazione del solo backend Docker, senza eliminare volumi; il test di nuovo host non sostituisce questa prova Docker.
 - [ ] **Export e suggerimento:** come R confrontare gli ID di lista e CSV con gli stessi filtri/ordinamento, senza archiviati. Verificare che il suggerito sia attivo e non READONLY, con carico Todo/InProgress non archiviato minimo e parita' risolta per ID. La richiesta non deve modificare dati.
 
@@ -114,10 +160,10 @@ Il cambio stato conserva il flusso precedente, aggiungendo soltanto le guardie 4
 
 ### Punti aperti per la consegna
 
-- [ ] Chiarire RF-17 sulle proprie notifiche READONLY, senza cambiare il requisito per giustificare il codice.
+- [ ] Attuare e verificare la decisione del gruppo RF-17: backend e test ad amico 1; frontend da allineare e verificare. Il criterio è deciso, gli esiti tecnici mancano.
 - [ ] Acquisire il collaudo frontend/test dei colleghi su un checkout stabile, ripetere la suite con coverage completa e registrare commit/data degli esiti. Collaudare immagini e persistenza dei due volumi senza cancellare dati.
 - [ ] Produrre il report backend SonarQube effettivo: server locale, progetto esistente, scanner e token non sono disponibili. Configurazione pronta, analisi/importazione coverage/Quality Gate ancora da verificare.
-- [ ] Riunire requisiti, design del sistema e testing in capitoli distinti di un unico documento, come richiede il paragrafo 8 della traccia. I PDF separati dei homework sono aggiornati ma **non sostituiscono ancora questo documento finale**. Includere il test plan, la strategia e gli esiti consolidati con il collega.
+- [x] Documento unico predisposto da Valerio e integrato il 16 ottobre, con capitoli distinti, test plan e strategia. Restano da consolidare gli esiti necessari: la documentazione non è dichiarata conclusa.
 - [ ] Confermare l'uso dei sorgenti PlantUML rispetto al requisito CASE del paragrafo 3.2; se richiesto, sincronizzare le viste aggiornate in Visual Paradigm. I VPD storici non sono stati aggiornati e non rappresentano il modello attuale.
 
 Questi sono passaggi da completare, non attivita' dichiarate svolte da questa revisione.

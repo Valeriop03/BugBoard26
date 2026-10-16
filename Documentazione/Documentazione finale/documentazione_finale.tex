@@ -46,7 +46,7 @@ Componenti & Valerio Porcile -- N86004517\\
  & Emanuel Giuseppe Lupoli -- N86004280\\
  & Emanuele Martucci -- N86004084\\
 Modalita' & Tradizionale\\
-Versione & 1.0 -- consolidamento per la consegna\\
+Versione & 1.2 -- decisione RF-17, evidenze aperte\\
 Data di riferimento & 16 ottobre 2026\\
 Codice esaminato & \texttt{e139951}\\
 \end{tabular}
@@ -62,12 +62,14 @@ e le attivita' di testing in capitoli distinti, secondo la sezione 8 della
 traccia ufficiale v1.1. Riprende il materiale dei due homework e lo confronta
 con il codice disponibile nel repository.
 
-Le funzionalita' descritte sono presenti nel codice. Il collaudo frontend
+Il documento distingue il codice esaminato dai comportamenti attesi ancora
+da allineare e verificare, in particolare RF-17. Il collaudo frontend
 con API e PostgreSQL reali del 16 ottobre 2026 e' riportato nel capitolo 3.
 Questo non equivale alla conclusione di tutte le attivita' di consegna:
 restano da consolidare la suite backend completa, il report SonarQube,
 le prove di persistenza dopo ricreazione dei container, la valutazione
-di usabilita' e i chiarimenti indicati nel capitolo 4.
+di usabilita', la conformita' CASE e l'attuazione della decisione del gruppo
+su RF-17, indicate nel capitolo 4.
 Non vengono attribuiti esiti positivi alle attivita' non eseguite.
 
 \textbf{Repository:} \url{https://github.com/Valeriop03/BugBoard26}.
@@ -136,9 +138,13 @@ READONLY & Consulta issue, dettagli, immagini e archivio; usa ricerca, filtri ed
 \end{tabularx}
 
 Tutti i ruoli autenticati possono consultare il suggerimento assegnatario
-e le proprie notifiche. Il codice permette anche a READONLY di segnare
-le proprie notifiche come lette: la compatibilita' con RF-17 resta da
-chiarire, come indicato nel capitolo 4.
+e le proprie notifiche.
+
+\textbf{Decisione del gruppo su RF-17 -- 16 ottobre 2026:} READONLY puo'
+consultare le proprie notifiche, ma non segnarle come lette. E' una decisione
+del gruppo, non un chiarimento dei docenti. L'allineamento backend e i test
+sono affidati ad amico 1; restano da allineare e verificare anche i controlli
+frontend. Nessuno di questi esiti e' ancora acquisito.
 
 \section{Requisiti funzionali}
 Gli identificativi seguenti sono mantenuti dalla specifica dei requisiti;
@@ -259,7 +265,7 @@ differenze di configurazione fra i tre PC. Il progetto backend usa .NET 10,
 il frontend Angular 19; le versioni effettive dei pacchetti sono nei
 rispettivi file di progetto e lockfile.
 \diagramma{../Secondo homework/diagrammi_architetturali/component_diagram.png}{Componenti e comunicazione del sistema.}
-\diagramma{../Secondo homework/diagrammi_architetturali/deployment_diagram.png}{Vista logica di deployment preesistente; avvio locale effettivo descritto nel testo.}
+\diagramma{../Secondo homework/diagrammi_architetturali/deployment_locale.png}{Deployment locale allineato a Compose; il deployment precedente e i VPD restano storici.}
 \clearpage
 
 \section{Organizzazione Object-Oriented}
@@ -318,8 +324,12 @@ richiesta protetta porta al login; un 403 non comporta logout.
 I guard e i pulsanti nascosti migliorano l'interfaccia, ma la sicurezza
 dipende dalle autorizzazioni backend. ADMIN crea utenti, archivia e marca
 duplicati. USER cambia stato soltanto per le proprie assegnazioni;
-READONLY non modifica issue. Le notifiche sono consultabili e segnabili
-come lette soltanto dal destinatario, anche rispetto ad ADMIN.
+READONLY non modifica issue. Le notifiche sono consultabili soltanto dal
+destinatario, anche rispetto ad ADMIN. Secondo la decisione del gruppo su
+RF-17, solo USER e ADMIN possono segnare lette le proprie notifiche; READONLY
+puo' soltanto consultarle. Il rifiuto server e i comandi UI coerenti con
+questa decisione richiedono ancora allineamento ed esiti di verifica.
+La lettura statica del codice e dei test esistenti non chiude questa attivita'.
 
 Il setup locale usa HTTP e credenziali di sviluppo. Un'eventuale esposizione
 pubblica richiederebbe HTTPS e configurazione adeguata dei segreti;
@@ -381,7 +391,7 @@ GET & \path{/api/issues/suggest-assignee} & Suggerimento.\\
 GET & \path{/api/issues/export} & CSV.\\
 POST / GET & \path{/api/issues/{id}/image} & Upload/lettura immagine.\\
 GET & \path{/api/notifications} & Notifiche personali.\\
-PATCH & \path{/api/notifications/{id}/read} & Lettura di una propria notifica.\\
+PATCH & \path{/api/notifications/{id}/read} & Segna letta una propria notifica; divieto READONLY da attuare e verificare (RF-17).\\
 \bottomrule
 \end{longtable}
 Le rotte frontend sono \path{/login}, \path{/issues}, \path{/issues/new},
@@ -407,14 +417,11 @@ i volumi. L'avvio con \texttt{dotnet run} usa una directory immagini diversa
 dal container e non trasferisce automaticamente i file.
 
 \section{Versionamento e artefatti}
-Il repository Git e' il riferimento per codice, test e documenti. La
-cronologia visibile al commit esaminato contiene contributi su
-autenticazione, issue, frontend, immagini, test e documentazione. Non
-vengono inventate statistiche di contribuzione o una storia di sviluppo.
-La release definitiva dovra' identificare la revisione consegnata.
-I file \texttt{.puml} e le immagini sono aggiornati dalla revisione
-documentale precedente; i \texttt{.vpd} sono storici e non vanno presentati
-come modelli allineati senza ulteriore verifica CASE.
+Il repository Git indicato all'inizio raccoglie codice, test e documenti.
+La release definitiva dovra' identificare la revisione consegnata; non si
+inventano statistiche di contribuzione. Sorgenti PlantUML e PNG correnti
+sono verificati insieme; i VPD restano storici. La conformita' CASE
+e' discussa nel capitolo 4.
 
 \chapter{Testing e valutazione dell'usabilita'}
 \section{Strategia e livelli di verifica}
@@ -433,7 +440,7 @@ usato Angular, backend Docker e PostgreSQL reali, con Chrome headless.
 \section{Tre metodi di dominio e classi di equivalenza}
 \begin{longtable}{P{0.29\textwidth} P{0.64\textwidth}}
 \toprule Metodo & Casi presenti e motivazione\\\midrule\endhead
-\texttt{SearchIssues}\newline(issues, keyword) & Parola nel titolo, nella descrizione con maiuscole diverse e parola assente: distingue i due campi di ricerca e la classe senza corrispondenze.\\
+\texttt{SearchIssues}\newline(issues, keyword) & Parola nel titolo, nella descrizione e parola assente: distingue i due campi di ricerca e la classe senza corrispondenze.\\
 \texttt{CanChangeIssueStatus}\newline(user, issue) & ADMIN non assegnatario; USER assegnatario/non assegnatario; READONLY anche assegnato; USER inattivo. Separa ruolo, assegnazione e attivazione.\\
 \texttt{SuggestAssignee}\newline(users, issues) & Carichi differenti con vincitore alternato, issue risolte/chiuse escluse e nessun candidato assegnabile. Verifica la scelta e il caso limite senza risultato.\\
 \bottomrule
@@ -443,6 +450,7 @@ significativi, non un obiettivo numerico. La suite di integrazione aggiunge
 verifiche di permessi, filtri, escaping CSV, parita' ed esclusioni del
 suggerimento, immagini e persistenza. La copertura strutturale completa
 non e' deducibile da questo elenco: va misurata sulla suite completa.
+\input{strategie_dominio.tex}
 
 \section{Test plan -- Risoluzione di una issue}
 \textbf{Obiettivo:} verificare UC-02 e RF-10/RF-11 senza consentire
@@ -450,6 +458,7 @@ modifiche a utenti non autorizzati. Preparare una issue di prova creata
 da S e assegnata ad A, entrambi USER attivi e distinti; U e' un altro USER,
 R e' READONLY. Usare un ADMIN separato. Registrare stato, date e notifiche
 prima e dopo. Non modificare issue preesistenti per il collaudo.
+\input{test_plan.tex}
 
 \begin{longtable}{P{0.09\textwidth} P{0.38\textwidth} P{0.43\textwidth}}
 \toprule Caso & Azione & Risultato atteso\\\midrule\endhead
@@ -463,14 +472,27 @@ TP-07 & A ripete lo stato RESOLVED corrente. & Nessuna nuova notifica o variazio
 TP-08 & Riapertura e seconda risoluzione. & Data azzerata alla riapertura; nuova data/notifica alla seconda risoluzione.\\
 TP-09 & Cambio stato su duplicata. & 409; riferimento e stato conservati.\\
 TP-10 & S consulta notifiche; U tenta lettura della notifica di S. & S vede la propria notifica; U non la vede e PATCH read altrui restituisce 403.\\
+TP-11 & JWT di account diventato inattivo. & 401 dal lookup dell'account; nessuna modifica persistente.\\
+TP-12 & Si richiede Duplicate nel percorso status. & 400; stato, riferimento, date e notifiche invariati.\\
+TP-13 & S segna letta la notifica e ripete il PATCH. & 200; lettura persistita; nessuna notifica aggiunta; ID assente 404, senza token 401.\\
+TP-14 & READONLY consulta le proprie notifiche e tenta di segnarne una letta. & GET 200, solo notifiche proprie; PATCH read 403 e dati invariati. UI senza comando di lettura. Decisione del gruppo RF-17; esito da acquisire.\\
 \bottomrule
 \end{longtable}
 \textbf{Criterio di accettazione:} tutti i casi pianificati eseguiti con
 esito registrato e nessuna modifica non autorizzata. I test automatici
 presenti coprono una parte del piano; il piano non viene dichiarato
 interamente eseguito. TP-08 richiede ancora esito finale dedicato.
+Gli esiti dei singoli casi sono in \path{esiti_test_plan.csv}, inizialmente
+\texttt{DA\_ESEGUIRE}: i risultati di collaudo riportati sotto non vengono
+trasformati automaticamente in esiti di tutto il piano. Per chiudere il piano
+occorrono evidenze dei casi applicabili, assenza di modifiche non autorizzate,
+anomalie bloccanti risolte o deroga esplicita e verifica della decisione
+del gruppo su RF-17 in backend, test e frontend.
 
 \section{Collaudo frontend reale -- 16 ottobre 2026}
+Fonte: riepilogo del collaudo svolto da Valerio, confermato dal gruppo e
+conservato in questa sezione. Non e' una nuova esecuzione di questa revisione
+documentale. Report e screenshot permanenti sono ancora da acquisire.
 Riferimento: commit \texttt{e13995140dff382dc3d548208c6c1e60be91fe5d},
 checkout pulito prima e dopo. API sulla porta 5256 e Angular sulla 4200;
 PostgreSQL del Compose di sviluppo. Il precedente blocco Docker e' stato
@@ -511,6 +533,16 @@ quantita' di dati, non copre ogni browser e non sostituisce il collaudo
 di persistenza dopo ricreazione dei container.
 
 \section{Esecuzione ripetibile e qualita' backend}
+Gli esiti di amico 1 sono attesi in \path{verifica-backend/}, nella radice
+del repository: suite completa, coverage, persistenza e analisi SonarQube.
+Registrare data, revisione e modifiche locali, ambiente, comandi, report
+ed eventuali anomalie. La cartella e i risultati non sono ancora disponibili
+al controllo documentale; la loro sola presenza non dimostrera' un esito positivo.
+
+Il collaudo frontend sopra resta attribuito a Valerio, che preparera' il
+report permanente. Quel collaudo non verifica la nuova decisione RF-17;
+servono riscontri backend e UI successivi all'allineamento.
+
 Dalla radice del repository, con Docker disponibile:
 \par
 \begin{minipage}{\textwidth}
@@ -575,6 +607,11 @@ trovare una issue, chiarezza degli esiti e dei permessi. Aggiungere una
 domanda aperta: ``Quale passaggio e' stato meno chiaro?''.
 Riportare numero reale di sessioni, risultati e limiti del campione;
 non attribuire validazione statistica a poche osservazioni.
+Il protocollo operativo esteso, le attivita' e il questionario sono in
+\path{usabilita.md}; i modelli in \path{evidenze/} contengono solo intestazioni.
+Chiediamo al gruppo di svolgere le sessioni e fornire osservazioni e risposte
+reali, con partecipazione volontaria e codici anonimi. Nessuna richiesta e'
+stata inviata all'esterno. La review tecnica resta distinta dalle sessioni.
 
 \chapter{Limiti e completamento della consegna}
 \section{Punti ancora aperti}
@@ -582,10 +619,11 @@ non attribuire validazione statistica a poche osservazioni.
 \item Eseguire e registrare suite backend completa e coverage sulla revisione finale; integrare il report SonarQube effettivo.
 \item Verificare dati e immagini dopo riavvio e ricreazione dei container conservando entrambi i volumi.
 \item Eseguire review e sessioni di usabilita', sostituendo il piano con risultati realmente raccolti.
-\item Chiarire RF-17 rispetto alla lettura delle proprie notifiche READONLY. Il codice attuale la consente; questo documento non approva una nuova eccezione.
+\item Attuare e verificare la decisione del gruppo RF-17: READONLY consulta le proprie notifiche, ma non le segna lette. Backend e test ad amico 1; frontend da allineare e verificare. La decisione e' presa, gli esiti tecnici restano aperti.
 \item Chiudere la conformita' CASE: le immagini aggiornate provengono dai sorgenti PlantUML; i file Visual Paradigm storici non rappresentano tutte le modifiche attuali.
 \item Valutare l'avviso NU1903 confermato durante la build backend.
 \end{enumerate}
+\input{vincoli_case.tex}
 Non sono previsti paginazione, ripristino archivio, refresh token o gestione
 immagini dal dettaglio frontend. Non vengono aggiunti come nuovi requisiti.
 Il piano di consegna non richiede nuove funzionalita' fuori assegnazione.
@@ -603,6 +641,10 @@ non soltanto elencare funzioni. Tutti i membri devono conoscere il sistema.
 Sequenza demo proposta: login, creazione con immagine, ricerca/export,
 risoluzione come assegnatario e notifica al segnalatore, duplicato/archivio
 come ADMIN, consultazione READONLY. Usare dati nuovi e riconoscibili.
+Per una demo breve concordare con il collega frontend un sottoinsieme dei
+passaggi: consultazione READONLY, risoluzione come assegnatario e notifica
+al segnalatore. La scaletta da nove minuti e il piano di demo successiva sono
+in \path{consegna.md}. La prova cronometrata e il coordinamento sono aperti.
 
 \section{Manutenzione del documento}
 Compilare dalla directory che contiene questo sorgente per risolvere i
@@ -614,5 +656,14 @@ Conservare questo sorgente insieme ai mockup e diagrammi referenziati;
 il PDF puo' invece essere consultato autonomamente. Prima della consegna
 aggiornare versione, commit, risultati delle verifiche ancora aperte e
 stato del documento, senza riscrivere i requisiti per giustificare il codice.
+Per rigenerare documento e slide con controlli di sorgenti/PNG usare
+\path{rigenera.ps1}, come indicato nel readme di questa cartella. La
+compilazione non esegue test applicativi. Il registro \path{evidenze.md}
+mantiene distinti risultati storici, esito frontend riportato da Valerio e
+risultati attesi da amico 1 in \path{verifica-backend/}. La gestione del
+documento unico e della presentazione resta in questa revisione documentale;
+i contributi saranno integrati dopo averne letto le evidenze effettive.
+La checklist di release e invio individuale Teams
+e' in \path{consegna.md}; nessuna consegna viene effettuata qui.
 
 \end{document}

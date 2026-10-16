@@ -1,5 +1,11 @@
 # Qualita' backend - SonarQube locale
 
+## Aggiornamento documentale - 16 ottobre 2026
+
+Le sezioni seguenti conservano la configurazione e gli esiti **storici del 9 ottobre**. Non sono una nuova verifica della disponibilità attuale del server o di Docker. Il gruppo conferma il collaudo frontend reale di Valerio del 16 ottobre con backend Docker e PostgreSQL, riepilogato nel documento unico; questo non sostituisce suite backend, coverage completa e verifica di persistenza dopo ricreazione.
+
+Amico 1 depositerà questi esiti e il report SonarQube effettivo in `verifica-backend/` alla radice, con configurazione, problemi rilevanti, importazione della coverage e Quality Gate se usato. I risultati non sono ancora disponibili. RF-17 è una decisione del gruppo: READONLY consulta le proprie notifiche ma non le segna lette. Backend e test ad amico 1; frontend da allineare e verificare. Questo stato tecnico rimane aperto e non è un chiarimento docente. Nessuna analisi è stata eseguita in questa revisione documentale. Stato e acquisizione delle evidenze sono in [evidenze.md](evidenze.md).
+
 ## Scelta e stato
 
 Una sola soluzione: **SonarQube Server locale**, per non creare account/progetti cloud o pubblicare il codice. Il PC dispone di .NET 10 e coverlet.collector 6.0.4; non risultano disponibili un server SonarQube su localhost:9000, uno scanner installato o un token. La configurazione e' predisposta; **nessuna analisi Sonar e nessun Quality Gate sono stati eseguiti**.
@@ -63,8 +69,8 @@ Esiti della **prova locale preliminare** sul commit `15ca2e2`, non un conteggio 
 
 ## Report da completare
 
-Dopo il collaudo dei colleghi, ripetere l'analisi completa sullo stesso checkout stabile. Annotare commit, data, versione server/scanner, comando, esito test e percorso del report; sul server controllare importazione coverage, problemi rilevanti e Quality Gate. Conservare un report o screenshot senza token dentro Documentazione. La predisposizione non sostituisce il report backend richiesto dal paragrafo 8 della traccia.
+Dopo il collaudo dei colleghi, ripetere l'analisi completa sullo stesso checkout stabile. Annotare commit, data, versione server/scanner, comando, esito test e percorso del report; sul server controllare importazione coverage, problemi rilevanti e Quality Gate. Conservare report condivisibili senza token in `verifica-backend/`; richiamarli dal documento senza duplicarli inutilmente. La predisposizione non sostituisce il report backend richiesto dal paragrafo 8 della traccia.
 
-Al momento non ci sono segnalazioni Sonar da classificare. L'avviso di dipendenza NU1903 e l'ambiguita' RF-17 sono punti concreti gia' osservati, non risultati Sonar. Quando disponibili, distinguere bug/sicurezza dalle preferenze stilistiche, motivare priorita' e falsi positivi; nessuna correzione automatica in questa task.
+Al momento non ci sono segnalazioni Sonar da classificare. L'avviso di dipendenza NU1903 e l'allineamento alla decisione del gruppo RF-17 sono punti tecnici aperti, non risultati Sonar. Quando disponibili, distinguere bug/sicurezza dalle preferenze stilistiche, motivare priorita' e falsi positivi; nessuna correzione automatica in questa task.
 
 Riferimenti ufficiali: [scanner .NET e ordine dei passaggi](https://docs.sonarsource.com/sonarqube-server/analyzing-source-code/scanners/dotnet/using), [coverage C# / OpenCover](https://docs.sonarsource.com/sonarqube-server/analyzing-source-code/test-coverage/dotnet-test-coverage), [configurazione collector 6.0.4](https://github.com/coverlet-coverage/coverlet/blob/v6.0.4/Documentation/VSTestIntegration.md), [pacchetto scanner 11.3.0](https://www.nuget.org/packages/dotnet-sonarscanner/11.3.0).

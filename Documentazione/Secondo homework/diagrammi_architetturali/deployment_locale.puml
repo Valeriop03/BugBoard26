@@ -1,0 +1,29 @@
+@startuml
+!pragma layout smetana
+title Deployment locale - configurazione presente nel repository
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 17
+skinparam shadowing false
+top to bottom direction
+node "PC di dimostrazione" {
+  node "Browser" as Browser
+  node "Angular dev server\nlocalhost:4200" as Front
+  node "Docker Compose" {
+    node "API ASP.NET Core\ncontainer:8080 / host:5256" as Api
+    database "PostgreSQL 16\npostgres:5432" as Pg
+    artifact "Volume database\nPostgreSQL" as DbVol
+    artifact "Volume immagini\nPNG / JPEG" as ImgVol
+  }
+}
+Browser --> Front : asset SPA
+Browser --> Api : HTTP REST + JWT
+Api --> Pg : Npgsql
+Pg --> DbVol : dati persistenti
+Api --> ImgVol : directory privata
+note bottom of Api
+  Alternativa: dotnet run sul PC, con backend Docker fermo.
+  I file locali non condividono il volume immagini Docker.
+  HTTP locale. Nessun collaudo di persistenza implicito.
+end note
+@enduml

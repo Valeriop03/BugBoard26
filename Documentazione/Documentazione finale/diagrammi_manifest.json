@@ -1,0 +1,141 @@
+{
+  "revision": "2026-10-16",
+  "verification": "Confronto blocco @startuml e metadati plantuml del PNG",
+  "case_compliance": "APERTA: accettazione PlantUML o sincronizzazione tool CASE da confermare",
+  "historical_vpd": "Non modificati, non dichiarati sincronizzati",
+  "historical_deployment": "deployment_diagram.png escluso dalle viste finali correnti",
+  "diagrams": [
+    {
+      "source": "Documentazione finale/diagrammi/architettura_presentazione.puml",
+      "image": "Documentazione finale/diagrammi/architettura_presentazione.png",
+      "source_sha256": "98d04bd7e1e984b72a97ec04e8073689d218490a2d2320d4a039177af35a457b",
+      "image_sha256": "bfcc1d3146af6faaeccd983aa5325ec4860e977839791f08501added13d15cfd",
+      "pixel_size": [
+        1240,
+        250
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Documentazione finale/diagrammi/modello_presentazione.puml",
+      "image": "Documentazione finale/diagrammi/modello_presentazione.png",
+      "source_sha256": "396889b75b8447f47bd434ac2b1e4878d20f63ba9d43f0959c06e767abbd5045",
+      "image_sha256": "0b484076cbe48dedba6dc28adc73714e57d950c37f0e79f2317d84ec0e5c0eb8",
+      "pixel_size": [
+        968,
+        238
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Primo homework/UCD/use_case_diagram.puml",
+      "image": "Primo homework/UCD/use_case_diagram.png",
+      "source_sha256": "f98f4be57ea174fc4da0ea83cadb7cf8bdbfbff531cce0fef19e3982d743ac7c",
+      "image_sha256": "9f136ddd70bfa40a97f7e12079dc15ffd91cfd62e440f1ede6721fe7b1ecb045",
+      "pixel_size": [
+        977,
+        992
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Secondo homework/diagrammi_architetturali/component_diagram.puml",
+      "image": "Secondo homework/diagrammi_architetturali/component_diagram.png",
+      "source_sha256": "13b32aef0efc38c1b4b6b931eaa004ae222a65f5238b3cb2542848669a725eab",
+      "image_sha256": "00f376cb29af0fd9645ffba8bbb8ed7ee4d35b3dc07b2ec928695751c44a0ca7",
+      "pixel_size": [
+        982,
+        812
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Secondo homework/diagrammi_architetturali/deployment_locale.puml",
+      "image": "Secondo homework/diagrammi_architetturali/deployment_locale.png",
+      "source_sha256": "5cb3ee13c17754b17384b245acfbe8724982ae639c88d30f7128134a460c5b81",
+      "image_sha256": "1221cae4a6b529c6033338ecba00293184fa30899000dba625bc8e9f2a380072",
+      "pixel_size": [
+        1098,
+        631
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Secondo homework/diagrammi_comportamentali/sequence_cambio_stato.puml",
+      "image": "Secondo homework/diagrammi_comportamentali/sequence_cambio_stato.png",
+      "source_sha256": "3077d80319695ab96ecb287b7dcdbc71b2652ba8bfc9ddd5d8d9d0a269dfe22b",
+      "image_sha256": "ef64d5311aec2d0588692340e975bf506856b983317ee45fdeaae19e80ffde29",
+      "pixel_size": [
+        923,
+        1433
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Secondo homework/diagrammi_comportamentali/sequence_creazione_issue.puml",
+      "image": "Secondo homework/diagrammi_comportamentali/sequence_creazione_issue.png",
+      "source_sha256": "d62dc415e71ab35ebf5ac55d6a66bed5090ee0e6d6e8964a07dfb7c4f0fa514b",
+      "image_sha256": "513bf17dbc7804bc74ce9cc45914e2826bf7db0f673bff055bcd1b0b14453a10",
+      "pixel_size": [
+        948,
+        1078
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Secondo homework/diagrammi_comportamentali/sequence_issue_duplicata.puml",
+      "image": "Secondo homework/diagrammi_comportamentali/sequence_issue_duplicata.png",
+      "source_sha256": "4e0e2eb552ba491a9e1ce69e50c69527fd095283933acf6f7897d05fa95ffbd5",
+      "image_sha256": "87be0dcc455fd683963f99cb3c319aac1b20322b510b80422f039dad9e53af62",
+      "pixel_size": [
+        937,
+        962
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Secondo homework/diagrammi_dettaglio/class_diagram.puml",
+      "image": "Secondo homework/diagrammi_dettaglio/class_diagram_parte1.png",
+      "source_sha256": "ffbe0b5ea43dfb529dafae59a06532d7e5e3269326e7dedb9948af0e56776707",
+      "image_sha256": "f4aa707bdb6fda618344d0cae87584d30af604eaa797a2d26de0ea328c25854b",
+      "pixel_size": [
+        738,
+        1116
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Secondo homework/diagrammi_dettaglio/class_diagram.puml",
+      "image": "Secondo homework/diagrammi_dettaglio/class_diagram_parte2.png",
+      "source_sha256": "ffbe0b5ea43dfb529dafae59a06532d7e5e3269326e7dedb9948af0e56776707",
+      "image_sha256": "a4847ed0763c175b1c64ea74551627567d1245cf2c4a1df777be27bfeb70a5ec",
+      "pixel_size": [
+        610,
+        860
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Secondo homework/diagrammi_dettaglio/class_diagram.puml",
+      "image": "Secondo homework/diagrammi_dettaglio/class_diagram.png",
+      "source_sha256": "ffbe0b5ea43dfb529dafae59a06532d7e5e3269326e7dedb9948af0e56776707",
+      "image_sha256": "692991ee835f17fb3b03f0c8184d2d19737ecc1056b8a10d20b38b1461bc07c3",
+      "pixel_size": [
+        1507,
+        343
+      ],
+      "embedded_source_matches": true
+    },
+    {
+      "source": "Secondo homework/diagrammi_dettaglio/database_schema.puml",
+      "image": "Secondo homework/diagrammi_dettaglio/database_schema.png",
+      "source_sha256": "8efb992706e9041b320aab25c4af27c52af16ee79ff69459174102ac2026efb6",
+      "image_sha256": "58b0c63d9501faee106e85329e8eb527410d905a89a95fedec1f1937c14eb56b",
+      "pixel_size": [
+        833,
+        802
+      ],
+      "embedded_source_matches": true
+    }
+  ]
+}

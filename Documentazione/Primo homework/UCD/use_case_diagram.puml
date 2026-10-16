@@ -49,6 +49,7 @@ legend bottom
   Login pubblico; tutti gli altri casi richiedono autenticazione.
   UC-02: USER solo assegnatario; ADMIN anche senza assegnazione.
   UC-03: stato Duplicate e originale, senza comando separato di chiusura.
-  READONLY non modifica issue; lettura proprie notifiche / RF-17 da chiarire.
+  RF-17, decisione del gruppo: READONLY consulta le proprie notifiche,
+  ma non le segna lette. Allineamento e verifica ancora aperti.
 endlegend
 @enduml

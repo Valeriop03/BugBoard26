@@ -1,0 +1,16 @@
+@startuml
+!pragma layout smetana
+left to right direction
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 30
+skinparam shadowing false
+skinparam componentStyle rectangle
+component "SPA Angular\nnel browser" as UI
+component "API ASP.NET Core\ncontroller e servizi" as API
+database "PostgreSQL\nEF Core / Npgsql" as DB
+folder "File immagini\nstorage backend" as FILE
+UI --> API : HTTP + JWT
+API --> DB : query e salvataggi
+API --> FILE : upload / lettura
+@enduml

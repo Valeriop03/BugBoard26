@@ -1,0 +1,29 @@
+\subsection{Classi coperte e limiti della strategia}
+Riferimenti: \path{backend/BugBoard26.Api/Services/IssueDomainService.cs} e
+\path{backend/BugBoard26.Tests/IssueDomainServiceTests.cs}. La strategia usa
+classi di equivalenza e regole decisionali; non costituisce una suite completa
+SECT/R-WECT e non dimostra copertura strutturale completa.
+
+\textbf{SearchIssues.} Le keyword presenti sono \texttt{login}, \texttt{API}
+e \texttt{grafica}: coprono titolo, descrizione e assenza di risultati.
+Il test asserisce il conteggio, non gli ID restituiti. Keyword nulla, vuota,
+di soli spazi, trimming, differenze di maiuscole, elenco vuoto e molteplici
+corrispondenze non hanno casi dedicati in questo file. In particolare, la
+keyword API e' identica al testo della fixture: non prova da sola il confronto
+case-insensitive del metodo. Le prove PostgreSQL della ricerca API restano
+distinte da quelle dell'helper in memoria.
+
+\textbf{CanChangeIssueStatus.} Le classi coperte separano ADMIN attivo,
+USER assegnatario/non assegnatario, READONLY assegnatario e USER inattivo.
+L'oracolo e' il booleano atteso. Non sono coperte tutte le combinazioni:
+per esempio ADMIN inattivo e USER attivo con assegnatario nullo non hanno
+casi unitari dedicati. Date, transizioni effettive e salvataggi appartengono
+al controller e richiedono test HTTP/persistenza, non questo metodo puro.
+
+\textbf{SuggestAssignee.} Le Theory usano carichi (0,2) e (3,1) e verificano
+l'ID del vincitore; le fixture escludono un READONLY e issue Resolved/Closed.
+Il Fact usa soltanto READONLY attivo e USER inattivo e attende \texttt{null}.
+Parita' per ID, ADMIN candidato, InProgress, archiviati ed elenco vuoto non
+hanno casi unitari dedicati nel file. Il codice implementa queste regole e
+sono presenti scenari HTTP aggiuntivi; non si trasforma la loro presenza
+in un esito di esecuzione o in copertura unitaria misurata.

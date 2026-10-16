@@ -1,0 +1,11 @@
+{
+  "phase": "commit-e139951",
+  "commit": "e13995140dff382dc3d548208c6c1e60be91fe5d",
+  "startedUtc": "2026-10-16T09:09:55.7044796+00:00",
+  "finishedUtc": "2026-10-16T09:11:33.9516663+00:00",
+  "exitCode": 0,
+  "command": "powershell -NoProfile -ExecutionPolicy Bypass -File quality/analyze-backend.ps1 -Mode Coverage",
+  "resultsWork": "C:\\Users\\Emanuele\\AppData\\Local\\Temp\\bugboard26-quality-bcb7b9ca5d7e4c3e8b4a97d9a52ec39b",
+  "backendDiff": [],
+  "qualitySettingsSha256": "473A29EEF5502C98EC33943AE1A6E394C29B8EFB775353E6169026A389D06BAB"
+}

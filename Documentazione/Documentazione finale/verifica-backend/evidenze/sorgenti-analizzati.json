@@ -1,0 +1,261 @@
+{
+  "observedUtc": "2026-10-16T09:54:25.1850777+00:00",
+  "commit": "e13995140dff382dc3d548208c6c1e60be91fe5d",
+  "backendDiff": [
+    "backend/BugBoard26.Api/BugBoard26.Api.csproj",
+    "backend/BugBoard26.Api/Controllers/NotificationsController.cs",
+    "backend/BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs"
+  ],
+  "qualityDiff": [],
+  "sourceHashes": [
+    {
+      "path": "backend/BugBoard26.Api/BugBoard26.Api.csproj",
+      "sha256": "E3F63E6C99E548D57A6382393D5367F13672E9002F9E76B6DF6D020F351B09D2"
+    },
+    {
+      "path": "backend/BugBoard26.Api/BugBoard26.Api.http",
+      "sha256": "F4A0ECDE9D0D0508B065BD52ECCED2FF01E91DFC330398B80E2900AFE5013900"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Contracts/Issues/CreateIssueRequest.cs",
+      "sha256": "2201B0430F3BDF99DA74E614B2AE9EBB19FEB6FC98E0FB9B81EFFB0335A6ABFF"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs",
+      "sha256": "4CB8370AE895EAFDF3AAF6EBC67155618AC9DA88560B34172701BE8BF6EFB001"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Contracts/Issues/IssueListQuery.cs",
+      "sha256": "6C5FB375C4A1C4C3696934A8595304ACD6E59BA2A5D7A2DCF9AA1B78ABB8E8CE"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Contracts/Issues/IssueResponse.cs",
+      "sha256": "4C61D617DDEB98B3F397B9225ED7D0303D445EF8C88340284B11B9595BFCEB78"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Contracts/Issues/SuggestAssigneeResponse.cs",
+      "sha256": "88C4E52AD9719817E3116E06ED19D31A5A772EFF4BD95D37AFB44C1A1A3F1227"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Contracts/Issues/UpdateIssueStatusRequest.cs",
+      "sha256": "A3A97B00B178B48C1620D2DD6A1F5629549215796C384B8AEC6D55C120BECAF6"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Contracts/Notifications/NotificationResponse.cs",
+      "sha256": "ABFDE3E08AF186B9AB8350DC73243FA1832614BB83AD5F92A25D78888CE419ED"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Controllers/AuthController.cs",
+      "sha256": "492E82C67BB9F37502AE758BB9C637DBE7577DEEBB24350D911576790E820C7F"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Controllers/HealthController.cs",
+      "sha256": "1F463BD9D1CFD74CB55765CA5D837AAF8DAE373EED1AD0BA5CDC701A4E0DDA1A"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Controllers/IssuesController.cs",
+      "sha256": "6A321E6D4C72B21177812AB9B4302DB5D047A20844C233FC1592E5B3083CE42D"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Controllers/NotificationsController.cs",
+      "sha256": "9AEED017556538FF7149364999C46C622C127C27BD8864C3F25EC77CD43FC2EC"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Controllers/UsersController.cs",
+      "sha256": "ED8BD2BB3F5B849F7C31C2AC28C0EA6CBB502AEF053418A0BDB50EDEBB66D35F"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Data/ApplicationDbContext.cs",
+      "sha256": "F67861892C4D8310BBFEC3C7A4ABFD3CCA4B1F1CB93D9035F15B992AF45C6207"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Data/DatabaseSeeder.cs",
+      "sha256": "29485F0F1C582230466AB31CEC830B482573ED1C5F0AD00731713C6711E8D884"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Dtos/Auth/LoginRequest.cs",
+      "sha256": "FA9E323788C7D9A35826AAE6FF628B2BEA95DB8F7C069CE785D2FC4B01025FC7"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Dtos/Auth/LoginResponse.cs",
+      "sha256": "BE7A51224CBDC5E9AD035C8941F90DF50D3D36F3C241514A2D9D4797A7497827"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Dtos/Users/CreateUserRequest.cs",
+      "sha256": "BF270D10F57B3AB92E369C21B23959A38D34F940780DFE3F22DD9E53E27FDB9C"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Dtos/Users/UserResponse.cs",
+      "sha256": "968A1077028DE09CE98B9E4C1D6EC10F14FA626D732C44974C65AD3DD0D21665"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Extensions/ClaimsPrincipalExtensions.cs",
+      "sha256": "C24A1063E971C184A7BDA55677D4AD7EB63379AFBF2C72E6F346C0C88F688BAE"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs",
+      "sha256": "7B60D82ACBBBBA7D2EE879C20D5B8A77A3F9C9B211235F22547A2F50EF87CBDB"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Migrations/20260629102322_InitialCreate.Designer.cs",
+      "sha256": "B0FE130AB2D51F006E6FEFCF3DE8E340D584E2472E57B7F2DD7907F796F1F75B"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Migrations/20260629102322_InitialCreate.cs",
+      "sha256": "3BC499CA4E190342697E3B5032577E0838CF5AE032C905BAA3E8B40B7A07BFE0"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Migrations/ApplicationDbContextModelSnapshot.cs",
+      "sha256": "B930E339562D77321F67A33DE35BB805792E5CBDA4D0E2D2094F48BE2AB7584D"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Models/Issue.cs",
+      "sha256": "3EBC18E52A6DA08F67980408F2DBFCA19C78E1785C560F559D4A27D6AC68A722"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Models/IssuePriority.cs",
+      "sha256": "675EAEC912B6C5B8B588E941AEF5E68A16C4C45B2133B708F4D3A5CA9AF9005D"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Models/IssueStatus.cs",
+      "sha256": "147F6CC8D7FF26F7FCAFB4EFBB3522BB34494AB616E290FFA0A2C46757E3A620"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Models/IssueType.cs",
+      "sha256": "2B8B0A1D597632D34AF877392AA4613057A473D26AA439FE86D2D4EA2B9DF88F"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Models/Notification.cs",
+      "sha256": "AAEF4BDACAE2150618B0A0C0D30A9D202A769ACDEB1101C307AD4849A2A3DC33"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Models/User.cs",
+      "sha256": "01647FBAEBCA147E25A059793AD4FF02ACFDC880F450ED06F01DE6D6F90C9A8C"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Models/UserRole.cs",
+      "sha256": "ED86FD62BF500540514DA47EAD417C37CF7E8111E1885AEDD450285FA443C289"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Program.cs",
+      "sha256": "3A271F7E1F9198969452DF2DC515F611F2CD13C1A2E783628403C410E76B113E"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Properties/launchSettings.json",
+      "sha256": "F293EEBCFB727E92C25768B7E7B770C851566D9A62FDD1F064752FCACBDD2325"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Services/IJwtTokenService.cs",
+      "sha256": "3735115343FC597BD033114BE1031BA6678AD425909D8F803D7C474B6BD8D6BF"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Services/IPasswordHasher.cs",
+      "sha256": "B47DB678126B143C8745757EC6E665FB3E241EA50069E563C28E73B3D97C0D4F"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Services/IssueDomainService.cs",
+      "sha256": "383FA46078FA5B1E6A2FDC1699454FF66315E3EAD3E6F6BC559370E33BFC5CF4"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Services/IssueImageStorage.cs",
+      "sha256": "D3494AC91B421A7B2B86B8616E6E59F3AE7ABAB1C4FE054F1932B9A22B880856"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Services/JwtTokenService.cs",
+      "sha256": "757F4DA6A5BBA9B24A9BC69E36AC0A10888F3F46AE176FCD70DA83F0421BB6A7"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Services/Pbkdf2PasswordHasher.cs",
+      "sha256": "C94598ACB31C7A83B123768A91767DF905B350BD43EF7990608AC5C7655E584B"
+    },
+    {
+      "path": "backend/BugBoard26.Api/Services/UserRoleMapper.cs",
+      "sha256": "4AA1BB405A2D384183D417FF87EA93272F9742969D8EE8DC17EF765797610E2A"
+    },
+    {
+      "path": "backend/BugBoard26.Api/appsettings.Development.json",
+      "sha256": "2A2DC83182A28D4D22E53C12AEF645ACF92BA2504521B044F3D3BB8002B2FA07"
+    },
+    {
+      "path": "backend/BugBoard26.Api/appsettings.json",
+      "sha256": "2CADCB91ADA00DDEC870FD1C8F20C80FE850877F07BD4EFB644B3BB53C11F999"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/BugBoard26.Tests.csproj",
+      "sha256": "85D62441F73A3BB9E16D4B405B5616E4F6D7554D3D530BB322FD1FDA7AF00066"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/ApiIntegrationTest.cs",
+      "sha256": "F2A832EF35D0ABCCFDE0282C5200E9876224421CCDD5166FC41A2CDB2367B544"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/AuthenticationIntegrationTests.cs",
+      "sha256": "08415C3D0175A7649EB36451ECDA1EDB3B65F12C20496FF3D343B175D79914EA"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/IssueApiFactory.cs",
+      "sha256": "DA3FF57655904884F9B99FBC2ACDFBF09DC4420FDD73A0479961D192E4E1F635"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/IssueAssigneeValidationIntegrationTests.cs",
+      "sha256": "8EEAD123658A6FCD7E90F996AD5753866862AB6B14E953CA1DDDDFA57F1E0F15"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/IssueDuplicateValidationIntegrationTests.cs",
+      "sha256": "D246964C825EDCDD618270A83940131CE159F08D676008C981D005CF9D7D8FBD"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/IssueExportIntegrationTests.cs",
+      "sha256": "CF08CD0FCC7963D302D91569BC71289CCCBB82CBFEAAF45A0E70ECE351F661DC"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/IssueImagesIntegrationTests.cs",
+      "sha256": "7C9AB1330EDF9A4B5644C3A8169BD62630D9CDA6B463B523729750509D5207AC"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/IssuePermissionsIntegrationTests.cs",
+      "sha256": "72EBA09E9C3D7E924E4D1CF90F18C3AB46FB994FC8127C8573A65221B2B8228F"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/IssueStatusIntegrationTests.cs",
+      "sha256": "5BCF6096FF99F3FBD824643227EE09FD0F83307DFD9696D829F70F225F2BDEAC"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/IssueSuggestionIntegrationTests.cs",
+      "sha256": "C0CAE6A57CEC56C41AB1062C39AB0AB811CD140F0068C3D59EC3DDF35E6CB425"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs",
+      "sha256": "9B09354131E58B135657A0A7BFD705512D4C8E0BDA0601A00860B72309B35709"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/Integration/UsersIntegrationTests.cs",
+      "sha256": "822066D213A04C42FFA27EA2757E2B4FF397E4992F8F709095ADF5E40A34BFF4"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/IssueDomainServiceTests.cs",
+      "sha256": "2311006764F09D9254AB6A6861D3EFEC241D9A12B07AF966EA7E19F91A17A794"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/README.md",
+      "sha256": "F13B4489777D80C6C8CBC0BA392F3299FB86A03B095D21B98B1F45F2A47C3D5C"
+    },
+    {
+      "path": "backend/BugBoard26.Tests/docker-compose.tests.yml",
+      "sha256": "F16B5DE92744F1A03CFDC5ED6E1DB0B7E042709C2D7D936364572D89171BE2DF"
+    },
+    {
+      "path": "backend/BugBoard26.slnx",
+      "sha256": "982D8AB4478C8E136EBD66DDC81B0582C2FCA51F778B8AC69FEBA55CABED3F41"
+    },
+    {
+      "path": "quality/analyze-backend.ps1",
+      "sha256": "0AE831113DCA73E73CEF804A51547AD7DA4C9B63A5BEE010FDA76A5A9522F48D"
+    },
+    {
+      "path": "quality/coverage.runsettings",
+      "sha256": "473A29EEF5502C98EC33943AE1A6E394C29B8EFB775353E6169026A389D06BAB"
+    }
+  ],
+  "diffSha256": "8E52151A4B45C4BBBD732CFFC31FFB836535393FFDEEF8D83FB004EBEB6223D3"
+}

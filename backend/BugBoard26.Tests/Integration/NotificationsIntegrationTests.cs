@@ -40,7 +40,6 @@ public class NotificationsIntegrationTests : ApiIntegrationTest
 
     [Theory]
     [InlineData("USER")]
-    [InlineData("READONLY")]
     [InlineData("ADMIN")]
     public async Task Owner_CanMarkNotificationAsRead_WithoutChangingOtherNotifications(string role)
     {
@@ -72,6 +71,26 @@ public class NotificationsIntegrationTests : ApiIntegrationTest
         var visibleNotifications = await listResponse.Content.ReadFromJsonAsync<NotificationResponse[]>();
         Assert.NotNull(visibleNotifications);
         Assert.True(Assert.Single(visibleNotifications, notification => notification.Id == data.UnreadId).IsRead);
+    }
+
+    [Fact]
+    public async Task Readonly_CannotMarkOwnNotificationAsRead_ButCanStillReadIt_AndDatabaseIsUnchanged()
+    {
+        var data = await CreateNotificationsAsync("READONLY");
+        await AuthenticateAsync("READONLY");
+        var before = await SnapshotAsync();
+
+        using var response = await Client.PatchAsJsonAsync($"/api/notifications/{data.UnreadId}/read", new { });
+
+        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+        Assert.Equal(before, await SnapshotAsync());
+        using var listResponse = await Client.GetAsync("/api/notifications");
+        Assert.Equal(HttpStatusCode.OK, listResponse.StatusCode);
+        var notifications = await listResponse.Content.ReadFromJsonAsync<NotificationResponse[]>();
+        Assert.NotNull(notifications);
+        Assert.False(Assert.Single(notifications, notification => notification.Id == data.UnreadId).IsRead);
+        Assert.All(notifications, notification => Assert.Equal(data.OwnerId, notification.UserId));
+        Assert.Equal(before, await SnapshotAsync());
     }
 
     [Theory]

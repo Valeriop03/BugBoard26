@@ -1,0 +1,67 @@
+diff --git a/backend/BugBoard26.Api/BugBoard26.Api.csproj b/backend/BugBoard26.Api/BugBoard26.Api.csproj
+index e751584..f82869e 100644
+--- a/backend/BugBoard26.Api/BugBoard26.Api.csproj
++++ b/backend/BugBoard26.Api/BugBoard26.Api.csproj
+@@ -9,6 +9,7 @@
+   <ItemGroup>
+     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.9" />
+     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8" />
++    <PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />
+     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.4">
+       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+       <PrivateAssets>all</PrivateAssets>
+diff --git a/backend/BugBoard26.Api/Controllers/NotificationsController.cs b/backend/BugBoard26.Api/Controllers/NotificationsController.cs
+index f990b98..3de8548 100644
+--- a/backend/BugBoard26.Api/Controllers/NotificationsController.cs
++++ b/backend/BugBoard26.Api/Controllers/NotificationsController.cs
+@@ -57,6 +57,11 @@ public class NotificationsController : ControllerBase
+             return Unauthorized();
+         }
+ 
++        if (currentUser.Role == UserRole.Readonly)
++        {
++            return Forbid();
++        }
++
+         var notification = await _dbContext.Notifications
+             .Include(currentNotification => currentNotification.Issue)
+             .SingleOrDefaultAsync(currentNotification => currentNotification.Id == id, cancellationToken);
+diff --git a/backend/BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs b/backend/BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs
+index 5e35e07..958ece0 100644
+--- a/backend/BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs
++++ b/backend/BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs
+@@ -40,7 +40,6 @@ public class NotificationsIntegrationTests : ApiIntegrationTest
+ 
+     [Theory]
+     [InlineData("USER")]
+-    [InlineData("READONLY")]
+     [InlineData("ADMIN")]
+     public async Task Owner_CanMarkNotificationAsRead_WithoutChangingOtherNotifications(string role)
+     {
+@@ -74,6 +73,26 @@ public class NotificationsIntegrationTests : ApiIntegrationTest
+         Assert.True(Assert.Single(visibleNotifications, notification => notification.Id == data.UnreadId).IsRead);
+     }
+ 
++    [Fact]
++    public async Task Readonly_CannotMarkOwnNotificationAsRead_ButCanStillReadIt_AndDatabaseIsUnchanged()
++    {
++        var data = await CreateNotificationsAsync("READONLY");
++        await AuthenticateAsync("READONLY");
++        var before = await SnapshotAsync();
++
++        using var response = await Client.PatchAsJsonAsync($"/api/notifications/{data.UnreadId}/read", new { });
++
++        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
++        Assert.Equal(before, await SnapshotAsync());
++        using var listResponse = await Client.GetAsync("/api/notifications");
++        Assert.Equal(HttpStatusCode.OK, listResponse.StatusCode);
++        var notifications = await listResponse.Content.ReadFromJsonAsync<NotificationResponse[]>();
++        Assert.NotNull(notifications);
++        Assert.False(Assert.Single(notifications, notification => notification.Id == data.UnreadId).IsRead);
++        Assert.All(notifications, notification => Assert.Equal(data.OwnerId, notification.UserId));
++        Assert.Equal(before, await SnapshotAsync());
++    }
++
+     [Theory]
+     [InlineData("USER")]
+     [InlineData("READONLY")]

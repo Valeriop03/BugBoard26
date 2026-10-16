@@ -1,0 +1,9 @@
+{
+  "phase": "iniziale",
+  "commit": "15ca2e23065d7a878865a6085a82f58a5912a717",
+  "startedUtc": "2026-10-16T08:50:15.8677322+00:00",
+  "finishedUtc": "2026-10-16T08:51:51.2852767+00:00",
+  "exitCode": 0,
+  "backendModified": false,
+  "command": "dotnet test backend\\BugBoard26.slnx --configuration Release --logger \"trx;LogFileName=risultati.trx\" --results-directory <temp>\\iniziale --collect \"XPlat Code Coverage\" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover"
+}

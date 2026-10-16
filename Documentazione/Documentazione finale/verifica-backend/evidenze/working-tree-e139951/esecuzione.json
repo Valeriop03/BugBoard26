@@ -1,0 +1,13 @@
+{
+  "phase": "working-tree-e139951",
+  "commit": "e13995140dff382dc3d548208c6c1e60be91fe5d",
+  "startedUtc": "2026-10-16T09:13:18.9196245+00:00",
+  "finishedUtc": "2026-10-16T09:14:54.6765589+00:00",
+  "exitCode": 0,
+  "command": "powershell -NoProfile -ExecutionPolicy Bypass -File quality/analyze-backend.ps1 -Mode Coverage",
+  "resultsWork": "C:\\Users\\Emanuele\\AppData\\Local\\Temp\\bugboard26-quality-94aa1da64d6f4f34824e6a5da6f54a76",
+  "backendDiff": [
+    "backend/BugBoard26.Api/BugBoard26.Api.csproj"
+  ],
+  "qualitySettingsSha256": "473A29EEF5502C98EC33943AE1A6E394C29B8EFB775353E6169026A389D06BAB"
+}

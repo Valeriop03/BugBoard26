@@ -1,0 +1,10 @@
+{
+  "phase": "dopo-correzione",
+  "commit": "15ca2e23065d7a878865a6085a82f58a5912a717",
+  "startedUtc": "2026-10-16T08:53:12.4354744+00:00",
+  "finishedUtc": "2026-10-16T08:54:38.2386049+00:00",
+  "exitCode": 0,
+  "backendModified": true,
+  "backendChange": "Microsoft.OpenApi 2.0.0 transitivo -> pin 2.7.5",
+  "command": "dotnet test backend\\BugBoard26.slnx --configuration Release --logger \"trx;LogFileName=risultati.trx\" --results-directory <temp>\\dopo-correzione --collect \"XPlat Code Coverage\" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover"
+}

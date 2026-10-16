@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "parameters": "--vulnerable --include-transitive",
+  "sources": [
+    "https://api.nuget.org/v3/index.json",
+    "C:/Program Files (x86)/Microsoft SDKs/NuGetPackages/"
+  ],
+  "projects": [
+    {
+      "path": "D:/Emanuele/UNI/INGSW3/Progetto/BugBoard26/backend/BugBoard26.Api/BugBoard26.Api.csproj",
+      "frameworks": [
+        {
+          "framework": "net10.0",
+          "transitivePackages": [
+            {
+              "id": "Microsoft.OpenApi",
+              "resolvedVersion": "2.0.0",
+              "vulnerabilities": [
+                {
+                  "severity": "High",
+                  "advisoryurl": "https://github.com/advisories/GHSA-v5pm-xwqc-g5wc"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "D:/Emanuele/UNI/INGSW3/Progetto/BugBoard26/backend/BugBoard26.Tests/BugBoard26.Tests.csproj",
+      "frameworks": [
+        {
+          "framework": "net10.0",
+          "transitivePackages": [
+            {
+              "id": "Microsoft.OpenApi",
+              "resolvedVersion": "2.0.0",
+              "vulnerabilities": [
+                {
+                  "severity": "High",
+                  "advisoryurl": "https://github.com/advisories/GHSA-v5pm-xwqc-g5wc"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

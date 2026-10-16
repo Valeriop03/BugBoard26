@@ -1,0 +1,15 @@
+{
+  "phase": "working-tree-final-e139951",
+  "commit": "e13995140dff382dc3d548208c6c1e60be91fe5d",
+  "startedUtc": "2026-10-16T09:20:09.7264595+00:00",
+  "finishedUtc": "2026-10-16T09:21:58.1182120+00:00",
+  "exitCode": 0,
+  "command": "powershell -NoProfile -ExecutionPolicy Bypass -File quality/analyze-backend.ps1 -Mode Coverage",
+  "resultsWork": "C:\\Users\\Emanuele\\AppData\\Local\\Temp\\bugboard26-quality-5841f8305db64551aa6125672169174a",
+  "backendDiff": [
+    "backend/BugBoard26.Api/BugBoard26.Api.csproj",
+    "backend/BugBoard26.Api/Controllers/NotificationsController.cs",
+    "backend/BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs"
+  ],
+  "qualitySettingsSha256": "473A29EEF5502C98EC33943AE1A6E394C29B8EFB775353E6169026A389D06BAB"
+}

@@ -1,0 +1,3 @@
+pg_ctl: no server running
+Codice uscita pg_ctl status: 3 (3 = server non in esecuzione)
+Verificato UTC: 2026-10-16T09:54:25.7895550+00:00

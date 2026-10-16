@@ -1,0 +1,19 @@
+{
+  "observedUtc": "2026-10-16T09:18:03.4544453+00:00",
+  "dotnetSdk": "10.0.401",
+  "dockerCliAvailable": false,
+  "dockerStandardPathAvailable": false,
+  "scannerAtConfiguredPath": false,
+  "scannerOnPath": false,
+  "sonarServerProbe": "http://localhost:9000/api/system/status",
+  "sonarServerStatus": "unreachable",
+  "sonarServerErrorType": "TaskCanceledException",
+  "sonarTokenConfigured": false,
+  "sonarProjectKeyConfigured": false,
+  "sonarProjectExistenceVerified": false,
+  "sonarAnalysisExecuted": false,
+  "sonarCoverageImportVerified": false,
+  "qualityGate": "NOT_AVAILABLE",
+  "dockerPersistenceExecuted": false,
+  "remainingImageTestDirectories": 0
+}

@@ -1,0 +1,21 @@
+  Individuazione dei progetti da ripristinare...
+  D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\BugBoard26.Tests.csproj ripristinato (in 423 ms).
+  D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\BugBoard26.Api.csproj ripristinato (in 428 ms).
+  BugBoard26.Api -> D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\bin\Release\net10.0\BugBoard26.Api.dll
+  BugBoard26.Tests -> D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll
+
+Compilazione completata.
+    Avvisi: 0
+    Errori: 0
+
+Tempo trascorso 00:00:08.67
+Esecuzione dei test per D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll (.NETCoreApp,Version=v10.0)
+Un totale di 1 file di test corrisponde al criterio specificato.
+File di risultati: C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-94aa1da64d6f4f34824e6a5da6f54a76\results\backend.trx
+
+Superato!     - Non superati:     0. Superati:   143. Ignorati:     0. Totale:   143. Durata: 1 m 16 s - BugBoard26.Tests.dll (net10.0)
+
+Allegati:
+  C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-94aa1da64d6f4f34824e6a5da6f54a76\results\9f1e6710-ecbc-477b-943a-c22052a648ef\coverage.opencover.xml
+Coverage: C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-94aa1da64d6f4f34824e6a5da6f54a76\results\9f1e6710-ecbc-477b-943a-c22052a648ef\coverage.opencover.xml
+Risultati e file temporanei: C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-94aa1da64d6f4f34824e6a5da6f54a76

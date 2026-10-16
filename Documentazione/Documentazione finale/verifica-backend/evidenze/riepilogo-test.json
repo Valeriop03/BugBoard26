@@ -1,0 +1,140 @@
+[
+  {
+    "phase": "commit-e139951",
+    "execution": {
+      "phase": "commit-e139951",
+      "commit": "e13995140dff382dc3d548208c6c1e60be91fe5d",
+      "startedUtc": "2026-10-16T09:09:55.7044796+00:00",
+      "finishedUtc": "2026-10-16T09:11:33.9516663+00:00",
+      "exitCode": 0,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File quality/analyze-backend.ps1 -Mode Coverage",
+      "resultsWork": "C:\\Users\\Emanuele\\AppData\\Local\\Temp\\bugboard26-quality-bcb7b9ca5d7e4c3e8b4a97d9a52ec39b",
+      "backendDiff": [],
+      "qualitySettingsSha256": "473A29EEF5502C98EC33943AE1A6E394C29B8EFB775353E6169026A389D06BAB"
+    },
+    "counters": {
+      "total": 143,
+      "executed": 143,
+      "passed": 143,
+      "failed": 0,
+      "notExecuted": 0,
+      "integration": 132,
+      "domain": 11
+    },
+    "coverage": {
+      "tool": "Coverlet 6.0.4, OpenCover",
+      "scope": "quality/coverage.runsettings invariato",
+      "assembly": "BugBoard26.Api",
+      "sourceFileCount": 29,
+      "numSequencePoints": 822,
+      "visitedSequencePoints": 780,
+      "sequenceCoverage": 94.89,
+      "numBranchPoints": 283,
+      "visitedBranchPoints": 245,
+      "branchCoverage": 86.57,
+      "excludedFileFound": false,
+      "importedIntoSonar": false
+    },
+    "readonlyOwnNotification": [
+      {
+        "name": "BugBoard26.Tests.Integration.NotificationsIntegrationTests.Owner_CanMarkNotificationAsRead_WithoutChangingOtherNotifications(role: \"READONLY\")",
+        "outcome": "Passed"
+      }
+    ]
+  },
+  {
+    "phase": "working-tree-e139951",
+    "execution": {
+      "phase": "working-tree-e139951",
+      "commit": "e13995140dff382dc3d548208c6c1e60be91fe5d",
+      "startedUtc": "2026-10-16T09:13:18.9196245+00:00",
+      "finishedUtc": "2026-10-16T09:14:54.6765589+00:00",
+      "exitCode": 0,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File quality/analyze-backend.ps1 -Mode Coverage",
+      "resultsWork": "C:\\Users\\Emanuele\\AppData\\Local\\Temp\\bugboard26-quality-94aa1da64d6f4f34824e6a5da6f54a76",
+      "backendDiff": [
+        "backend/BugBoard26.Api/BugBoard26.Api.csproj"
+      ],
+      "qualitySettingsSha256": "473A29EEF5502C98EC33943AE1A6E394C29B8EFB775353E6169026A389D06BAB"
+    },
+    "counters": {
+      "total": 143,
+      "executed": 143,
+      "passed": 143,
+      "failed": 0,
+      "notExecuted": 0,
+      "integration": 132,
+      "domain": 11
+    },
+    "coverage": {
+      "tool": "Coverlet 6.0.4, OpenCover",
+      "scope": "quality/coverage.runsettings invariato",
+      "assembly": "BugBoard26.Api",
+      "sourceFileCount": 29,
+      "numSequencePoints": 822,
+      "visitedSequencePoints": 780,
+      "sequenceCoverage": 94.89,
+      "numBranchPoints": 283,
+      "visitedBranchPoints": 245,
+      "branchCoverage": 86.57,
+      "excludedFileFound": false,
+      "importedIntoSonar": false
+    },
+    "readonlyOwnNotification": [
+      {
+        "name": "BugBoard26.Tests.Integration.NotificationsIntegrationTests.Owner_CanMarkNotificationAsRead_WithoutChangingOtherNotifications(role: \"READONLY\")",
+        "outcome": "Passed"
+      }
+    ]
+  },
+  {
+    "phase": "working-tree-final-e139951",
+    "execution": {
+      "phase": "working-tree-final-e139951",
+      "commit": "e13995140dff382dc3d548208c6c1e60be91fe5d",
+      "startedUtc": "2026-10-16T09:20:09.7264595+00:00",
+      "finishedUtc": "2026-10-16T09:21:58.1182120+00:00",
+      "exitCode": 0,
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File quality/analyze-backend.ps1 -Mode Coverage",
+      "resultsWork": "C:\\Users\\Emanuele\\AppData\\Local\\Temp\\bugboard26-quality-5841f8305db64551aa6125672169174a",
+      "backendDiff": [
+        "backend/BugBoard26.Api/BugBoard26.Api.csproj",
+        "backend/BugBoard26.Api/Controllers/NotificationsController.cs",
+        "backend/BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs"
+      ],
+      "qualitySettingsSha256": "473A29EEF5502C98EC33943AE1A6E394C29B8EFB775353E6169026A389D06BAB"
+    },
+    "counters": {
+      "total": 143,
+      "executed": 143,
+      "passed": 143,
+      "failed": 0,
+      "notExecuted": 0,
+      "integration": 132,
+      "domain": 11
+    },
+    "coverage": {
+      "tool": "Coverlet 6.0.4, OpenCover",
+      "scope": "quality/coverage.runsettings invariato",
+      "assembly": "BugBoard26.Api",
+      "sourceFileCount": 29,
+      "numSequencePoints": 824,
+      "visitedSequencePoints": 782,
+      "sequenceCoverage": 94.9,
+      "numBranchPoints": 285,
+      "visitedBranchPoints": 247,
+      "branchCoverage": 86.66,
+      "excludedFileFound": false,
+      "importedIntoSonar": false
+    },
+    "readonlyOwnNotification": [
+      {
+        "name": "BugBoard26.Tests.Integration.NotificationsIntegrationTests.Readonly_CannotMarkOwnNotificationAsRead_ButCanStillReadIt_AndDatabaseIsUnchanged",
+        "outcome": "Passed",
+        "expectedReadPatchStatus": 403,
+        "expectedListStatus": 200,
+        "fullDatabaseSnapshotChecked": true
+      }
+    ]
+  }
+]

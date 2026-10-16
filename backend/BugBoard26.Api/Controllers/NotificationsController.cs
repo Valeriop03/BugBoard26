@@ -57,6 +57,11 @@ public class NotificationsController : ControllerBase
             return Unauthorized();
         }
 
+        if (currentUser.Role == UserRole.Readonly)
+        {
+            return Forbid();
+        }
+
         var notification = await _dbContext.Notifications
             .Include(currentNotification => currentNotification.Issue)
             .SingleOrDefaultAsync(currentNotification => currentNotification.Id == id, cancellationToken);

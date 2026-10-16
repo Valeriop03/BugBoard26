@@ -1,0 +1,8 @@
+Configurare SONAR_PROJECT_KEY e SONAR_TOKEN nella sessione; nessuna analisi avviata.
+In D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\quality\analyze-backend.ps1:18 car:9
++         throw 'Configurare SONAR_PROJECT_KEY e SONAR_TOKEN nella sess ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Configurare SON...nalisi avviata.:String) [], RuntimeException
+    + FullyQualifiedErrorId : Configurare SONAR_PROJECT_KEY e SONAR_TOKEN nella sessione; nessuna analisi avviata.
+ 
+Exit code: 1

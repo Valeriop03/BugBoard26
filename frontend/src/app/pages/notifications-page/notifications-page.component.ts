@@ -4,6 +4,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Notification } from '../../models/notification.model';
+import { AuthService } from '../../services/auth.service';
 import { NotificationsService } from '../../services/notifications.service';
 
 @Component({
@@ -14,6 +15,12 @@ import { NotificationsService } from '../../services/notifications.service';
 })
 export class NotificationsPageComponent {
   private readonly notificationsService = inject(NotificationsService);
+  private readonly authService = inject(AuthService);
+
+  get canMarkAsRead(): boolean {
+    const role = this.authService.getCurrentUser()?.role;
+    return role === 'ADMIN' || role === 'USER';
+  }
 
   notifications: Notification[] = [];
   isLoading = true;
@@ -26,6 +33,11 @@ export class NotificationsPageComponent {
   }
 
   markAsRead(notificationId: number): void {
+    if (!this.canMarkAsRead) {
+      this.actionErrorMessage = 'Non hai i permessi per questa operazione.';
+      return;
+    }
+
     if (this.readingNotificationId === notificationId) {
       return;
     }
@@ -65,6 +77,10 @@ export class NotificationsPageComponent {
   }
 
   private getErrorMessage(error: unknown, fallbackMessage: string): string {
+    if (error instanceof HttpErrorResponse && error.status === 403) {
+      return 'Non hai i permessi per questa operazione.';
+    }
+
     if (error instanceof HttpErrorResponse && typeof error.error?.message === 'string') {
       return error.error.message;
     }

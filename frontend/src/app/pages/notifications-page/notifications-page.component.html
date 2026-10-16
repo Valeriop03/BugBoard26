@@ -32,7 +32,7 @@
           <span class="badge" [class.read]="notification.isRead">
             {{ notification.isRead ? 'Letta' : 'Non letta' }}
           </span>
-          @if (!notification.isRead) {
+          @if (canMarkAsRead && !notification.isRead) {
             <button type="button" (click)="markAsRead(notification.id)" [disabled]="readingNotificationId === notification.id">
               {{ readingNotificationId === notification.id ? 'Aggiornamento...' : 'Segna come letta' }}
             </button>

@@ -225,7 +225,7 @@ Il diagramma riassume i casi d'uso assegnati. ADMIN, USER e READONLY specializza
 \end{center}
 }
 
-Il PNG è rigenerato da \path{UCD/use_case_diagram.puml}; il \texttt{.vpd} resta storico. La lettura delle proprie notifiche per READONLY rimane un punto da chiarire rispetto a RF-17, non un'eccezione approvata dal diagramma.
+Il PNG è rigenerato da \path{UCD/use_case_diagram.puml}; il \texttt{.vpd} resta storico. Tutti i ruoli autenticati consultano soltanto le proprie notifiche; USER e ADMIN possono segnarle come lette. In applicazione di RF-17 e della decisione del gruppo, READONLY non effettua scritture: il PATCH read restituisce 403 senza modificare i dati.
 
 \clearpage
 \section{Descrizione dei casi d'uso principali}

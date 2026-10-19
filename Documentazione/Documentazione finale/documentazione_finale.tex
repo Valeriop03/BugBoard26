@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{array,tabularx,longtable,booktabs}
 \usepackage{enumitem}
+\usepackage{needspace}
 \usepackage{xcolor}
 \usepackage{xurl}
 \usepackage{hyperref}
@@ -46,43 +47,37 @@ Componenti & Valerio Porcile -- N86004517\\
  & Emanuel Giuseppe Lupoli -- N86004280\\
  & Emanuele Martucci -- N86004084\\
 Modalita' & Tradizionale\\
-Versione & 1.5 -- review sistematica e sessioni di usabilita'\\
+Versione & 1.7 -- relazione finale\\
 Data di riferimento & 19 ottobre 2026\\
-Codice esaminato & \texttt{06ae1b0} + correzioni locali\\
+Riferimento del codice & \texttt{b95d008}\\
 \end{tabular}
 \vfill
 \end{titlepage}
 \pagenumbering{roman}
 \hypersetup{pageanchor=true}
 
-\chapter*{Stato del documento}
-\addcontentsline{toc}{chapter}{Stato del documento}
+\chapter*{Premessa}
+\addcontentsline{toc}{chapter}{Premessa}
 Questo documento riunisce la specifica dei requisiti, il design del sistema
 e le attivita' di testing in capitoli distinti, secondo la sezione 8 della
 traccia ufficiale v1.1. Riprende il materiale dei due homework e lo confronta
 con il codice disponibile nel repository.
 
-Il documento distingue risultati storici e verifiche del 19 ottobre 2026 sul
-commit \texttt{6aa175a} con correzioni locali non committate. Sono disponibili
-suite backend completa, analisi SonarQube reale, importazione coverage,
-persistenza Docker e collaudo browser di RF-17. Report, stato Git e impronte
-dei sorgenti sono in \path{verifica-backend/}, sotto questa cartella documentale.
-Sono inoltre registrate tre sessioni con amici del moderatore, riportate
-nel suo resoconto per il 19 ottobre: tutti USER su PC condiviso, con completamento
-autonomo dopo spiegazione iniziale e quindici risposte numeriche al survey.
-Non sono riportati nomi. Le osservazioni qualitative non sono fornite.
-E' inoltre completata la review sistematica assistita, documentata con
-evidenze browser, rilievi di contrasto corretti e limiti espliciti.
-Restano verifica dei modelli CASE, revisione editoriale finale e prova
-cronometrata della presentazione, indicate nel capitolo 4.
-Non vengono attribuiti esiti positivi alle attivita' non eseguite.
+La valutazione comprende test di dominio e integrazione, analisi statica
+del backend con copertura del codice, verifiche di persistenza Docker,
+collaudo dell'interfaccia e valutazione dell'usabilita'. Il capitolo 3
+distingue le esecuzioni tecniche dalle tre sessioni con utenti riportate
+dal moderatore e ne descrive risultati, provenienza e limiti.
+I report conservano data, riferimento Git, stato dei sorgenti esaminati
+e impronte dei file, permettendo di ricondurre ogni risultato alla
+specifica esecuzione. Le conclusioni sono circoscritte alle prove documentate.
 
 \textbf{Repository:} \url{https://github.com/Valeriop03/BugBoard26}.
 La traccia di riferimento e' il file
 \path{Progetto-SWE-2025-2026 - canale 2 - v1.1.pdf} nella radice.
-I sorgenti dei homework sono conservati come materiale precedente;
-questo documento costituisce la versione unificata da completare con
-gli ultimi risultati prima della consegna.
+Il presente documento costituisce la relazione unificata del progetto.
+I materiali dei due homework e i report di verifica ne documentano
+l'evoluzione e le evidenze tecniche di supporto.
 
 {\small\setlength{\parskip}{0pt}\tableofcontents}
 \clearpage
@@ -98,7 +93,7 @@ Le funzionalita' assegnate sono esclusivamente quelle riportate sotto.
 \begin{longtable}{P{0.09\textwidth} P{0.84\textwidth}}
 \toprule N. traccia & Funzionalita' assegnata\\\midrule\endhead
 1 & Login email/password, amministratore iniziale e creazione delle utenze da parte di ADMIN.\\
-2 & Creazione issue con titolo, descrizione, tipo, priorita' e immagine opzionali; stato iniziale TODO.\\
+2 & Creazione issue con titolo, descrizione e tipo; priorita' e immagine opzionali; stato iniziale TODO.\\
 3 & Lista riepilogativa, filtri e ordinamento.\\
 6 & Cambio stato da parte dell'assegnatario; notifica al segnalatore alla risoluzione.\\
 8 & Esportazione dell'elenco in formato condivisibile, realizzata con CSV.\\
@@ -145,11 +140,11 @@ READONLY & Consulta issue, dettagli, immagini e archivio; usa ricerca, filtri ed
 Tutti i ruoli autenticati possono consultare il suggerimento assegnatario
 e le proprie notifiche.
 
-\textbf{Decisione del gruppo su RF-17 -- 16 ottobre 2026:} READONLY puo'
-consultare le proprie notifiche, ma non segnarle come lette. E' una decisione
-del gruppo, non un chiarimento dei docenti. Il contratto e' implementato e
-verificato con test HTTP e browser: GET proprie 200, PATCH read 403 senza
-scritture e nessun comando UI, anche per notifiche gia' lette.
+Il divieto di scrittura previsto da RF-17 si applica anche alle notifiche:
+READONLY puo' consultare le proprie, ma non segnarle come lette. Questa
+interpretazione e' stata adottata dal gruppo il 16 ottobre 2026 e verificata
+con test HTTP e browser: GET proprie 200, PATCH read 403 senza scritture,
+anche per notifiche gia' lette; l'interfaccia non espone il relativo comando.
 
 \section{Requisiti funzionali}
 Gli identificativi seguenti sono mantenuti dalla specifica dei requisiti;
@@ -186,20 +181,21 @@ RNF-02 & Verifica dei permessi nelle API, non soltanto nell'interfaccia.\\
 RNF-03 & Frontend e backend separati; comunicazione esclusivamente via API REST.\\
 RNF-04 & Stato persistente gestito centralmente dal backend e dal database.\\
 RNF-05 & Interfaccia leggibile, con operazioni disponibili coerenti con il ruolo.\\
-RNF-06 & Lista consultabile fluidamente con i dati dimostrativi; nessuna prestazione su larga scala dichiarata senza misure.\\
+RNF-06 & Lista consultabile fluidamente con i dati dimostrativi.\\
 RNF-07 & Separazione tra controller, servizi, modelli e accesso ai dati.\\
 RNF-08 & Avvio locale ripetibile seguendo il README.\\
 \bottomrule
 \end{longtable}
-Il codice usa linguaggi Object-Oriented e non delega logica e persistenza
-a servizi MBaaS. La traccia richiede strumenti CASE per il design.
-Il deployment su cloud e' auspicato, ma non obbligatorio: non costituisce
-una funzionalita' mancante del progetto.
+Frontend e backend utilizzano linguaggi Object-Oriented. Logica applicativa
+e persistenza sono gestite dal backend, senza servizi MBaaS. Il deployment
+di riferimento e' locale; non e' previsto un ambiente cloud di produzione.
 
 \section{Modello dei casi d'uso}
 Il diagramma rappresenta i ruoli e le funzionalita' assegnate. Il login
 precede le operazioni protette. La notifica e' legata alla risoluzione;
-la chiusura del duplicato non richiede un comando separato.
+la chiusura del duplicato non richiede un comando separato. Tutti i ruoli
+consultano le proprie notifiche, mentre solo USER e ADMIN possono segnarle
+come lette; READONLY non effettua scritture.
 \diagramma{../Primo homework/UCD/use_case_diagram.png}{Diagramma dei casi d'uso.}
 \clearpage
 
@@ -270,7 +266,7 @@ differenze di configurazione fra i tre PC. Il progetto backend usa .NET 10,
 il frontend Angular 19; le versioni effettive dei pacchetti sono nei
 rispettivi file di progetto e lockfile.
 \diagramma{../Secondo homework/diagrammi_architetturali/component_diagram.png}{Componenti e comunicazione del sistema.}
-\diagramma{../Secondo homework/diagrammi_architetturali/deployment_locale.png}{Deployment locale allineato a Compose; il deployment precedente e i VPD restano storici.}
+\diagramma{../Secondo homework/diagrammi_architetturali/deployment_locale.png}{Deployment locale con container e volumi persistenti.}
 \clearpage
 
 \section{Organizzazione Object-Oriented}
@@ -288,10 +284,11 @@ DTO di richiesta/risposta & Separano i dati delle API dalle entita' persistenti;
 La separazione rende testabili le logiche senza HTTP e consente di cambiare
 la presentazione mantenendo le API. Le interfacce di autenticazione
 separano il contratto dall'implementazione. Non sono introdotti repository
-generici o livelli enterprise: per questo perimetro il DbContext e i
-servizi presenti sono sufficienti. Alcune query e operazioni sono nei
-controller; non si dichiara una separazione assoluta di tutta la logica.
-\diagramma{../Secondo homework/diagrammi_dettaglio/class_diagram_parte1.png}{Classi di dominio, persistenza e servizi.}
+generici: l'accesso ai dati avviene attraverso DbContext. Alcune query
+e operazioni di coordinamento restano nei controller; questa scelta
+riduce i livelli intermedi mantenendo separati i servizi di dominio,
+autenticazione e gestione delle immagini.
+\diagramma{../Secondo homework/diagrammi_dettaglio/class_diagram_parte1.png}{Classi di dominio e persistenza.}
 \diagramma{../Secondo homework/diagrammi_dettaglio/class_diagram_parte2.png}{Controller e dipendenze.}
 \clearpage
 
@@ -338,8 +335,8 @@ Il link Utenti e' mostrato solo ad ADMIN; la rotta resta protetta anche con
 navigazione diretta.
 
 Il setup locale usa HTTP e credenziali di sviluppo. Un'eventuale esposizione
-pubblica richiederebbe HTTPS e configurazione adeguata dei segreti;
-questo documento non certifica un deployment di produzione.
+pubblica richiederebbe HTTPS e configurazione adeguata dei segreti.
+Le verifiche documentate riguardano esclusivamente il setup locale.
 Connessione, chiave JWT e credenziali di bootstrap non sono incorporate nei
 file appsettings. Compose passa i valori dimostrativi; l'avvio nativo richiede
 variabili d'ambiente o user-secrets. Il seeder non modifica un ADMIN gia'
@@ -416,28 +413,30 @@ Prerequisiti: Docker Desktop con motore Linux, Node.js 22/npm; .NET SDK 10
 per i test o per l'avvio backend fuori da Docker. Dalla radice:
 \begin{verbatim}
 docker compose -f docker/docker-compose.yml up -d --build
-# In un altro terminale:
 cd frontend
 npm ci
 npm start
 \end{verbatim}
 Frontend: \url{http://localhost:4200/login}; API:
-\url{http://localhost:5256/api}. Attendere l'avvio delle API prima del login.
+\url{http://localhost:5256/api}. Il frontend richiede API e database disponibili.
 Su database nuovo l'ADMIN e' \texttt{admin@bugboard26.local}, password
 \texttt{Admin123!}: sono credenziali locali di sviluppo. Il README contiene
-le alternative di configurazione. Non usare \texttt{down -v} per conservare
-i volumi. L'avvio con \texttt{dotnet run} usa una directory immagini diversa
+le alternative di configurazione. I dati persistono nei volumi nominati
+di Compose; la loro rimozione elimina i dati conservati. L'avvio con
+\texttt{dotnet run} usa una directory immagini diversa
 dal container e non trasferisce automaticamente i file. L'avvio nativo
 richiede connessione PostgreSQL, chiave JWT e credenziali di bootstrap
 configurate tramite ambiente o User Secrets, come descritto nel README;
 non sono conservati segreti di avvio nei file applicativi versionati.
 
+\Needspace{8\baselineskip}
 \section{Versionamento e artefatti}
 Il repository Git indicato all'inizio raccoglie codice, test e documenti.
-La release definitiva dovra' identificare la revisione consegnata; non si
-inventano statistiche di contribuzione. Sorgenti PlantUML e PNG correnti
-sono verificati insieme; i VPD restano storici. La conformita' CASE
-e' discussa nel capitolo 4.
+I report delle verifiche identificano la revisione analizzata e le eventuali
+modifiche locali tramite manifest e impronte SHA256. Il backend include
+Dockerfile e configurazione Compose; il frontend dispone dei propri file
+di build e lockfile delle dipendenze.
+\input{vincoli_case.tex}
 
 \chapter{Testing e valutazione dell'usabilita'}
 \section{Strategia e livelli di verifica}
@@ -461,19 +460,19 @@ usato Angular, backend Docker e PostgreSQL reali, con Chrome headless.
 \texttt{SuggestAssignee}\newline(users, issues) & Carichi differenti con vincitore alternato, issue risolte/chiuse escluse e nessun candidato assegnabile. Verifica la scelta e il caso limite senza risultato.\\
 \bottomrule
 \end{longtable}
-I tre metodi hanno ciascuno due parametri. Le Theory rappresentano casi
-significativi, non un obiettivo numerico. La suite di integrazione aggiunge
+I tre metodi hanno ciascuno due parametri. Le Theory rappresentano le classi
+di equivalenza indicate. La suite di integrazione aggiunge
 verifiche di permessi, filtri, escaping CSV, parita' ed esclusioni del
-suggerimento, immagini e persistenza. La copertura strutturale completa
-non e' deducibile da questo elenco: va misurata sulla suite completa.
+suggerimento, immagini e persistenza. Le misure di copertura della suite
+completa sono riportate nella sezione sulla qualita' del backend.
 \input{strategie_dominio.tex}
 
 \section{Test plan -- Risoluzione di una issue}
 \textbf{Obiettivo:} verificare UC-02 e RF-10/RF-11 senza consentire
-modifiche a utenti non autorizzati. Preparare una issue di prova creata
-da S e assegnata ad A, entrambi USER attivi e distinti; U e' un altro USER,
-R e' READONLY. Usare un ADMIN separato. Registrare stato, date e notifiche
-prima e dopo. Non modificare issue preesistenti per il collaudo.
+modifiche a utenti non autorizzati. La configurazione prevista comprende
+una issue di prova creata da S e assegnata ad A, entrambi USER attivi e
+distinti; U e' un altro USER, R e' READONLY e ADMIN e' un account separato.
+Il confronto prima/dopo riguarda stato, date e notifiche su dati isolati.
 \input{test_plan.tex}
 
 \begin{longtable}{P{0.09\textwidth} P{0.38\textwidth} P{0.43\textwidth}}
@@ -494,22 +493,20 @@ TP-13 & S segna letta la notifica e ripete il PATCH. & 200; lettura persistita; 
 TP-14 & READONLY consulta le proprie notifiche e tenta di segnarne una letta. & GET 200, solo notifiche proprie; PATCH read 403 e dati invariati. UI senza comando di lettura. Decisione del gruppo RF-17 verificata.\\
 \bottomrule
 \end{longtable}
+\Needspace{6\baselineskip}
 \textbf{Criterio di accettazione:} tutti i casi pianificati eseguiti con
 esito registrato e nessuna modifica non autorizzata. Gli esiti effettivi sono
 in \path{esiti_test_plan.csv}, con rimandi a metodi di test e TRX; i controlli
 UI richiamano il collaudo browser. TP-08 e TP-11 hanno casi HTTP dedicati;
 TP-13 include il PATCH ripetuto e TP-14 il rifiuto READONLY anche su notifiche
-gia' lette. Questa esecuzione tecnica non equivale a una prova con persone
-o a una prova cronometrata della demo.
+gia' lette. Le prove tecniche sono distinte dalla valutazione con utenti.
 
 \section{Collaudo frontend reale -- 16 ottobre 2026}
-Fonte: riepilogo del collaudo svolto da Valerio, confermato dal gruppo e
-conservato in questa sezione. Non e' una nuova esecuzione di questa revisione
-documentale. Report e screenshot sono in \path{verifica-frontend/}.
-Riferimento: commit \texttt{e13995140dff382dc3d548208c6c1e60be91fe5d},
+Fonte: riepilogo del collaudo svolto da Valerio Porcile e confermato dal
+gruppo. Report e screenshot sono in \path{verifica-frontend/}.
+Riferimento: commit \path{e13995140dff382dc3d548208c6c1e60be91fe5d},
 checkout pulito prima e dopo. API sulla porta 5256 e Angular sulla 4200;
-PostgreSQL del Compose di sviluppo. Il precedente blocco Docker e' stato
-risolto avviando Docker Desktop; non e' stato necessario cambiare codice.
+PostgreSQL del Compose di sviluppo.
 
 Sono stati creati tre account con prefisso
 \texttt{collaudo-20261016084339} (due USER e un READONLY) e le issue 4--7.
@@ -519,7 +516,8 @@ per avere un assegnatario deterministico, e' stata risolta dal relativo USER.
 Le altre creazioni sono passate dal form frontend. Non sono riportati
 token o credenziali dei partecipanti nei risultati.
 
-\begin{longtable}{P{0.32\textwidth} P{0.61\textwidth}}
+{\small
+\begin{longtable}{P{0.27\textwidth} P{0.66\textwidth}}
 \toprule Area & Esito osservato\\\midrule\endhead
 Login e guard & Login ADMIN riuscito; password errata: 401 e messaggio UI. Accesso anonimo a creazione reindirizzato al login; nessuna navbar nella login.\\
 Ricerca e lista & Ricerca live, digitazione rapida con risultato finale corretto, filtri tipo/stato/priorita', ordinamento per titolo, lista vuota e reset completo riusciti.\\
@@ -534,27 +532,25 @@ Errori e layout & ID inesistente mostra ``Issue non trovata''. Lista, form e det
 Notifica & Via API verificata la notifica di risoluzione della issue 7 al segnalatore ADMIN; non un collaudo completo della pagina notifiche.\\
 \bottomrule
 \end{longtable}
-La build frontend e' riuscita e i 27 test Jasmine/Karma sono passati senza
-watch con ChromeHeadless. Alcune asserzioni dello script temporaneo sono
-state corrette per attendere il rendering o cercare il testo effettivo;
-le prove sono state ripetute. Nessuna correzione applicativa e' risultata
-necessaria. Gli screenshot sono stati prodotti nella cartella temporanea
-locale e poi selezionati in \path{verifica-frontend/immagini/}.
+}
+La build frontend e' riuscita e i 27 test Jasmine/Karma della revisione
+storica sono passati senza watch con ChromeHeadless. Gli screenshot
+selezionati sono conservati in \path{verifica-frontend/immagini/}.
 
 Questa prova non misura le prestazioni con rete rallentata o grandi
 quantita' di dati, non copre ogni browser e non sostituisce il collaudo
 di persistenza dopo ricreazione dei container.
 
 \section{Esecuzione ripetibile e qualita' backend}
-Il collaudo frontend storico sopra resta attribuito a Valerio. Le verifiche
-successive sono registrate separatamente in \path{verifica-backend/}, nella
-cartella Documentazione finale: non in una cartella alla radice del repository.
+Le verifiche del 19 ottobre sono registrate in \path{verifica-backend/},
+all'interno della cartella Documentazione finale, separatamente dal collaudo
+frontend storico del 16 ottobre.
 I report includono comandi, data, HEAD, modifiche non committate e SHA256.
 Il 19 ottobre sono stati eseguiti 166 casi backend (11 dominio, 155 integrazione)
 con PostgreSQL dedicato: tutti superati, nessuno ignorato. Il test plan e'
 ricondotto ai singoli metodi nel CSV degli esiti.
 
-Il collaudo browser finale del 19 ottobre ha verificato 20 controlli con API Docker
+Il collaudo browser dell'audit del 19 ottobre ha verificato 20 controlli con API Docker
 reali e database E2E dedicato, senza mock HTTP: utenti, creazione con PNG,
 suggerimento, dettaglio, risoluzione, notifiche USER/ADMIN, RF-17, CSV,
 duplicazione e archivio. Le correzioni UI successive riguardano la visibilita'
@@ -568,7 +564,7 @@ Dalla radice del repository, con Docker disponibile:
 docker compose -p bugboard26-tests `
   -f backend/BugBoard26.Tests/docker-compose.tests.yml up -d --wait
 dotnet test backend/BugBoard26.slnx
-# Frontend, dalla cartella frontend:
+cd frontend
 npm run build
 node node_modules/@angular/cli/bin/ng.js test `
   --watch=false --browsers=ChromeHeadless
@@ -579,8 +575,8 @@ La sola esecuzione dei test di dominio con filtro non sostituisce la suite
 di integrazione. Dopo l'adattamento del download CSV i test Jasmine/Karma
 sono 40, inclusi controlli di navigazione e creazione per ruolo e verifica
 dei byte esportati, eseguiti in ChromeHeadless senza watch. La build e'
-riuscita e il browser reale ha verificato il download; l'utente ha poi
-confermato l'apertura corretta del CSV in Excel durante il collaudo interno.
+riuscita e il browser reale ha verificato il download. Durante il collaudo
+interno e' stata inoltre confermata l'apertura corretta del CSV in Excel.
 
 SonarQube locale e la raccolta OpenCover sono predisposti in
 \path{quality/analyze-backend.ps1} e \path{quality/coverage.runsettings}.
@@ -588,9 +584,10 @@ L'analisi corrente e' stata elaborata dal server locale Community Build
 26.10.0.133078, scanner .NET 11.3.0: coverage importata per 29 file principali,
 Quality Gate OK con condizioni valutate, zero bug e zero vulnerabilita'
 segnalati, quattro code smell lasciati visibili. Coverage Sonar complessiva
-93,7\%, linee 95,7\%, rami 88,2\%. Non si dichiara copertura totale o assenza
-di ogni possibile difetto. Gate e percentuali sono riferiti a HEAD con le
-correzioni locali, non al solo commit \texttt{6aa175a}.
+93,7\%, linee 95,7\%, rami 88,2\%. Le misure riguardano lo stato dei sorgenti
+identificato nell'audit del 19 ottobre: base \texttt{6aa175a} con le correzioni
+locali archiviate tramite SHA256. Copertura e Quality Gate descrivono le
+proprieta' rilevate dall'analisi, non l'assenza di ogni possibile difetto.
 
 Tre code smell S6932 riguardano la lettura manuale del multipart, mantenuta
 per preservare autorizzazioni e risposte 400 uniformi; un avviso ASP0027
@@ -603,26 +600,26 @@ database di sviluppo; le prove Docker con dati riconoscibili sono distinte.
 
 \section{Valutazione dell'usabilita' -- review e sessioni}
 Il collaudo tecnico precedente non e' una prova con utenti potenziali.
-La traccia richiede sia una review sistematica sia osservazioni e survey
-con utenti. Questa sezione distingue il protocollo, la review assistita
-e le tre sessioni riferite dall'utente. Non si deducono attivita', tempi o
-osservazioni qualitative dai soli voti del questionario.
+La valutazione distingue una review sistematica assistita dell'interfaccia
+e tre sessioni con questionario riportate dal moderatore. Le due attivita'
+hanno fonti e perimetri differenti, descritti di seguito.
 
 \subsection{Review tramite checklist}
 La review sistematica assistita del 19 ottobre e' registrata in
 \path{evidenze/review_tecnica.csv}, con otto criteri, evidenze e limiti.
 Il report completo e' in \path{verifica-frontend/review-20261019/report.md};
-la prima review backend resta storica. Sono ispezionati sorgenti e screenshot
-e provati 28 controlli browser con API Docker reale e PostgreSQL dedicato.
-La review non e' attribuita a un revisore umano indipendente e non certifica WCAG.
+sono stati ispezionati sorgenti e screenshot ed eseguiti 28 controlli browser
+con API Docker reale e PostgreSQL dedicato. Si tratta di una review tecnica
+assistita, non di una valutazione condotta da un revisore umano indipendente.
 \begin{itemize}
-\item Terminologia coerente fra lista, form e dettaglio.
-\item Navigazione riconoscibile e ritorno alla lista disponibile.
-\item Campi obbligatori ed errori comprensibili vicino al campo.
-\item Caricamento, esito del salvataggio, errore e lista vuota distinguibili.
-\item Azioni coerenti con il ruolo, senza pulsanti di modifica per READONLY.
-\item Uso da tastiera, focus visibile e leggibilita' su schermi piccoli.
-\item Recupero dell'upload senza indurre una seconda creazione.
+\item Riconoscibilita' del ruolo e delle operazioni consentite.
+\item Comprensibilita' di login, campi obbligatori ed errori del form.
+\item Distinzione tra caricamento, successo, lista vuota ed errore di rete.
+\item Ricerca, filtri, ordinamento ed export coerenti con l'elenco.
+\item Chiarezza di stato, assegnatario, duplicato e archivio.
+\item Riconoscibilita' delle notifiche e delle azioni consentite per ruolo.
+\item Leggibilita', contrasto, focus e uso da tastiera su desktop e mobile.
+\item Recupero dell'upload senza una seconda creazione della issue.
 \end{itemize}
 
 Login, ricerca e creazione sono percorsi con Tab, Shift+Tab ed Enter,
@@ -639,37 +636,33 @@ e sono corretti: intestazioni e nota export passano a 4,97:1, priorita'
 a 5,25:1, stato a 5,63:1; il pulsante resta a 4,70:1. Le soglie sono
 confrontate sui valori non arrotondati. Sono scurite anche note analoghe
 del form/dettaglio e testo di errore login, senza ridisegnare l'interfaccia.
-I 40 test frontend esistenti e la build sono superati nuovamente; non sono
-aggiunti test permanenti. Restano migliorabili annunci per lettori schermo,
+I 40 test frontend esistenti e la build sono superati nuovamente.
+Restano migliorabili annunci per lettori schermo,
 focus iniziale sugli errori e conferma delle azioni admin. La review e'
 completata nel perimetro dichiarato, non e' una certificazione di accessibilita'.
 
-\subsection{Sessioni con utenti e questionario}
-Coinvolgere utenti reali o potenziali del sistema, usando account e dati
-di prova. Annotare un codice anonimo del partecipante, ruolo, attivita',
-completamento autonomo/con aiuto, errori e osservazioni. Non raccogliere
-dati personali non necessari. Il gruppo deve osservare senza suggerire
-subito la soluzione e registrare le difficolta' effettive.
+\Needspace{16\baselineskip}
+\subsection{Metodo e questionario}
+Il protocollo di valutazione definisce attivita' di ricerca, creazione,
+risoluzione, consultazione delle notifiche ed export, differenziate per
+ruolo. La raccolta disponibile riguarda tre sessioni, due di creazione e
+una di consultazione e lettura della notifica; le altre attivita' previste
+dal protocollo non sono documentate come svolte dai partecipanti.
 
-Attivita' proposte: segnalare una issue; cercarla e filtrarne l'elenco;
-aprire il dettaglio e risolverla con un account assegnatario; consultare
-una issue con account READONLY. Le azioni ADMIN possono essere valutate
-con un partecipante che rappresenti quel ruolo.
-
-Al termine, raccogliere valutazioni da 1 (per nulla) a 5 (molto) su:
-chiarezza della navigazione, comprensibilita' dei campi, facilita' nel
-trovare una issue, chiarezza degli esiti e dei permessi. Aggiungere una
-domanda aperta: ``Quale passaggio e' stato meno chiaro?''.
-Riportare numero reale di sessioni, risultati e limiti del campione;
-non attribuire validazione statistica a poche osservazioni.
-Il protocollo operativo esteso, le attivita' e il questionario sono in
-\path{usabilita.md}. I file \path{evidenze/questionario.csv} e
-\path{evidenze/sessioni_utenti.csv} contengono i dati ricevuti, non esempi.
+Il questionario locale comprende cinque valutazioni da 1 (per nulla) a 5
+(molto): chiarezza della navigazione, comprensibilita' dei campi, facilita'
+di ricerca, chiarezza degli esiti e delle operazioni consentite. Comprende
+inoltre una domanda aperta sul passaggio meno chiaro e una proposta di
+miglioramento facoltativa. Non e' uno strumento SUS o statisticamente validato.
+Protocollo e questionario sono descritti in \path{usabilita.md}; i dati
+disponibili sono in \path{evidenze/questionario.csv} e
+\path{evidenze/sessioni_utenti.csv}.
 
 \subsection{Risultati riferiti delle tre sessioni}
 Fonte: resoconto del moderatore e risposte trascritte del questionario;
-non sono allegate registrazioni delle sessioni. Data: 19 ottobre 2026. Tre amici hanno
-usato il PC del moderatore in condivisione, tutti con ruolo USER. P01 e P03
+non sono allegate registrazioni delle sessioni. Data: 19 ottobre 2026.
+Tre persone conosciute dal moderatore hanno usato il suo PC in condivisione,
+tutte con ruolo USER. P01 e P03
 hanno svolto U2, creazione issue; P02 U4, riscontro e lettura notifica.
 Per tutti il completamento e' dichiarato autonomo dopo una spiegazione
 iniziale, che viene esplicitamente registrata. Non e' descritto il contenuto
@@ -700,59 +693,41 @@ significano non fornito, non assenza di problemi. La modalita' del consenso
 non e' documentata. La review tecnica resta un'attivita' distinta.
 Dettagli e provenienza: \path{evidenze/risposte-parziali-usabilita.md}.
 
-\chapter{Limiti e completamento della consegna}
-\section{Punti ancora aperti}
-\begin{enumerate}
-\item Consolidare nel commit e nella release manuali i sorgenti effettivamente verificati; i risultati attuali includono modifiche locali non committate.
-\item Rifinire la relazione separando promemoria operativi e contenuti di consegna; review assistita, tre sessioni USER e quindici voti sono documentati con limiti espliciti.
-\item Verificare l'allineamento dei modelli nel tool CASE rispetto a codice e diagrammi finali. Sorgenti PlantUML e PNG sono coerenti; i file originali non sono stati verificati nel loro programma, non e' accertata una non conformita'.
-\item Eseguire la prova cronometrata della presentazione e coordinare la demo; predisporre la consegna individuale Teams.
-\end{enumerate}
-\input{vincoli_case.tex}
-Non sono previsti paginazione, ripristino archivio, refresh token o gestione
-immagini dal dettaglio frontend. Non vengono aggiunti come nuovi requisiti.
-Il piano di consegna non richiede nuove funzionalita' fuori assegnazione.
+\chapter{Conclusioni e limiti}
+\section{Risultati}
+BugBoard26 realizza le funzionalita' assegnate attraverso un frontend
+Angular indipendente e API ASP.NET Core con persistenza PostgreSQL.
+Le autorizzazioni sono applicate sul backend; l'interfaccia presenta le
+operazioni coerenti con il ruolo e gestisce gli errori delle richieste.
+Database e immagini dispongono di volumi persistenti separati.
 
-\section{Pacchetto e discussione}
-La consegna deve identificare repository e release definitiva, includere
-sorgenti, file di build/deployment, test, documento unificato, diagrammi,
-report e presentazione. Non includere dipendenze installate, file bin/obj,
-token, segreti personali o risultati fittizi. Ogni componente consegna i
-link tramite Teams secondo la traccia e comunica ai docenti l'invio.
+Le evidenze documentano 166 test backend superati, 40 test frontend
+superati, Quality Gate SonarQube OK e controlli di persistenza dopo
+riavvio e ricreazione del backend. I risultati appartengono alle rispettive
+esecuzioni identificate nei report, non a un'unica prova indistinta.
+La review assistita comprende 28 controlli browser e le correzioni di
+contrasto; le tre sessioni con questionario forniscono un riscontro
+esplorativo distinto dalle verifiche automatiche.
 
-La presentazione tecnica dura al massimo dieci minuti ed e' seguita dalla
-demo. Deve spiegare scelte architetturali, modello, autorizzazioni e test,
-non soltanto elencare funzioni. Tutti i membri devono conoscere il sistema.
-Sequenza demo proposta: login, creazione con immagine, ricerca/export,
-risoluzione come assegnatario e notifica al segnalatore, duplicato/archivio
-come ADMIN, consultazione READONLY. Usare dati nuovi e riconoscibili.
-Per una demo breve concordare con il collega frontend un sottoinsieme dei
-passaggi: consultazione READONLY, risoluzione come assegnatario e notifica
-al segnalatore. La scaletta da nove minuti e il piano di demo successiva sono
-in \path{consegna.md}. La prova cronometrata e il coordinamento sono aperti.
+\section{Limiti della valutazione}
+Il collaudo riguarda il setup locale e i percorsi documentati. Non sono
+stati svolti test di carico su grandi volumi di dati, una verifica completa
+su tutti i browser o un collaudo di produzione esposto su Internet.
+La verifica di accessibilita' e' limitata ai campioni di contrasto e ai
+percorsi da tastiera provati; non costituisce una certificazione WCAG.
 
-\section{Manutenzione del documento}
-Compilare dalla directory che contiene questo sorgente per risolvere i
-percorsi relativi delle figure. Per esempio, con Tectonic disponibile:
-\begin{verbatim}
-tectonic documentazione_finale.tex
-\end{verbatim}
-Conservare questo sorgente insieme ai mockup e diagrammi referenziati;
-il PDF puo' invece essere consultato autonomamente. Prima della consegna
-aggiornare versione, commit, risultati delle verifiche ancora aperte e
-stato del documento, senza riscrivere i requisiti per giustificare il codice.
-Per rigenerare documento e slide con controlli di sorgenti/PNG usare
-\path{rigenera.ps1}, come indicato nel readme di questa cartella. La
-compilazione non esegue test applicativi. Il registro \path{evidenze.md}
-mantiene distinti risultati storici, esito frontend riportato da Valerio e
-risultati del 19 ottobre in \path{verifica-backend/}. L'audit corrente
-registra 166 test backend e, dopo il fix CSV, 40 frontend superati, oltre all'analisi
-SonarQube effettiva. Il report distingue il commit iniziale dalle
-correzioni locali non committate. Le tre sessioni con persone sono riportate
-dal moderatore e restano distinte dai test automatici. La review sistematica
-assistita ha evidenze separate; verifica CASE e prova cronometrata non sono
-dedotte dalla compilazione.
-La checklist di release e invio individuale Teams
-e' in \path{consegna.md}; nessuna consegna viene effettuata qui.
+La valutazione con utenti comprende tre persone conosciute dal moderatore,
+tutte con ruolo USER e attivita' limitate a creazione e notifiche. Tempi,
+osservazioni qualitative e risposte aperte non sono disponibili: i risultati
+non permettono di generalizzare la comprensione dell'intero sistema o di
+attribuire cause specifiche ai punteggi. La copertura del codice resta
+parziale e l'analisi statica conserva quattro segnalazioni di manutenibilita'.
+
+\section{Possibili evoluzioni}
+Paginazione dell'elenco, ripristino delle issue archiviate, refresh token
+e gestione delle immagini dal dettaglio non appartengono al perimetro
+implementato. Rappresentano possibili estensioni, insieme a una valutazione
+di usabilita' con un campione piu' ampio e una verifica di accessibilita'
+assistita da lettori schermo.
 
 \end{document}

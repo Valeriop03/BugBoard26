@@ -1,0 +1,26 @@
+{
+  "physicalPages": 31,
+  "outsidePage": [],
+  "relevantPages": [
+    2,
+    3,
+    23,
+    25,
+    30,
+    31
+  ],
+  "overfull": 0,
+  "undefinedReferences": 0,
+  "underfull": 0,
+  "operationalRemindersPatternMatches": 0,
+  "includedTexFiles": 3,
+  "pdfSha256": "79edc718e6cc3cc02bbf50db84acf6f4af2498230761ded1ebc5732e9a25eb68",
+  "sourceSha256": {
+    "documentazione_finale.tex": "168301334e591b6de1812f44d442f39f96e85fa6fe35f8f62ae86ba33d2a4e62",
+    "vincoli_case.tex": "1c41b9a496cc76c2313efdfca04099ccd753e2efe91208eabd524b11158c04f0",
+    "strategie_dominio.tex": "204d4f7c19b28790ab7dd7f66e0f016bed99aded4a5c9cf23352718c4a6895e9",
+    "test_plan.tex": "43e9c80943d90c37f38b6b080b760bc3c962476051689d9dc82195bd6aafedd5"
+  },
+  "applicationTestsRerun": false,
+  "slidesRegenerated": false
+}

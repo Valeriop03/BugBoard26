@@ -26,6 +26,8 @@ rectangle BugBoard26 {
   usecase "UC-01\nCreare issue" as Create
   usecase "UC-02\nCambiare stato issue" as Status
   usecase "Notificare risoluzione\nal segnalatore" as Notify
+  usecase "Consultare le proprie\nnotifiche" as Notifications
+  usecase "Segnare come letta\nuna propria notifica" as ReadNotification
   usecase "Creare utenti" as Users
   usecase "Archiviare issue" as Archive
   usecase "UC-03\nContrassegnare duplicato" as Duplicate
@@ -37,10 +39,13 @@ Utente -- Search
 Utente -- Archived
 Utente -- Export
 Utente -- Suggest
+Utente -- Notifications
 USER -- Create
 ADMIN -- Create
 USER -- Status
 ADMIN -- Status
+USER -- ReadNotification
+ADMIN -- ReadNotification
 ADMIN -- Users
 ADMIN -- Archive
 ADMIN -- Duplicate
@@ -49,7 +54,8 @@ legend bottom
   Login pubblico; tutti gli altri casi richiedono autenticazione.
   UC-02: USER solo assegnatario; ADMIN anche senza assegnazione.
   UC-03: stato Duplicate e originale, senza comando separato di chiusura.
-  RF-17, decisione del gruppo: READONLY consulta le proprie notifiche,
-  ma non le segna lette. Allineamento e verifica ancora aperti.
+  Ogni utente consulta soltanto le proprie notifiche.
+  USER e ADMIN possono segnare lette soltanto le proprie notifiche.
+  RF-17: READONLY consulta, ma non modifica dati; PATCH read restituisce 403.
 endlegend
 @enduml

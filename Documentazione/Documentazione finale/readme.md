@@ -2,12 +2,29 @@
 
 ## Revisione del 19 ottobre 2026
 
+La relazione unificata e' alla versione 1.7: revisione editoriale con
+promemoria, coordinamento e istruzioni di manutenzione separati in
+[note operative interne](note_operative_gruppo.md), da escludere dallo ZIP.
+Nel PDF restano descrizione del sistema, risultati e limiti documentati.
+La revisione del testo non implica una nuova esecuzione dei test o la
+chiusura delle attivita' di presentazione, release e invio.
+
+Aggiornamento diagrammi sul commit `b95d008` con modifiche documentali
+locali: il modello dei casi d'uso distingue consultazione delle notifiche
+per tutti i ruoli e lettura riservata ai proprietari USER/ADMIN. La sequenza
+di cambio stato esplicita anche il rifiuto READONLY del PATCH read.
+Rigenerati i PNG interessati e i tre PDF nella revisione 1.6, precedente
+alla pulizia editoriale. Nessuna modifica applicativa o nuova esecuzione dei test.
+Gli otto VPD restano storici: l'allineamento nell'editor originale non e'
+verificato e non viene dichiarato concluso dall'aggiornamento dei PNG.
+
 L'audit tecnico riguarda `6aa175a357dbdf1c35702686b985d46bff58c43e` con
 correzioni locali identificate nei report. L'integrazione successiva del
 survey e del fix CSV parte da `06ae1b0`, ancora con modifiche locali.
 Sono registrate tre sessioni USER riferite dal moderatore e completata la
-review sistematica assistita. Restano verifica dei modelli CASE, revisione
-editoriale finale e prova cronometrata, non l'assenza dei risultati tecnici.
+review sistematica assistita. La revisione editoriale e' completata;
+allineamento dei VPD storici nell'editor originale e prova cronometrata
+non sono dichiarati eseguiti. I VPD non fanno parte dello ZIP concordato.
 
 - [Documento unico](documentazione_finale.pdf) e [sorgente](documentazione_finale.tex).
 - [Presentazione aggiornata](presentazione/presentazione_tecnica_20261019.pptx):

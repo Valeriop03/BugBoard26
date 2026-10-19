@@ -1,3 +1,4 @@
+\Needspace{8\baselineskip}
 \subsection{Classi coperte e limiti della strategia}
 Riferimenti: \path{backend/BugBoard26.Api/Services/IssueDomainService.cs} e
 \path{backend/BugBoard26.Tests/IssueDomainServiceTests.cs}. La strategia usa
@@ -24,9 +25,9 @@ al controller e richiedono test HTTP/persistenza, non questo metodo puro.
 l'ID del vincitore; le fixture escludono un READONLY e issue Resolved/Closed.
 Il Fact usa soltanto READONLY attivo e USER inattivo e attende \texttt{null}.
 Parita' per ID, ADMIN candidato, InProgress, archiviati ed elenco vuoto non
-hanno casi unitari dedicati nel file. Il codice implementa queste regole e
-sono presenti scenari HTTP aggiuntivi; non si trasforma la loro presenza
-in copertura unitaria misurata. La suite del 19 ottobre esegue anche questi
+hanno casi unitari dedicati nel file. Le regole implementate sono oggetto
+di scenari HTTP aggiuntivi, distinti dalle prove unitarie del metodo.
+La suite del 19 ottobre comprende anche questi
 test HTTP: 166 casi complessivi superati, 11 di dominio e 155 di integrazione.
-Il report e il TRX sono in \path{verifica-backend/}; non si attribuiscono
-alle sole prove unitarie i risultati ottenuti attraverso l'API.
+Il report e il TRX sono in \path{verifica-backend/}; la distinzione tra
+dominio e integrazione e' mantenuta nei risultati.

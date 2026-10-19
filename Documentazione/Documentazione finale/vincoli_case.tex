@@ -1,20 +1,20 @@
-\section{Conformita' CASE e provenienza delle viste}
-La revisione del 16 ottobre riporta PlantUML 1.2026.8 e Java 21 come
-ambiente di generazione. L'audit corrente riutilizza senza riscrivere
-le viste esistenti, il deployment locale e le due viste sintetiche per
-le slide; non dichiara una nuova generazione con quell'ambiente.
-Il controllo in \path{prepara_documentazione.py}
-confronta ogni blocco sorgente con i metadati del relativo PNG e produce
-\path{diagrammi_manifest.json}, con percorsi e impronte dei file controllati.
-Questo verifica la coerenza sorgente/export, non l'accettazione del tool.
+\section{Provenienza e verifica dei diagrammi}
+I materiali storici dei due homework conservati nel repository comprendono
+otto archivi VPD con metadati di Visual Paradigm Online. Le viste riportate nella relazione sono
+mantenute in sorgenti PlantUML modificabili e corrispondenti immagini PNG.
+I modelli descrivono casi d'uso, componenti, deployment locale, classi,
+schema dati e tre sequenze applicative.
 
-I VPD non sono modificati o dichiarati aggiornati. Non e' stata verificata
-un'importazione o una sincronizzazione nel modello Visual Paradigm.
-Domanda precisa da sottoporre ai docenti, non ancora inviata:
-\emph{Ai fini del paragrafo 3.2 sono accettati sorgenti UML PlantUML versionati
-con export coerenti e tracciabili, oppure occorre un modello nativo
-sincronizzato in un tool CASE, ad esempio Visual Paradigm? In quest'ultimo
-caso quali formati di progetto ed export devono essere consegnati?}
-Fino alla risposta o all'allineamento nel tool richiesto, il punto rimane aperto.
+Il confronto con il codice riguarda entita', relazioni e vincoli di
+persistenza, dipendenze dei controller, permessi e flussi delle API.
+L'aggiornamento del 19 ottobre allinea in particolare le notifiche personali
+e il divieto di scrittura READONLY. Il deployment locale rappresenta la
+configurazione Compose con i due volumi persistenti.
 
-\section{Perimetro della revisione}
+Le dodici viste PNG sono verificate rispetto ai sorgenti incorporati nei
+metadati delle immagini. Il file \path{diagrammi_manifest.json} conserva
+percorsi e impronte SHA256 di sorgenti ed export. La generazione aggiornata
+dei casi d'uso e del cambio stato utilizza PlantUML 1.2026.8 e Java 25.
+Il controllo riguarda le viste PlantUML correnti e l'integrita' ZIP dei
+VPD storici, non l'apertura o la sincronizzazione di questi ultimi
+nell'editor originale.

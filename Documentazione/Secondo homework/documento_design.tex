@@ -401,7 +401,7 @@ GET \path{/api/issues/suggest-assignee} restituisce ID, email e carico; senza ca
 \subsection{Gestione delle notifiche}
 
 \paragraph{Requisito.}
-RF-11 richiede la notifica al segnalatore quando la issue passa a \texttt{RESOLVED}. Per la verifica di questo flusso, ogni utente deve consultare e segnare come lette soltanto le proprie notifiche.
+RF-11 richiede la notifica al segnalatore quando la issue passa a \texttt{RESOLVED}. Tutti i ruoli autenticati consultano soltanto le proprie notifiche; USER e ADMIN possono anche segnarle come lette. RF-17 esclude qualsiasi scrittura da parte di READONLY.
 
 \paragraph{Comportamento attuale della risoluzione.}
 In \path{IssuesController.UpdateStatus}, se lo stato richiesto differisce dal corrente, vengono aggiornati \texttt{Status} e \texttt{UpdatedAt}. Per \texttt{RESOLVED} viene impostato \texttt{ResolvedAt} in UTC e aggiunta una \texttt{Notification} con \texttt{UserId = CreatedById}, \texttt{IssueId}, messaggio di risoluzione, \texttt{IsRead = false} e \texttt{CreatedAt} in UTC. Una sola chiamata \texttt{SaveChangesAsync} persiste issue e notifica.
@@ -411,14 +411,14 @@ Per una issue non duplicata, la ripetizione dello stato corrente valido risponde
 \paragraph{Comportamento attuale delle notifiche.}
 \path{NotificationsController.GetAll} restituisce con GET \path{/api/notifications} solo le notifiche con \texttt{UserId} uguale all'utente corrente, dalla più recente. \texttt{MarkAsRead}, PATCH \path{/api/notifications/{id}/read}, verifica il proprietario prima di impostare \texttt{IsRead = true}. Restituisce 403 per la notifica altrui, 404 per un ID inesistente e 401 per account corrente assente o inattivo. Anche ADMIN può operare solo sulle proprie notifiche. Ripetere la lettura di una propria notifica restituisce 200 e mantiene \texttt{IsRead = true}; non esiste un endpoint di dettaglio notifica per ID.
 
-La pagina Angular carica l'elenco all'apertura, evidenzia le notifiche non lette e aggiorna l'elemento con la risposta del PATCH. Il pulsante \emph{Segna come letta} è mostrato solo per notifiche non lette. Il dettaglio issue visualizza \texttt{ResolvedAt}; \texttt{IssuesService} converte i nomi di stato Angular nei nomi API, ad esempio \texttt{RESOLVED} in \texttt{Resolved}.
+La pagina Angular carica l'elenco all'apertura, evidenzia le notifiche non lette e aggiorna l'elemento con la risposta del PATCH. Il pulsante \emph{Segna come letta} è mostrato solo per notifiche non lette e account USER o ADMIN. Il dettaglio issue visualizza \texttt{ResolvedAt}; \texttt{IssuesService} converte i nomi di stato Angular nei nomi API, ad esempio \texttt{RESOLVED} in \texttt{Resolved}.
 
 Il controller notifiche non usa l'attributo \texttt{Authorize}: entrambi i metodi controllano il claim \texttt{sub} e l'account attivo tramite \texttt{GetCurrentUserAsync}. Questo controllo interno produce 401 in assenza di un utente valido; non si descrive un attributo assente dal codice.
 
 Riferimenti: \path{backend/BugBoard26.Api/Controllers/NotificationsController.cs}; modelli \path{backend/BugBoard26.Api/Models/Issue.cs} e \path{backend/BugBoard26.Api/Models/Notification.cs}; pagine \path{frontend/src/app/pages/notifications-page/notifications-page.component.ts} e relativo HTML; \path{frontend/src/app/services/notifications.service.ts}.
 
-\paragraph{Differenza da chiarire.}
-RF-17 parla di readonly \emph{senza modificare dati}, mentre il design circoscrive il divieto alle issue. \texttt{NotificationsController.MarkAsRead} e la pagina notifiche non escludono READONLY: un account attivo di questo ruolo può segnare come letta una propria notifica. Se RF-17 vieta anche questa scrittura, il codice non è conforme; se il divieto riguarda solo le issue, il requisito va chiarito con il committente. RF-17 resta invariato e non si assume una nuova eccezione.
+\paragraph{Applicazione di RF-17.}
+La decisione del gruppo conferma il divieto di scrittura anche sulle notifiche proprie. \texttt{NotificationsController.MarkAsRead} restituisce 403 per READONLY prima di caricare o modificare la notifica, anche se già letta. La consultazione delle proprie notifiche resta consentita; USER e ADMIN mantengono la lettura delle sole notifiche di cui sono proprietari. Non viene introdotta un'eccezione a RF-17.
 
 \clearpage
 \subsection{Gestione dei duplicati}
@@ -551,7 +551,7 @@ Segna una propria notifica come letta; 403 se appartiene ad altri. \\
 
 \path{backend/BugBoard26.Tests/IssueDomainServiceTests.cs} verifica regole pure di ricerca, carico e autorizzazione. I test di integrazione avviano \texttt{Program} tramite \path{WebApplicationFactory}, usano JWT ottenuti con il login reale, Npgsql e un PostgreSQL dedicato sulla porta 55432. Ogni caso crea un database temporaneo distinto; non usa il database di sviluppo né repository simulati.
 
-\texttt{IssueStatusIntegrationTests} verifica risoluzione da parte dell'assegnatario con segnalatore distinto, date e notifica persistite, ADMIN non assegnatario, rifiuto di USER non assegnatario e READONLY, ripetizione di \texttt{Resolved} senza nuove date/notifiche, 401 senza token e 404 per issue assente. \texttt{NotificationsIntegrationTests} verifica elenco personale ordinato, lettura persistita per USER/ADMIN/READONLY, rifiuto di notifiche altrui, 401, 404 ed elenco vuoto. Il successo di questi test descrive il comportamento attuale, non chiarisce da solo RF-17.
+\texttt{IssueStatusIntegrationTests} verifica risoluzione da parte dell'assegnatario con segnalatore distinto, date e notifica persistite, ADMIN non assegnatario, rifiuto di USER non assegnatario e READONLY, ripetizione di \texttt{Resolved} senza nuove date/notifiche, 401 senza token e 404 per issue assente. \texttt{NotificationsIntegrationTests} verifica elenco personale ordinato per tutti i ruoli, lettura persistita per USER e ADMIN, rifiuto del PATCH read per READONLY senza modifiche ai dati, rifiuto di notifiche altrui, 401, 404 ed elenco vuoto.
 
 \path{IssueDuplicateValidationIntegrationTests} verifica 400 per \texttt{Duplicate} via status, 409 per issue già duplicate (anche marcatori legacy), azzeramento di \texttt{ResolvedAt} e assenza di nuove notifiche nel percorso dedicato. \path{IssueAssigneeValidationIntegrationTests} verifica assegnazione nulla, ADMIN/USER attivi validi e rifiuto di account inesistenti, inattivi o READONLY. Sono presenti anche test di immagini, export CSV e suggerimento assegnatario.
 
@@ -565,7 +565,7 @@ La riapertura dopo \texttt{RESOLVED}, una seconda risoluzione e la ripetizione d
 
 \begin{itemize}
     \item Nel checkout sono presenti endpoint immagini, \path{IssueImageStorage} e test dedicati. Il collaudo frontend/API e la persistenza dei file con ricreazione del container restano da verificare sul setup condiviso; non si dichiara completata la consegna immagini dei colleghi sulla sola lettura del codice.
-    \item RF-17 da chiarire sulla lettura delle proprie notifiche per READONLY; nessuna eccezione viene aggiunta al requisito.
+    \item RF-17 applicato anche alle notifiche: consultazione propria consentita, PATCH read vietato a READONLY con 403 e senza scritture.
     \item I \texttt{.vpd} conservano il disegno storico; per le viste aggiornate usare i sorgenti PlantUML e PNG corrispondenti. Il deployment originale resta una vista logica, non rigenerata in questa attività.
     \item Suite di integrazione con coverage e analisi SonarQube da eseguire quando database/server saranno disponibili. Resta l'avviso NU1903 sulla dipendenza \texttt{Microsoft.OpenApi} 2.0.0, non aggiornata in questa attività.
     \item Notifiche senza email o aggiornamento realtime.

@@ -1,25 +1,25 @@
 \subsection{Ambiente, criteri e raccolta delle evidenze}
 Ambito: UC-02, RF-10, RF-11, RF-17, RNF-02 e feedback UI di RNF-05.
-Sono esclusi da questo piano export, immagini e archivio, da consolidare
-separatamente con i risultati dei colleghi. Ambiente previsto: checkout
+Sono esclusi da questo piano export, immagini e archivio, verificati
+separatamente nei collaudi descritti nella relazione. Ambiente previsto: checkout
 stabile, .NET 10, xUnit e PostgreSQL 16 dedicato ai test sulla porta 55432.
 Il controllo dal browser richiede inoltre Angular e l'API del setup di prova.
-Usare gli account di prova gia' descritti e ID effettivamente creati, senza
-inserire token o credenziali nel report. Per i rifiuti confrontare uno snapshot
-prima/dopo. Predisporre dati separati per account inattivo e issue duplicata.
+Gli account e gli ID sono predisposti nelle fixture, senza riportare token
+o credenziali nei risultati. Nei casi rifiutati viene confrontato uno snapshot
+prima/dopo; account inattivo e issue duplicata hanno dati dedicati.
 
-\textbf{Ingresso:} registrare data, riferimento del codice e modifiche locali,
+\textbf{Ingresso:} disponibilita' di data, riferimento del codice e modifiche locali,
 versioni, ambiente, comando o procedura. API, login e database isolato devono
 essere disponibili. Un prerequisito assente rende il caso bloccato, non superato.
 La suite HTTP usa database distinti per caso e JWT ottenuti dal login reale.
 Una fixture puo' predisporre condizioni non ottenibili dalla UI, per esempio
-un READONLY assegnatario; non richiedere modifiche ai dati di sviluppo.
+un READONLY assegnatario, senza modificare i dati di sviluppo.
 
-\textbf{Oracoli:} confrontare stato, UTC, destinatario e notifiche persistenti.
+\textbf{Oracoli:} confronto di stato, date UTC, destinatario e notifiche persistenti.
 Due chiamate separate a \texttt{UtcNow} non devono necessariamente produrre
 date identiche. Stesso stato valido: date e notifiche restano invariate;
-rifiuto: nessuna scrittura. Registrare risposta HTTP, riscontro persistente,
-risultato effettivo ed evidenza. Il proprietario deve essere verificato anche
+rifiuto: nessuna scrittura. Sono registrati risposta HTTP, riscontro persistente,
+risultato effettivo ed evidenza. Il proprietario viene verificato anche
 quando chi tenta la lettura e' ADMIN.
 
 \textbf{Evidenze acquisite:} suite backend, coverage, persistenza e analisi
@@ -27,10 +27,10 @@ qualita' sono in \path{verifica-backend/} sotto Documentazione finale.
 Il report frontend storico e' in \path{verifica-frontend/}; l'audit del
 19 ottobre registra i nuovi esiti. RF-17 e' verificato in backend e UI.
 Il CSV associa i casi ai metodi passati nel TRX e ai riscontri browser,
-distinti dalle sessioni con persone ancora da svolgere.
+distinti dalle sessioni di usabilita' con persone.
 
-La tabella mantiene gli ID TP-01--TP-10 del documento di Valerio e aggiunge
-TP-11--TP-14. La mappatura statica e' la seguente: stato e permessi in
+La tabella comprende i casi TP-01--TP-14. I riferimenti ai test sono:
+stato e permessi in
 \path{IssueStatusIntegrationTests.cs}; duplicati in
 \path{IssueDuplicateValidationIntegrationTests.cs}; notifiche in
 \path{NotificationsIntegrationTests.cs}. Riapertura/seconda risoluzione,
@@ -38,7 +38,7 @@ account disattivato e ripetizione del PATCH read hanno ora esiti dedicati
 nel TRX corrente. Per TP-14 la decisione del gruppo RF-17 fissa l'oracolo: GET delle
 proprie notifiche 200; PATCH read su notifica propria esistente 403, anche
 se gia' letta, senza modificare \texttt{IsRead}, date o altre righe.
-Predisporre per R notifiche lette e non lette tramite fixture. Verificare
+Le fixture predispongono per R notifiche lette e non lette. Il collaudo verifica
 l'assenza del comando UI e di PATCH automatici durante la consultazione;
 USER e ADMIN mantengono la lettura delle proprie notifiche (TP-13 e regressione
 per ADMIN). Esiti e riferimenti sono nel CSV; il criterio RF-17 e' invariato.

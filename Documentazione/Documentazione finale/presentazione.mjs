@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
+import { createHash } from 'node:crypto';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const build = path.join(root, '_build', 'presentazione');
@@ -16,12 +17,16 @@ const python = process.env.ARTIFACT_PYTHON;
 if (!skill || !python) throw new Error('Impostare PRESENTATIONS_SKILL_DIR e ARTIFACT_PYTHON per la validazione.');
 const {finalizePresentation} = await import(pathToFileURL(path.join(skill,'container_tools/artifact_tool_utils.mjs')).href);
 
-const p = Presentation.create({slideSize:{width:1280,height:720}});
+const sourcePath = path.join(root, 'presentazione', 'presentazione_tecnica_20261019.pptx');
+const sourceSha256 = createHash('sha256').update(await fs.readFile(sourcePath)).digest('hex');
+const p = await PresentationFile.importPptx(await FileBlob.load(sourcePath));
+if (p.slides.items.length !== 9) throw new Error('La presentazione di riferimento deve avere 9 slide.');
 const font = 'Arial';
 const ink = '#183B5C', body = '#263746';
 const specs = [];
 function text(s, value, x, y, w, h, size=30, bold=false, color=body) {
-  const sh=s.shapes.add({geometry:'textbox',name:value.slice(0,70),
+  const sh=s.shapes.items.find(shape => shape.position.left === x && shape.position.top === y)
+    ?? s.shapes.add({geometry:'textbox',name:value.slice(0,70),
     position:{left:x,top:y,width:w,height:h},fill:'none',
     line:{style:'solid',fill:'none',width:0}});
   sh.text=value;
@@ -29,20 +34,22 @@ function text(s, value, x, y, w, h, size=30, bold=false, color=body) {
   return sh;
 }
 function slide(title, seconds, notes) {
-  const s=p.slides.add(); s.background.fill='#FFFFFF';
+  const s=p.slides.items[specs.length];
   text(s,title,64,40,1152,78,44,true,ink);
-  const n=p.slides.items.length;
+  const n=specs.length+1;
   text(s,`${n}`,1180,674,40,24,18,false,'#5D6B77');
   s.speakerNotes.text=`Budget: ${seconds} secondi.\n${notes}`;
   specs.push({slide:n,title,seconds});
   return s;
 }
 async function diagram(s,name,area) {
+  if (s.images.items.length > 0) return;
   const b=await fs.readFile(path.join(root,'diagrammi',name+'.png'));
   s.images.add({blob:b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength),
     contentType:'image/png',alt:name,fit:'contain',position:area});
 }
 function table(s,values,widths,top,height,size=25) {
+  if (s.tables.items.length > 0) return s.tables.items[0];
   const tb=s.tables.add({rows:values.length,columns:values[0].length,
     left:64,top,width:1152,height,columnWidths:widths,values});
   tb.styleOptions={headerRow:false,bandedRows:false};
@@ -56,11 +63,11 @@ function table(s,values,widths,top,height,size=25) {
 }
 
 let s=slide('BugBoard26',20,
-  'Progetto SWE 2025/2026, modalità tradizionale. Perimetro assegnato: funzionalita 1, 2, 3, 6, 8, 11, 13, 14, 15, 16. Risultati tecnici acquisiti il 19 ottobre sul commit 6aa175a e correzioni locali non committate. Restano prove con persone, decisione CASE e prova cronometrata. Fonte: traccia §§3.2, 8, 10 e verifica-backend/audit-20261019.md. Repository: https://github.com/Valeriop03/BugBoard26.');
+  'Progetto SWE 2025/2026, modalità tradizionale. Perimetro assegnato: funzionalità 1, 2, 3, 6, 8, 11, 13, 14, 15, 16. Codice descritto nella relazione: b95d008. Le evidenze mantengono i riferimenti storici: audit backend su 6aa175a con correzioni locali, review frontend su 06ae1b0 con modifiche locali. Non sono nuove esecuzioni sul commit di copertina. Presentazione e demo provate secondo la conferma del gruppo, senza durata effettiva registrata. Fonte: documentazione_finale.tex e report di audit. Repository: https://github.com/Valeriop03/BugBoard26.');
 text(s,'Architettura, modello e verifica',64,236,1152,84,48,true,ink);
 text(s,'Progetto di Ingegneria del Software 2025/2026',64,350,1152,60,30);
 text(s,'Verifica tecnica e documentale del 19 ottobre 2026',64,440,1152,50,26);
-text(s,'Risultati reali e limiti dichiarati',64,520,1152,62,32,true);
+text(s,'Valerio Porcile, Emanuel Giuseppe Lupoli, Emanuele Martucci',64,520,1152,62,26,true);
 
 s=slide('Architettura e separazione dei componenti',75,
   'Spiegare perché SPA e API sono eseguibili separatamente. Il browser chiama REST con JWT, il backend centralizza dati e regole. EF Core/Npgsql accede a PostgreSQL; i file immagine risiedono nello storage backend. Compose esegue API e database, Angular resta sul PC. Motivare indipendenza dalla UI e limite del setup HTTP locale. Fonti: backend/BugBoard26.Api/Program.cs, docker/docker-compose.yml, README.md, component_diagram.puml. Il disegno è una vista sintetica del modello esistente.');
@@ -103,35 +110,35 @@ text(s,'4. Un salvataggio EF per issue e notifica',64,450,1152,60,34);
 text(s,'Stesso stato: date e notifiche restano invariate',64,580,1152,58,31,true);
 
 s=slide('Strategia di test e piano UC-02',80,
-  'Tre metodi non banali a due parametri testati in xUnit. SearchIssues: titolo, descrizione, nessuna corrispondenza; assert sul conteggio, non sugli ID. CanChangeIssueStatus: ruoli, attivita, assegnazione. SuggestAssignee: carichi e assenza candidati. Restano limiti unitari documentati su null/trim e parita; i test HTTP con PostgreSQL dedicato coprono anche query, permessi e persistenza. Suite corrente 166/166: 11 test di dominio e 155 integrazione. Tutti i 14 casi del test plan hanno evidenze, inclusi riapertura e seconda risoluzione, account disattivato e ripetizione della lettura. Sei test hanno prima riprodotto valori enum invalidi accettati, poi verificato la correzione dei DTO. Frontend 36/36. Fonti: TRX, test_plan.tex, strategie_dominio.tex, audit-20261019.md.');
+  'Tre metodi non banali a due parametri testati in xUnit. SearchIssues: titolo, descrizione e nessuna corrispondenza, con assert sul conteggio. CanChangeIssueStatus: ruoli, attivazione e assegnazione. SuggestAssignee: carichi differenti e assenza candidati. Limiti unitari su null/trim e parità descritti nella relazione. Test HTTP con PostgreSQL dedicato per query, permessi e persistenza. Suite backend 166/166: 11 dominio e 155 integrazione. Tutti i 14 casi del test plan hanno evidenze, inclusi riapertura/seconda risoluzione e account disattivato. Frontend 40/40 dopo regressioni CSV e controlli per ruolo. Non sommare casi xUnit, Jasmine e checkpoint browser. Fonti: strategie_dominio.tex, esiti_test_plan.csv, TRX, verifica-frontend/review-20261019/frontend-test.txt.');
 text(s,'SearchIssues: titolo, descrizione, nessun risultato',64,170,1152,66,31,true);
 text(s,'CanChangeIssueStatus: ruolo, attività e assegnazione',64,258,1152,66,31);
 text(s,'SuggestAssignee: carico e assenza di candidati',64,346,1152,66,31);
 text(s,'TP-UC02: permessi, date, notifiche e ripetizione',64,448,1152,66,31,true);
 text(s,'xUnit in memoria e test HTTP con PostgreSQL isolato',64,550,1152,48,27);
-text(s,'166 test backend superati. Evidenze per tutti i 14 casi TP.',64,616,1152,44,26,true);
+text(s,'166 test backend e 40 frontend superati. Piano UC-02: 14 casi.',64,616,1152,44,26,true);
 
-s=slide('Qualità misurata e attività ancora aperte',60,
-  'Analisi SonarQube realmente completata il 19 ottobre: Quality Gate OK, coverage complessiva 93,7%, linee 95,7%, branch 88,2%, zero bug e vulnerabilita segnalati, quattro code smell residui. Questi numeri non dimostrano assenza assoluta di difetti. Test backend 166/166 e frontend 36/36; collaudo browser reale con API Docker e PostgreSQL separato, non mock. Persistenza di dati e immagine verificata dopo riavvio e ricreazione del backend; volumi conservati. Review tecnica assistita parziale: corretti menu e nome accessibile ricerca. Restano osservazioni con persone e survey, review umana completa, decisione CASE e prova cronometrata. I report precedenti restano storici. Fonti: verifica-backend/audit-20261019.md, finalizzazione-20261019.md, aggiornamento-20261019.md, usabilita.md.');
-text(s,'Collaudo frontend',64,164,1152,53,34,true);
-text(s,'36 test superati e percorsi UI/API reali, senza mock.',64,221,1152,55,29);
-text(s,'Qualità backend',64,316,1152,53,34,true);
-text(s,'Coverage 93,7%. Gate OK. Zero bug e vulnerabilità segnalati.',64,373,1152,70,28);
-text(s,'Usabilità e conformità CASE',64,468,1152,53,34,true);
-text(s,'Prove con utenti e accettazione del tool ancora aperte.',64,525,1152,55,29);
-text(s,'Non confondere test automatici con prove con persone',64,620,1152,43,26,true);
+s=slide('Qualità e valutazione dell’usabilità',60,
+  'SonarQube: Quality Gate OK, coverage complessiva 93,7%, linee 95,7%, rami 88,2%, zero bug e vulnerabilità segnalati, quattro code smell visibili. Non è una certificazione di assenza di difetti. Persistenza verificata dopo riavvio e ricreazione backend con volumi conservati. Review sistematica assistita completata: 28 controlli browser, tastiera, recupero upload e correzione di quattro campioni di contrasto insufficienti. Sessioni del 19 ottobre riferite dal moderatore: tre persone conosciute, tutte USER su PC condiviso. P01/P03 creazione U2, P02 notifica U4. Completamento autonomo dichiarato dopo spiegazione iniziale. Q1-Q5, scala 1-5: P01 5/4/4/4/5; P02 4/4/5/4/4; P03 4/3/4/4/3. Nessuna risposta aperta o tempo rilevato. I due voti 3 non permettono di attribuire cause. Campione di convenienza ridotto, due attività, solo USER. Non è SUS né validazione statistica. Fonti: verifica-backend/audit-20261019.md, verifica-frontend/review-20261019/report.md, evidenze/questionario.csv, evidenze/sessioni_utenti.csv, documentazione_finale.tex.');
+text(s,'Qualità backend',64,164,1152,53,34,true);
+text(s,'Coverage 93,7%, gate OK. Segnalazioni: 0 bug, 0 vulnerabilità, 4 smell.',64,221,1152,55,27);
+text(s,'Review sistematica',64,316,1152,53,34,true);
+text(s,'28 controlli browser. Correzioni di contrasto e verifica da tastiera.',64,373,1152,70,28);
+text(s,'Tre sessioni con partecipanti',64,468,1152,53,34,true);
+text(s,'Due prove di creazione, una di lettura notifica. 15 risposte su scala 1-5.',64,525,1152,55,27);
+text(s,'Campione ridotto, solo USER. Nessuna generalizzazione statistica.',64,620,1152,43,25,true);
 
-s=slide('Demo breve coordinata con il frontend',35,
-  'Passare al collega frontend dopo la presentazione tecnica. Proposta di demo successiva di 2-3 minuti, da concordare e provare realmente. Preparare account distinti S e A, READONLY e una issue già assegnata. Legare ogni passaggio a un controllo tecnico. Non dichiarare collaudata la demo prima della prova. Tutti i membri devono conoscere ogni parte del sistema. Fonte: consegna.md e traccia §10. Budget complessivo delle slide: 540 secondi, previsione non prova cronometrata.');
+s=slide('Dimostrazione del flusso di risoluzione',35,
+  'La dimostrazione segue la presentazione tecnica. Il gruppo conferma di aver già provato presentazione e demo, senza comunicare una durata misurata: i 540 secondi sono soltanto il budget delle slide. Usare gli account dimostrativi distinti S, A e READONLY e la issue assegnata predisposta per la demo. Durante la lettura READONLY mostrare i filtri e i comandi consentiti. Per la risoluzione spiegare il controllo del ruolo e dell’assegnazione nel backend. Il segnalatore ricarica le notifiche e vede la nuova notifica, senza presumere aggiornamenti realtime. Fonti: documentazione_finale.tex, consegna.md, traccia §10.');
 text(s,'READONLY consulta, filtra ed esporta',64,204,1152,68,36,true);
 text(s,'L’assegnatario risolve una issue predisposta',64,316,1152,68,36);
 text(s,'Il segnalatore ritrova e legge la notifica',64,428,1152,68,36);
-text(s,'Passaggio al collega e prova congiunta ancora da confermare',64,582,1152,65,28,true);
+text(s,'Il backend controlla i permessi e conserva stato e notifica',64,582,1152,65,28,true);
 
 if(specs.reduce((n,s)=>n+s.seconds,0)!==540)throw new Error('Budget slide inatteso');
 const candidate=path.join(build,'candidate.pptx');
 await(await PresentationFile.exportPptx(p)).save(candidate);
-let final=path.join(root,'presentazione','presentazione_tecnica_20261019.pptx');
+let final=path.join(root,'presentazione','presentazione_tecnica_aggiornata.pptx');
 await fs.mkdir(path.dirname(final),{recursive:true});
 try { await fs.access(final); final=path.join(root,'presentazione',`presentazione_tecnica_${Date.now()}.pptx`); } catch {}
 await finalizePresentation({workspaceDir:root,candidatePath:candidate,finalPath:final,
@@ -141,7 +148,7 @@ await finalizePresentation({workspaceDir:root,candidatePath:candidate,finalPath:
   explicitTotalSlideCount:9,requiredNativeTableOwnerSlides:[4,5],
   layoutArgs:['--expected-slide-size-emu','12192000,6858000','--validate-bullet-geometry','--validate-heading-fit',
     '--require-native-table-slide','4','--require-native-table-slide','5'],
-  fontPolicy:{basis:'design',families:[font]},verifyArtifactToolImport:true,
+  fontPolicy:{basis:'reference',families:[font],referencePath:sourcePath,referenceSha256:sourceSha256},verifyArtifactToolImport:true,
   receiptPath:path.join(build,`validation-${Date.now()}.json`)});
 const checked=await PresentationFile.importPptx(await FileBlob.load(final));
 const previews=path.join(build,'slides');await fs.mkdir(previews,{recursive:true});
@@ -149,5 +156,5 @@ for(const [i,sl] of checked.slides.items.entries()){
   const png=await checked.export({slide:sl,format:'png',scale:1});
   await fs.writeFile(path.join(previews,`slide-${String(i+1).padStart(2,'0')}.png`),new Uint8Array(await png.arrayBuffer()));
 }
-await fs.writeFile(path.join(build,'scaletta.json'),JSON.stringify({total_seconds:540,rehearsal:'NON ESEGUITA',slides:specs},null,2));
-console.log(JSON.stringify({file:final,slides:checked.slides.items.length,planned_seconds:540,rehearsal:'NON ESEGUITA'}));
+await fs.writeFile(path.join(build,'scaletta.json'),JSON.stringify({total_seconds:540,rehearsal:'SVOLTA, conferma del gruppo',measured_seconds:null,slides:specs},null,2));
+console.log(JSON.stringify({file:final,slides:checked.slides.items.length,planned_seconds:540,rehearsal:'SVOLTA, conferma del gruppo',measured_seconds:null}));

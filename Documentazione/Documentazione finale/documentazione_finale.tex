@@ -46,43 +46,43 @@ Componenti & Valerio Porcile -- N86004517\\
  & Emanuel Giuseppe Lupoli -- N86004280\\
  & Emanuele Martucci -- N86004084\\
 Modalita' & Tradizionale\\
-Versione & 1.5 -- review sistematica e sessioni di usabilita'\\
+Versione & 1.6 -- relazione tecnica\\
 Data di riferimento & 19 ottobre 2026\\
-Codice esaminato & \texttt{06ae1b0} + correzioni locali\\
+Codice descritto (commit Git) & \texttt{b95d008}\\
 \end{tabular}
 \vfill
 \end{titlepage}
 \pagenumbering{roman}
 \hypersetup{pageanchor=true}
 
-\chapter*{Stato del documento}
-\addcontentsline{toc}{chapter}{Stato del documento}
+\chapter*{Introduzione}
+\addcontentsline{toc}{chapter}{Introduzione}
 Questo documento riunisce la specifica dei requisiti, il design del sistema
 e le attivita' di testing in capitoli distinti, secondo la sezione 8 della
 traccia ufficiale v1.1. Riprende il materiale dei due homework e lo confronta
 con il codice disponibile nel repository.
 
-Il documento distingue risultati storici e verifiche del 19 ottobre 2026 sul
-commit \texttt{6aa175a} con correzioni locali non committate. Sono disponibili
-suite backend completa, analisi SonarQube reale, importazione coverage,
-persistenza Docker e collaudo browser di RF-17. Report, stato Git e impronte
-dei sorgenti sono in \path{verifica-backend/}, sotto questa cartella documentale.
-Sono inoltre registrate tre sessioni con amici del moderatore, riportate
-nel suo resoconto per il 19 ottobre: tutti USER su PC condiviso, con completamento
-autonomo dopo spiegazione iniziale e quindici risposte numeriche al survey.
-Non sono riportati nomi. Le osservazioni qualitative non sono fornite.
-E' inoltre completata la review sistematica assistita, documentata con
-evidenze browser, rilievi di contrasto corretti e limiti espliciti.
-Restano verifica dei modelli CASE, revisione editoriale finale e prova
-cronometrata della presentazione, indicate nel capitolo 4.
-Non vengono attribuiti esiti positivi alle attivita' non eseguite.
+La relazione presenta il perimetro assegnato, i casi d'uso, le scelte
+architetturali e Object-Oriented, il modello dei dati e le verifiche svolte.
+Il capitolo sul testing distingue test automatici, collaudo del sistema,
+analisi di qualita' e valutazione dell'usabilita'. Il capitolo conclusivo
+espone i limiti del prodotto e della valutazione.
+
+La revisione del codice descritta e' \texttt{b95d008}. I risultati delle
+verifiche mantengono il proprio riferimento storico: il collaudo del
+16 ottobre riguarda \texttt{e139951}; l'audit del 19 ottobre usa la base
+\texttt{6aa175a} con correzioni locali, mentre la successiva review frontend
+usa \texttt{06ae1b0} con modifiche locali. I report conservano stato Git e
+impronte dei sorgenti per identificare gli esemplari analizzati. La revisione
+editoriale non costituisce una nuova esecuzione dei test sul commit di
+copertina.
 
 \textbf{Repository:} \url{https://github.com/Valeriop03/BugBoard26}.
 La traccia di riferimento e' il file
 \path{Progetto-SWE-2025-2026 - canale 2 - v1.1.pdf} nella radice.
-I sorgenti dei homework sono conservati come materiale precedente;
-questo documento costituisce la versione unificata da completare con
-gli ultimi risultati prima della consegna.
+I sorgenti dei homework sono conservati come materiale precedente.
+I percorsi relativi citati nella relazione si riferiscono alla cartella
+\path{Documentazione/Documentazione finale/}, salvo diversa indicazione.
 
 {\small\setlength{\parskip}{0pt}\tableofcontents}
 \clearpage
@@ -145,9 +145,9 @@ READONLY & Consulta issue, dettagli, immagini e archivio; usa ricerca, filtri ed
 Tutti i ruoli autenticati possono consultare il suggerimento assegnatario
 e le proprie notifiche.
 
-\textbf{Decisione del gruppo su RF-17 -- 16 ottobre 2026:} READONLY puo'
-consultare le proprie notifiche, ma non segnarle come lette. E' una decisione
-del gruppo, non un chiarimento dei docenti. Il contratto e' implementato e
+\textbf{Interpretazione adottata per RF-17:} READONLY puo'
+consultare le proprie notifiche, ma non segnarle come lette. Questa scelta
+applica il divieto di scrittura anche allo stato di lettura. Il contratto e' implementato e
 verificato con test HTTP e browser: GET proprie 200, PATCH read 403 senza
 scritture e nessun comando UI, anche per notifiche gia' lette.
 
@@ -270,7 +270,7 @@ differenze di configurazione fra i tre PC. Il progetto backend usa .NET 10,
 il frontend Angular 19; le versioni effettive dei pacchetti sono nei
 rispettivi file di progetto e lockfile.
 \diagramma{../Secondo homework/diagrammi_architetturali/component_diagram.png}{Componenti e comunicazione del sistema.}
-\diagramma{../Secondo homework/diagrammi_architetturali/deployment_locale.png}{Deployment locale allineato a Compose; il deployment precedente e i VPD restano storici.}
+\diagramma{../Secondo homework/diagrammi_architetturali/deployment_locale.png}{Deployment locale con frontend, API e database.}
 \clearpage
 
 \section{Organizzazione Object-Oriented}
@@ -434,10 +434,11 @@ non sono conservati segreti di avvio nei file applicativi versionati.
 
 \section{Versionamento e artefatti}
 Il repository Git indicato all'inizio raccoglie codice, test e documenti.
-La release definitiva dovra' identificare la revisione consegnata; non si
-inventano statistiche di contribuzione. Sorgenti PlantUML e PNG correnti
-sono verificati insieme; i VPD restano storici. La conformita' CASE
-e' discussa nel capitolo 4.
+La cronologia Git documenta l'evoluzione dei sorgenti e i contributi;
+il riferimento della revisione descritta e' riportato in copertina.
+Sorgenti PlantUML e PNG correnti sono verificati insieme; i file VPD sono
+conservati come artefatti storici. Provenienza delle viste e limiti della
+verifica CASE sono descritti nel capitolo 4.
 
 \chapter{Testing e valutazione dell'usabilita'}
 \section{Strategia e livelli di verifica}
@@ -462,7 +463,7 @@ usato Angular, backend Docker e PostgreSQL reali, con Chrome headless.
 \bottomrule
 \end{longtable}
 I tre metodi hanno ciascuno due parametri. Le Theory rappresentano casi
-significativi, non un obiettivo numerico. La suite di integrazione aggiunge
+significativi rispetto alle regole del dominio. La suite di integrazione aggiunge
 verifiche di permessi, filtri, escaping CSV, parita' ed esclusioni del
 suggerimento, immagini e persistenza. La copertura strutturale completa
 non e' deducibile da questo elenco: va misurata sulla suite completa.
@@ -470,10 +471,10 @@ non e' deducibile da questo elenco: va misurata sulla suite completa.
 
 \section{Test plan -- Risoluzione di una issue}
 \textbf{Obiettivo:} verificare UC-02 e RF-10/RF-11 senza consentire
-modifiche a utenti non autorizzati. Preparare una issue di prova creata
-da S e assegnata ad A, entrambi USER attivi e distinti; U e' un altro USER,
-R e' READONLY. Usare un ADMIN separato. Registrare stato, date e notifiche
-prima e dopo. Non modificare issue preesistenti per il collaudo.
+modifiche a utenti non autorizzati. Il piano prevede una issue di prova
+creata da S e assegnata ad A, entrambi USER attivi e distinti; U e' un altro
+USER, R e' READONLY, con un ADMIN separato. Stato, date e notifiche vengono
+confrontati prima e dopo le operazioni, usando dati predisposti per la prova.
 \input{test_plan.tex}
 
 \begin{longtable}{P{0.09\textwidth} P{0.38\textwidth} P{0.43\textwidth}}
@@ -499,17 +500,16 @@ esito registrato e nessuna modifica non autorizzata. Gli esiti effettivi sono
 in \path{esiti_test_plan.csv}, con rimandi a metodi di test e TRX; i controlli
 UI richiamano il collaudo browser. TP-08 e TP-11 hanno casi HTTP dedicati;
 TP-13 include il PATCH ripetuto e TP-14 il rifiuto READONLY anche su notifiche
-gia' lette. Questa esecuzione tecnica non equivale a una prova con persone
-o a una prova cronometrata della demo.
+gia' lette. Gli esiti dei test tecnici sono distinti dalle sessioni di
+usabilita' con persone.
 
 \section{Collaudo frontend reale -- 16 ottobre 2026}
-Fonte: riepilogo del collaudo svolto da Valerio, confermato dal gruppo e
-conservato in questa sezione. Non e' una nuova esecuzione di questa revisione
-documentale. Report e screenshot sono in \path{verifica-frontend/}.
+Il report del collaudo e gli screenshot sono in
+\path{verifica-frontend/report.md} e \path{verifica-frontend/immagini/}.
 Riferimento: commit \texttt{e13995140dff382dc3d548208c6c1e60be91fe5d},
 checkout pulito prima e dopo. API sulla porta 5256 e Angular sulla 4200;
-PostgreSQL del Compose di sviluppo. Il precedente blocco Docker e' stato
-risolto avviando Docker Desktop; non e' stato necessario cambiare codice.
+PostgreSQL del Compose di sviluppo. Le prove hanno utilizzato il sistema
+avviato, senza sostituire le risposte delle API con simulazioni.
 
 Sono stati creati tre account con prefisso
 \texttt{collaudo-20261016084339} (due USER e un READONLY) e le issue 4--7.
@@ -535,26 +535,23 @@ Notifica & Via API verificata la notifica di risoluzione della issue 7 al segnal
 \bottomrule
 \end{longtable}
 La build frontend e' riuscita e i 27 test Jasmine/Karma sono passati senza
-watch con ChromeHeadless. Alcune asserzioni dello script temporaneo sono
-state corrette per attendere il rendering o cercare il testo effettivo;
-le prove sono state ripetute. Nessuna correzione applicativa e' risultata
-necessaria. Gli screenshot sono stati prodotti nella cartella temporanea
-locale e poi selezionati in \path{verifica-frontend/immagini/}.
+watch con ChromeHeadless. La prova non ha richiesto correzioni applicative.
+Gli screenshot selezionati sono conservati in
+\path{verifica-frontend/immagini/}.
 
 Questa prova non misura le prestazioni con rete rallentata o grandi
 quantita' di dati, non copre ogni browser e non sostituisce il collaudo
 di persistenza dopo ricreazione dei container.
 
 \section{Esecuzione ripetibile e qualita' backend}
-Il collaudo frontend storico sopra resta attribuito a Valerio. Le verifiche
-successive sono registrate separatamente in \path{verifica-backend/}, nella
-cartella Documentazione finale: non in una cartella alla radice del repository.
+Le verifiche successive sono registrate separatamente in
+\path{verifica-backend/} e \path{verifica-frontend/review-20261019/}.
 I report includono comandi, data, HEAD, modifiche non committate e SHA256.
 Il 19 ottobre sono stati eseguiti 166 casi backend (11 dominio, 155 integrazione)
 con PostgreSQL dedicato: tutti superati, nessuno ignorato. Il test plan e'
 ricondotto ai singoli metodi nel CSV degli esiti.
 
-Il collaudo browser finale del 19 ottobre ha verificato 20 controlli con API Docker
+Il collaudo integrato dell'audit del 19 ottobre ha verificato 20 controlli con API Docker
 reali e database E2E dedicato, senza mock HTTP: utenti, creazione con PNG,
 suggerimento, dettaglio, risoluzione, notifiche USER/ADMIN, RF-17, CSV,
 duplicazione e archivio. Le correzioni UI successive riguardano la visibilita'
@@ -579,8 +576,8 @@ La sola esecuzione dei test di dominio con filtro non sostituisce la suite
 di integrazione. Dopo l'adattamento del download CSV i test Jasmine/Karma
 sono 40, inclusi controlli di navigazione e creazione per ruolo e verifica
 dei byte esportati, eseguiti in ChromeHeadless senza watch. La build e'
-riuscita e il browser reale ha verificato il download; l'utente ha poi
-confermato l'apertura corretta del CSV in Excel durante il collaudo interno.
+riuscita e il browser reale ha verificato il download. Il resoconto del
+collaudo interno riporta inoltre l'apertura corretta del CSV in Excel.
 
 SonarQube locale e la raccolta OpenCover sono predisposti in
 \path{quality/analyze-backend.ps1} e \path{quality/coverage.runsettings}.
@@ -602,11 +599,12 @@ stessa issue e lo stesso SHA256 immagine. Nessun test automatico usa il
 database di sviluppo; le prove Docker con dati riconoscibili sono distinte.
 
 \section{Valutazione dell'usabilita' -- review e sessioni}
-Il collaudo tecnico precedente non e' una prova con utenti potenziali.
-La traccia richiede sia una review sistematica sia osservazioni e survey
-con utenti. Questa sezione distingue il protocollo, la review assistita
-e le tre sessioni riferite dall'utente. Non si deducono attivita', tempi o
-osservazioni qualitative dai soli voti del questionario.
+La valutazione comprende una review tecnica sistematica e tre sessioni
+con partecipanti potenziali, documentate dal resoconto del moderatore e
+dal questionario. I due metodi sono complementari: il collaudo tecnico
+verifica comportamenti del sistema, mentre le sessioni raccolgono
+riscontri d'uso. I soli voti non permettono di ricostruire tempi,
+attivita' non osservate o cause delle difficolta'.
 
 \subsection{Review tramite checklist}
 La review sistematica assistita del 19 ottobre e' registrata in
@@ -614,13 +612,15 @@ La review sistematica assistita del 19 ottobre e' registrata in
 Il report completo e' in \path{verifica-frontend/review-20261019/report.md};
 la prima review backend resta storica. Sono ispezionati sorgenti e screenshot
 e provati 28 controlli browser con API Docker reale e PostgreSQL dedicato.
-La review non e' attribuita a un revisore umano indipendente e non certifica WCAG.
+La review e' assistita da automazione browser e non costituisce una
+valutazione umana indipendente o una certificazione WCAG.
 \begin{itemize}
 \item Terminologia coerente fra lista, form e dettaglio.
 \item Navigazione riconoscibile e ritorno alla lista disponibile.
 \item Campi obbligatori ed errori comprensibili vicino al campo.
 \item Caricamento, esito del salvataggio, errore e lista vuota distinguibili.
 \item Azioni coerenti con il ruolo, senza pulsanti di modifica per READONLY.
+\item Riconoscibilita' della notifica di risoluzione e dello stato letto/non letto.
 \item Uso da tastiera, focus visibile e leggibilita' su schermi piccoli.
 \item Recupero dell'upload senza indurre una seconda creazione.
 \end{itemize}
@@ -645,31 +645,26 @@ focus iniziale sugli errori e conferma delle azioni admin. La review e'
 completata nel perimetro dichiarato, non e' una certificazione di accessibilita'.
 
 \subsection{Sessioni con utenti e questionario}
-Coinvolgere utenti reali o potenziali del sistema, usando account e dati
-di prova. Annotare un codice anonimo del partecipante, ruolo, attivita',
-completamento autonomo/con aiuto, errori e osservazioni. Non raccogliere
-dati personali non necessari. Il gruppo deve osservare senza suggerire
-subito la soluzione e registrare le difficolta' effettive.
+Il protocollo definisce cinque attivita': ricerca di una issue (U1),
+creazione (U2), risoluzione come assegnatario (U3), consultazione e lettura
+della notifica (U4), filtro ed export in sola lettura (U5).
+Nelle tre sessioni registrate sono state svolte soltanto U2 e U4;
+non si attribuisce ai partecipanti l'esecuzione dell'intero protocollo.
 
-Attivita' proposte: segnalare una issue; cercarla e filtrarne l'elenco;
-aprire il dettaglio e risolverla con un account assegnatario; consultare
-una issue con account READONLY. Le azioni ADMIN possono essere valutate
-con un partecipante che rappresenti quel ruolo.
+Il questionario usa una scala da 1 (per nulla) a 5 (molto) per navigazione,
+comprensibilita' dei campi, ricerca, esiti delle operazioni e permessi.
+Prevede inoltre una domanda sul passaggio meno chiaro e un suggerimento
+facoltativo. Per queste due domande non sono disponibili risposte.
+Si tratta di un questionario locale breve, non di uno strumento SUS.
+Protocollo e testi delle attivita' sono in \path{usabilita.md}; sessioni e
+punteggi sono conservati in \path{evidenze/sessioni_utenti.csv} e
+\path{evidenze/questionario.csv}.
 
-Al termine, raccogliere valutazioni da 1 (per nulla) a 5 (molto) su:
-chiarezza della navigazione, comprensibilita' dei campi, facilita' nel
-trovare una issue, chiarezza degli esiti e dei permessi. Aggiungere una
-domanda aperta: ``Quale passaggio e' stato meno chiaro?''.
-Riportare numero reale di sessioni, risultati e limiti del campione;
-non attribuire validazione statistica a poche osservazioni.
-Il protocollo operativo esteso, le attivita' e il questionario sono in
-\path{usabilita.md}. I file \path{evidenze/questionario.csv} e
-\path{evidenze/sessioni_utenti.csv} contengono i dati ricevuti, non esempi.
-
-\subsection{Risultati riferiti delle tre sessioni}
+\subsection{Risultati e limiti delle tre sessioni}
 Fonte: resoconto del moderatore e risposte trascritte del questionario;
-non sono allegate registrazioni delle sessioni. Data: 19 ottobre 2026. Tre amici hanno
-usato il PC del moderatore in condivisione, tutti con ruolo USER. P01 e P03
+non sono allegate registrazioni delle sessioni. Data: 19 ottobre 2026.
+Il campione di convenienza comprende tre persone conosciute dal moderatore,
+che hanno usato il suo PC in condivisione, tutte con ruolo USER. P01 e P03
 hanno svolto U2, creazione issue; P02 U4, riscontro e lettura notifica.
 Per tutti il completamento e' dichiarato autonomo dopo una spiegazione
 iniziale, che viene esplicitamente registrata. Non e' descritto il contenuto
@@ -700,59 +695,28 @@ significano non fornito, non assenza di problemi. La modalita' del consenso
 non e' documentata. La review tecnica resta un'attivita' distinta.
 Dettagli e provenienza: \path{evidenze/risposte-parziali-usabilita.md}.
 
-\chapter{Limiti e completamento della consegna}
-\section{Punti ancora aperti}
-\begin{enumerate}
-\item Consolidare nel commit e nella release manuali i sorgenti effettivamente verificati; i risultati attuali includono modifiche locali non committate.
-\item Rifinire la relazione separando promemoria operativi e contenuti di consegna; review assistita, tre sessioni USER e quindici voti sono documentati con limiti espliciti.
-\item Verificare l'allineamento dei modelli nel tool CASE rispetto a codice e diagrammi finali. Sorgenti PlantUML e PNG sono coerenti; i file originali non sono stati verificati nel loro programma, non e' accertata una non conformita'.
-\item Eseguire la prova cronometrata della presentazione e coordinare la demo; predisporre la consegna individuale Teams.
-\end{enumerate}
+\chapter{Limiti e conclusioni}
+\section{Limiti della valutazione}
+Le verifiche tecniche sono riferite alle revisioni e agli ambienti
+identificati nei report. Non coprono tutti i browser, condizioni di carico
+elevato o un deployment pubblico. Il superamento dei test e il Quality Gate
+non rappresentano una certificazione completa di sicurezza o prestazioni.
+Le sessioni di usabilita' sono limitate a tre partecipanti, al ruolo USER
+e a due attivita'; le lacune del resoconto sono indicate nel capitolo 3.
+
 \input{vincoli_case.tex}
+\section{Perimetro del prodotto}
 Non sono previsti paginazione, ripristino archivio, refresh token o gestione
-immagini dal dettaglio frontend. Non vengono aggiunti come nuovi requisiti.
-Il piano di consegna non richiede nuove funzionalita' fuori assegnazione.
+immagini dal dettaglio frontend.
+Queste esclusioni mantengono il prodotto nel perimetro assegnato.
 
-\section{Pacchetto e discussione}
-La consegna deve identificare repository e release definitiva, includere
-sorgenti, file di build/deployment, test, documento unificato, diagrammi,
-report e presentazione. Non includere dipendenze installate, file bin/obj,
-token, segreti personali o risultati fittizi. Ogni componente consegna i
-link tramite Teams secondo la traccia e comunica ai docenti l'invio.
-
-La presentazione tecnica dura al massimo dieci minuti ed e' seguita dalla
-demo. Deve spiegare scelte architetturali, modello, autorizzazioni e test,
-non soltanto elencare funzioni. Tutti i membri devono conoscere il sistema.
-Sequenza demo proposta: login, creazione con immagine, ricerca/export,
-risoluzione come assegnatario e notifica al segnalatore, duplicato/archivio
-come ADMIN, consultazione READONLY. Usare dati nuovi e riconoscibili.
-Per una demo breve concordare con il collega frontend un sottoinsieme dei
-passaggi: consultazione READONLY, risoluzione come assegnatario e notifica
-al segnalatore. La scaletta da nove minuti e il piano di demo successiva sono
-in \path{consegna.md}. La prova cronometrata e il coordinamento sono aperti.
-
-\section{Manutenzione del documento}
-Compilare dalla directory che contiene questo sorgente per risolvere i
-percorsi relativi delle figure. Per esempio, con Tectonic disponibile:
-\begin{verbatim}
-tectonic documentazione_finale.tex
-\end{verbatim}
-Conservare questo sorgente insieme ai mockup e diagrammi referenziati;
-il PDF puo' invece essere consultato autonomamente. Prima della consegna
-aggiornare versione, commit, risultati delle verifiche ancora aperte e
-stato del documento, senza riscrivere i requisiti per giustificare il codice.
-Per rigenerare documento e slide con controlli di sorgenti/PNG usare
-\path{rigenera.ps1}, come indicato nel readme di questa cartella. La
-compilazione non esegue test applicativi. Il registro \path{evidenze.md}
-mantiene distinti risultati storici, esito frontend riportato da Valerio e
-risultati del 19 ottobre in \path{verifica-backend/}. L'audit corrente
-registra 166 test backend e, dopo il fix CSV, 40 frontend superati, oltre all'analisi
-SonarQube effettiva. Il report distingue il commit iniziale dalle
-correzioni locali non committate. Le tre sessioni con persone sono riportate
-dal moderatore e restano distinte dai test automatici. La review sistematica
-assistita ha evidenze separate; verifica CASE e prova cronometrata non sono
-dedotte dalla compilazione.
-La checklist di release e invio individuale Teams
-e' in \path{consegna.md}; nessuna consegna viene effettuata qui.
+\section{Conclusioni}
+BugBoard26 realizza le funzionalita' assegnate con frontend e backend
+indipendenti, dati centralizzati e operazioni regolate dai ruoli.
+Test di dominio, integrazione, collaudi browser e analisi statica
+supportano i comportamenti verificati. La review ha portato a correzioni
+puntuali dell'interfaccia e le sessioni con partecipanti hanno fornito un
+primo riscontro d'uso. Questi risultati restano circoscritti ai metodi,
+agli scenari e ai limiti dichiarati nella relazione.
 
 \end{document}

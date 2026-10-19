@@ -1,20 +1,15 @@
-\section{Conformita' CASE e provenienza delle viste}
-La revisione del 16 ottobre riporta PlantUML 1.2026.8 e Java 21 come
-ambiente di generazione. L'audit corrente riutilizza senza riscrivere
-le viste esistenti, il deployment locale e le due viste sintetiche per
-le slide; non dichiara una nuova generazione con quell'ambiente.
-Il controllo in \path{prepara_documentazione.py}
-confronta ogni blocco sorgente con i metadati del relativo PNG e produce
-\path{diagrammi_manifest.json}, con percorsi e impronte dei file controllati.
-Questo verifica la coerenza sorgente/export, non l'accettazione del tool.
+\section{Provenienza dei diagrammi e verifica CASE}
+I diagrammi riportati nella relazione sono generati dai sorgenti UML
+PlantUML versionati nella repository. La revisione documentale del
+16 ottobre registra PlantUML 1.2026.8 e Java 21 come ambiente di generazione.
+Il manifest \path{diagrammi_manifest.json} riporta percorsi e impronte dei
+file; il controllo confronta i sorgenti con i metadati incorporati nei PNG.
+Questo riscontro documenta la coerenza fra sorgente ed esportazione.
 
-I VPD non sono modificati o dichiarati aggiornati. Non e' stata verificata
-un'importazione o una sincronizzazione nel modello Visual Paradigm.
-Domanda precisa da sottoporre ai docenti, non ancora inviata:
-\emph{Ai fini del paragrafo 3.2 sono accettati sorgenti UML PlantUML versionati
-con export coerenti e tracciabili, oppure occorre un modello nativo
-sincronizzato in un tool CASE, ad esempio Visual Paradigm? In quest'ultimo
-caso quali formati di progetto ed export devono essere consegnati?}
-Fino alla risposta o all'allineamento nel tool richiesto, il punto rimane aperto.
-
-\section{Perimetro della revisione}
+I file Visual Paradigm sono conservati come artefatti storici. Non e'
+documentata la sincronizzazione dei modelli nativi con tutte le viste
+attuali. La coerenza dei sorgenti PlantUML e dei PNG non dimostra, da sola,
+l'adempimento del vincolo sull'uso di strumenti CASE della sezione 3.2
+della traccia. Tale conformita' resta quindi un punto non attestato
+dalle verifiche raccolte, distinto dalla correttezza dei comportamenti
+applicativi sottoposti a test.

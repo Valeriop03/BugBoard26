@@ -10,9 +10,10 @@ review sistematica assistita. Restano verifica dei modelli CASE, revisione
 editoriale finale e prova cronometrata, non l'assenza dei risultati tecnici.
 
 - [Documento unico](documentazione_finale.pdf) e [sorgente](documentazione_finale.tex).
-- [Presentazione aggiornata](presentazione/presentazione_tecnica_20261019.pptx):
-  9 slide e 540 secondi pianificati nell'audit tecnico. Da allineare alla
-  successiva raccolta di usabilita'; non e' una prova cronometrata.
+- [Presentazione aggiornata](presentazione/presentazione_tecnica_aggiornata.pptx):
+  9 slide allineate ai test correnti e alle tre sessioni di usabilita'.
+  Budget previsto di 9 minuti, demo successiva. Prova confermata dal gruppo;
+  durata effettiva non registrata.
 - [Audit corrente](verifica-backend/audit-20261019.md): 166 test backend, Sonar
   realmente elaborato, 0 bug e 0 vulnerabilita', gate OK e limiti residui.
 - [Collaudo integrato del 19 ottobre](verifica-backend/finalizzazione-20261019.md)

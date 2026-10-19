@@ -48,7 +48,7 @@ def verify_diagrams():
                 "pixel_size": size, "embedded_source_matches": True
             })
     manifest = {
-        "revision": "2026-10-16", "verification": "Confronto blocco @startuml e metadati plantuml del PNG",
+        "revision": "2026-10-19", "verification": "Confronto blocco @startuml e metadati plantuml del PNG",
         "case_compliance": "APERTA: accettazione PlantUML o sincronizzazione tool CASE da confermare",
         "historical_vpd": "Non modificati, non dichiarati sincronizzati",
         "historical_deployment": "deployment_diagram.png escluso dalle viste finali correnti",

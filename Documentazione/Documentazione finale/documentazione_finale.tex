@@ -46,9 +46,9 @@ Componenti & Valerio Porcile -- N86004517\\
  & Emanuel Giuseppe Lupoli -- N86004280\\
  & Emanuele Martucci -- N86004084\\
 Modalita' & Tradizionale\\
-Versione & 1.2 -- decisione RF-17, evidenze aperte\\
-Data di riferimento & 16 ottobre 2026\\
-Codice esaminato & \texttt{e139951}\\
+Versione & 1.3 -- audit e verifiche integrate\\
+Data di riferimento & 19 ottobre 2026\\
+Codice esaminato & \texttt{6aa175a} + correzioni locali\\
 \end{tabular}
 \vfill
 \end{titlepage}
@@ -62,14 +62,13 @@ e le attivita' di testing in capitoli distinti, secondo la sezione 8 della
 traccia ufficiale v1.1. Riprende il materiale dei due homework e lo confronta
 con il codice disponibile nel repository.
 
-Il documento distingue il codice esaminato dai comportamenti attesi ancora
-da allineare e verificare, in particolare RF-17. Il collaudo frontend
-con API e PostgreSQL reali del 16 ottobre 2026 e' riportato nel capitolo 3.
-Questo non equivale alla conclusione di tutte le attivita' di consegna:
-restano da consolidare la suite backend completa, il report SonarQube,
-le prove di persistenza dopo ricreazione dei container, la valutazione
-di usabilita', la conformita' CASE e l'attuazione della decisione del gruppo
-su RF-17, indicate nel capitolo 4.
+Il documento distingue risultati storici e verifiche del 19 ottobre 2026 sul
+commit \texttt{6aa175a} con correzioni locali non committate. Sono disponibili
+suite backend completa, analisi SonarQube reale, importazione coverage,
+persistenza Docker e collaudo browser di RF-17. Report, stato Git e impronte
+dei sorgenti sono in \path{verifica-backend/}, sotto questa cartella documentale.
+Restano sessioni di usabilita' con persone e questionari reali, conformita'
+CASE e prova cronometrata della presentazione, indicate nel capitolo 4.
 Non vengono attribuiti esiti positivi alle attivita' non eseguite.
 
 \textbf{Repository:} \url{https://github.com/Valeriop03/BugBoard26}.
@@ -142,9 +141,9 @@ e le proprie notifiche.
 
 \textbf{Decisione del gruppo su RF-17 -- 16 ottobre 2026:} READONLY puo'
 consultare le proprie notifiche, ma non segnarle come lette. E' una decisione
-del gruppo, non un chiarimento dei docenti. L'allineamento backend e i test
-sono affidati ad amico 1; restano da allineare e verificare anche i controlli
-frontend. Nessuno di questi esiti e' ancora acquisito.
+del gruppo, non un chiarimento dei docenti. Il contratto e' implementato e
+verificato con test HTTP e browser: GET proprie 200, PATCH read 403 senza
+scritture e nessun comando UI, anche per notifiche gia' lette.
 
 \section{Requisiti funzionali}
 Gli identificativi seguenti sono mantenuti dalla specifica dei requisiti;
@@ -328,12 +327,18 @@ READONLY non modifica issue. Le notifiche sono consultabili soltanto dal
 destinatario, anche rispetto ad ADMIN. Secondo la decisione del gruppo su
 RF-17, solo USER e ADMIN possono segnare lette le proprie notifiche; READONLY
 puo' soltanto consultarle. Il rifiuto server e i comandi UI coerenti con
-questa decisione richiedono ancora allineamento ed esiti di verifica.
-La lettura statica del codice e dei test esistenti non chiude questa attivita'.
+questa decisione sono verificati nelle evidenze del 19 ottobre.
+Il link Utenti e' mostrato solo ad ADMIN; la rotta resta protetta anche con
+navigazione diretta.
 
 Il setup locale usa HTTP e credenziali di sviluppo. Un'eventuale esposizione
 pubblica richiederebbe HTTPS e configurazione adeguata dei segreti;
 questo documento non certifica un deployment di produzione.
+Connessione, chiave JWT e credenziali di bootstrap non sono incorporate nei
+file appsettings. Compose passa i valori dimostrativi; l'avvio nativo richiede
+variabili d'ambiente o user-secrets. Il seeder non modifica un ADMIN gia'
+presente. L'API rifiuta enum numerici non definiti per tipo, priorita' e stato;
+la priorita' omessa resta valida.
 
 \section{Ricerca, suggerimento ed export}
 La lista esclude gli archiviati e applica filtri per tipo, stato, priorita',
@@ -391,7 +396,7 @@ GET & \path{/api/issues/suggest-assignee} & Suggerimento.\\
 GET & \path{/api/issues/export} & CSV.\\
 POST / GET & \path{/api/issues/{id}/image} & Upload/lettura immagine.\\
 GET & \path{/api/notifications} & Notifiche personali.\\
-PATCH & \path{/api/notifications/{id}/read} & Segna letta una propria notifica; divieto READONLY da attuare e verificare (RF-17).\\
+PATCH & \path{/api/notifications/{id}/read} & USER/ADMIN segnano lette le proprie notifiche; READONLY riceve 403.\\
 \bottomrule
 \end{longtable}
 Le rotte frontend sono \path{/login}, \path{/issues}, \path{/issues/new},
@@ -414,7 +419,10 @@ Su database nuovo l'ADMIN e' \texttt{admin@bugboard26.local}, password
 \texttt{Admin123!}: sono credenziali locali di sviluppo. Il README contiene
 le alternative di configurazione. Non usare \texttt{down -v} per conservare
 i volumi. L'avvio con \texttt{dotnet run} usa una directory immagini diversa
-dal container e non trasferisce automaticamente i file.
+dal container e non trasferisce automaticamente i file. L'avvio nativo
+richiede connessione PostgreSQL, chiave JWT e credenziali di bootstrap
+configurate tramite ambiente o User Secrets, come descritto nel README;
+non sono conservati segreti di avvio nei file applicativi versionati.
 
 \section{Versionamento e artefatti}
 Il repository Git indicato all'inizio raccoglie codice, test e documenti.
@@ -475,24 +483,21 @@ TP-10 & S consulta notifiche; U tenta lettura della notifica di S. & S vede la p
 TP-11 & JWT di account diventato inattivo. & 401 dal lookup dell'account; nessuna modifica persistente.\\
 TP-12 & Si richiede Duplicate nel percorso status. & 400; stato, riferimento, date e notifiche invariati.\\
 TP-13 & S segna letta la notifica e ripete il PATCH. & 200; lettura persistita; nessuna notifica aggiunta; ID assente 404, senza token 401.\\
-TP-14 & READONLY consulta le proprie notifiche e tenta di segnarne una letta. & GET 200, solo notifiche proprie; PATCH read 403 e dati invariati. UI senza comando di lettura. Decisione del gruppo RF-17; esito da acquisire.\\
+TP-14 & READONLY consulta le proprie notifiche e tenta di segnarne una letta. & GET 200, solo notifiche proprie; PATCH read 403 e dati invariati. UI senza comando di lettura. Decisione del gruppo RF-17 verificata.\\
 \bottomrule
 \end{longtable}
 \textbf{Criterio di accettazione:} tutti i casi pianificati eseguiti con
-esito registrato e nessuna modifica non autorizzata. I test automatici
-presenti coprono una parte del piano; il piano non viene dichiarato
-interamente eseguito. TP-08 richiede ancora esito finale dedicato.
-Gli esiti dei singoli casi sono in \path{esiti_test_plan.csv}, inizialmente
-\texttt{DA\_ESEGUIRE}: i risultati di collaudo riportati sotto non vengono
-trasformati automaticamente in esiti di tutto il piano. Per chiudere il piano
-occorrono evidenze dei casi applicabili, assenza di modifiche non autorizzate,
-anomalie bloccanti risolte o deroga esplicita e verifica della decisione
-del gruppo su RF-17 in backend, test e frontend.
+esito registrato e nessuna modifica non autorizzata. Gli esiti effettivi sono
+in \path{esiti_test_plan.csv}, con rimandi a metodi di test e TRX; i controlli
+UI richiamano il collaudo browser. TP-08 e TP-11 hanno casi HTTP dedicati;
+TP-13 include il PATCH ripetuto e TP-14 il rifiuto READONLY anche su notifiche
+gia' lette. Questa esecuzione tecnica non equivale a una prova con persone
+o a una prova cronometrata della demo.
 
 \section{Collaudo frontend reale -- 16 ottobre 2026}
 Fonte: riepilogo del collaudo svolto da Valerio, confermato dal gruppo e
 conservato in questa sezione. Non e' una nuova esecuzione di questa revisione
-documentale. Report e screenshot permanenti sono ancora da acquisire.
+documentale. Report e screenshot sono in \path{verifica-frontend/}.
 Riferimento: commit \texttt{e13995140dff382dc3d548208c6c1e60be91fe5d},
 checkout pulito prima e dopo. API sulla porta 5256 e Angular sulla 4200;
 PostgreSQL del Compose di sviluppo. Il precedente blocco Docker e' stato
@@ -526,22 +531,27 @@ watch con ChromeHeadless. Alcune asserzioni dello script temporaneo sono
 state corrette per attendere il rendering o cercare il testo effettivo;
 le prove sono state ripetute. Nessuna correzione applicativa e' risultata
 necessaria. Gli screenshot sono stati prodotti nella cartella temporanea
-locale; non sono allegati permanenti della repository.
+locale e poi selezionati in \path{verifica-frontend/immagini/}.
 
 Questa prova non misura le prestazioni con rete rallentata o grandi
 quantita' di dati, non copre ogni browser e non sostituisce il collaudo
 di persistenza dopo ricreazione dei container.
 
 \section{Esecuzione ripetibile e qualita' backend}
-Gli esiti di amico 1 sono attesi in \path{verifica-backend/}, nella radice
-del repository: suite completa, coverage, persistenza e analisi SonarQube.
-Registrare data, revisione e modifiche locali, ambiente, comandi, report
-ed eventuali anomalie. La cartella e i risultati non sono ancora disponibili
-al controllo documentale; la loro sola presenza non dimostrera' un esito positivo.
+Il collaudo frontend storico sopra resta attribuito a Valerio. Le verifiche
+successive sono registrate separatamente in \path{verifica-backend/}, nella
+cartella Documentazione finale: non in una cartella alla radice del repository.
+I report includono comandi, data, HEAD, modifiche non committate e SHA256.
+Il 19 ottobre sono stati eseguiti 166 casi backend (11 dominio, 155 integrazione)
+con PostgreSQL dedicato: tutti superati, nessuno ignorato. Il test plan e'
+ricondotto ai singoli metodi nel CSV degli esiti.
 
-Il collaudo frontend sopra resta attribuito a Valerio, che preparera' il
-report permanente. Quel collaudo non verifica la nuova decisione RF-17;
-servono riscontri backend e UI successivi all'allineamento.
+Il collaudo browser finale del 19 ottobre ha verificato 20 controlli con API Docker
+reali e database E2E dedicato, senza mock HTTP: utenti, creazione con PNG,
+suggerimento, dettaglio, risoluzione, notifiche USER/ADMIN, RF-17, CSV,
+duplicazione e archivio. Le correzioni UI successive riguardano la visibilita'
+del link Utenti e il nome accessibile della ricerca; il report di audit
+registra la verifica successiva. Le prove con utenti restano distinte.
 
 Dalla radice del repository, con Docker disponibile:
 \par
@@ -558,27 +568,40 @@ node node_modules/@angular/cli/bin/ng.js test `
 \end{minipage}\par
 Il database di test usa la porta 55432 ed e' distinto da quello di sviluppo.
 La sola esecuzione dei test di dominio con filtro non sostituisce la suite
-di integrazione. Il conteggio backend definitivo sulla revisione finale
-resta da registrare dal collega responsabile.
+di integrazione. I test Jasmine/Karma sono 36, inclusi tre casi di regressione
+sulla navigazione per ruolo, eseguiti in ChromeHeadless senza watch.
 
 SonarQube locale e la raccolta OpenCover sono predisposti in
 \path{quality/analyze-backend.ps1} e \path{quality/coverage.runsettings}.
-Non e' ancora presente un report Sonar effettivo con importazione della
-coverage e Quality Gate verificati. La prova storica del 9 ottobre riguarda
-solo i test di dominio e non rappresenta la copertura totale.
-Il collaudo del 16 ottobre ha confermato in build l'avviso NU1903 sulla
-dipendenza transitiva \texttt{Microsoft.OpenApi} 2.0.0: il collega backend
-deve valutarlo; non si dichiara risolto o risultato di Sonar.
+L'analisi corrente e' stata elaborata dal server locale Community Build
+26.10.0.133078, scanner .NET 11.3.0: coverage importata per 29 file principali,
+Quality Gate OK con condizioni valutate, zero bug e zero vulnerabilita'
+segnalati, quattro code smell lasciati visibili. Coverage Sonar complessiva
+93,7\%, linee 95,7\%, rami 88,2\%. Non si dichiara copertura totale o assenza
+di ogni possibile difetto. Gate e percentuali sono riferiti a HEAD con le
+correzioni locali, non al solo commit \texttt{6aa175a}.
 
-\section{Valutazione dell'usabilita' -- piano da eseguire}
+Tre code smell S6932 riguardano la lettura manuale del multipart, mantenuta
+per preservare autorizzazioni e risposte 400 uniformi; un avviso ASP0027
+riguarda Program pubblico parziale. Non sono introdotte esclusioni o
+soppressioni. L'avviso storico su Microsoft.OpenApi 2.0.0 e' superato dal pin
+2.7.5. Dati e immagini sono stati confrontati dopo restart e ricreazione del
+solo backend, senza eliminare volumi; il rebuild successivo conserva la
+stessa issue e lo stesso SHA256 immagine. Nessun test automatico usa il
+database di sviluppo; le prove Docker con dati riconoscibili sono distinte.
+
+\section{Valutazione dell'usabilita' -- review e sessioni da completare}
 Il collaudo tecnico precedente non e' una prova con utenti potenziali.
 La traccia richiede sia una review sistematica sia osservazioni e survey
 con utenti. Non sono disponibili sessioni o questionari compilati;
 questa sezione definisce il piano, non risultati fittizi.
 
 \subsection{Review tramite checklist}
-Controllare e registrare per ogni voce: esito, pagina, problema osservato
-e possibile intervento limitato al perimetro.
+La review assistita del 19 ottobre e' registrata in
+\path{verifica-backend/review-tecnica-20261019.csv}; distingue conformita',
+problemi e verifiche non svolte. Link Utenti e ricerca accessibile sono stati
+corretti durante l'audit. Restano da osservare con persone tastiera, messaggi,
+errori di rete e recupero dell'upload. La review non certifica WCAG.
 \begin{itemize}
 \item Terminologia coerente fra lista, form e dettaglio.
 \item Navigazione riconoscibile e ritorno alla lista disponibile.
@@ -616,12 +639,10 @@ stata inviata all'esterno. La review tecnica resta distinta dalle sessioni.
 \chapter{Limiti e completamento della consegna}
 \section{Punti ancora aperti}
 \begin{enumerate}
-\item Eseguire e registrare suite backend completa e coverage sulla revisione finale; integrare il report SonarQube effettivo.
-\item Verificare dati e immagini dopo riavvio e ricreazione dei container conservando entrambi i volumi.
-\item Eseguire review e sessioni di usabilita', sostituendo il piano con risultati realmente raccolti.
-\item Attuare e verificare la decisione del gruppo RF-17: READONLY consulta le proprie notifiche, ma non le segna lette. Backend e test ad amico 1; frontend da allineare e verificare. La decisione e' presa, gli esiti tecnici restano aperti.
+\item Consolidare nel commit e nella release manuali i sorgenti effettivamente verificati; i risultati attuali includono modifiche locali non committate.
+\item Completare la review e le sessioni di usabilita' con osservazioni e questionari reali; i modelli delle sessioni restano vuoti.
 \item Chiudere la conformita' CASE: le immagini aggiornate provengono dai sorgenti PlantUML; i file Visual Paradigm storici non rappresentano tutte le modifiche attuali.
-\item Valutare l'avviso NU1903 confermato durante la build backend.
+\item Eseguire la prova cronometrata della presentazione e coordinare la demo; predisporre la consegna individuale Teams.
 \end{enumerate}
 \input{vincoli_case.tex}
 Non sono previsti paginazione, ripristino archivio, refresh token o gestione
@@ -660,9 +681,12 @@ Per rigenerare documento e slide con controlli di sorgenti/PNG usare
 \path{rigenera.ps1}, come indicato nel readme di questa cartella. La
 compilazione non esegue test applicativi. Il registro \path{evidenze.md}
 mantiene distinti risultati storici, esito frontend riportato da Valerio e
-risultati attesi da amico 1 in \path{verifica-backend/}. La gestione del
-documento unico e della presentazione resta in questa revisione documentale;
-i contributi saranno integrati dopo averne letto le evidenze effettive.
+risultati del 19 ottobre in \path{verifica-backend/}. L'audit corrente
+registra 166 test backend e 36 frontend superati, oltre all'analisi
+SonarQube effettiva. Il report distingue il commit iniziale dalle
+correzioni locali non committate. Le sessioni con persone, la decisione
+CASE e la prova cronometrata restano attivita del gruppo, non esiti dedotti
+dalla compilazione.
 La checklist di release e invio individuale Teams
 e' in \path{consegna.md}; nessuna consegna viene effettuata qui.
 

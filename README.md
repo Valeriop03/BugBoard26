@@ -126,6 +126,19 @@ docker compose -f docker/docker-compose.yml up -d --wait postgres
 dotnet run --project backend/BugBoard26.Api/BugBoard26.Api.csproj --launch-profile http
 ```
 
+Prima di `dotnet run` configurare `ConnectionStrings:DefaultConnection` e una
+`Jwt:Key` privata di almeno 32 byte tramite variabili d'ambiente o .NET
+user-secrets. Per un database senza ADMIN servono anche `DefaultAdmin:Email`
+e `DefaultAdmin:Password`. I file appsettings non contengono piu' segreti o
+credenziali di ripiego. Compose passa gia' tutti questi valori: il suo avvio
+dimostrativo non richiede questa configurazione nativa aggiuntiva.
+
+Procedura con input mascherato:
+[Configurazione nativa](Documentazione/Documentazione%20finale/verifica-backend/finalizzazione-20261019.md#ripetere-e-avviare).
+User-secrets e' per lo sviluppo, non un vault cifrato di produzione. Una nuova
+chiave JWT richiede un nuovo login; cambiare configurazione non modifica
+password di utenti o database esistenti.
+
 Il profilo `http` ascolta su `http://localhost:5256`. Non avviare contemporaneamente il backend Docker e quello sul PC sulla stessa porta.
 
 Con questo avvio le immagini sono in `backend/BugBoard26.Api/uploads/issue-images`; la variabile `IssueImages__Directory` permette di scegliere un'altra directory scrivibile, non pubblica. Docker usa invece il volume `bugboard26-issue-images` in `/var/lib/bugboard26/issue-images`. Cambiare modalita' di avvio riusa il database, ma **non trasferisce i file immagine**: il riferimento puo' esistere mentre GET image risponde 404 nella directory diversa.
@@ -189,14 +202,21 @@ powershell -NoProfile -ExecutionPolicy Bypass -File quality/analyze-backend.ps1 
 
 `Bypass` vale solo per quel processo, non cambia la policy globale; usare soltanto dopo aver controllato lo script. Per server, scanner, token nella sessione e modalita' Analysis vedere [qualita_backend.md](Documentazione/Documentazione%20finale/qualita_backend.md). Il comando non crea account o progetti. I report sono in una nuova cartella temporanea per ogni esecuzione, non nel repository. Migrazioni e file generati sono esclusi dalla coverage, non il codice applicativo.
 
-Prova locale preliminare del 9 ottobre 2026 sul commit `15ca2e2`: build Release e test di dominio superati con coverage **parziale**. Non e' il risultato finale della suite che stanno verificando i colleghi. Integrazione non eseguita: Docker non risponde. Analisi SonarQube e Quality Gate solo predisposti: mancano server, scanner e token.
+Verifica del 19 ottobre 2026 su `6aa175a` con correzioni locali non committate:
+**166 test backend superati**, PostgreSQL dedicato, analisi SonarQube realmente
+elaborata e coverage importata. Coverage Sonar 93,7% complessiva, 95,7% linee,
+88,2% rami; gate OK, 0 bug e 0 vulnerabilita' segnalati, 4 code smell documentati.
+Risultati e limiti nel [report di audit](Documentazione/Documentazione%20finale/verifica-backend/audit-20261019.md).
+I report del 9 e 16 ottobre sono storici, non l'esito corrente.
 
 ## Limiti attuali
 
 Il PATCH status ora rifiuta `Duplicate` (400) e le issue gia' duplicate (409); il percorso dedicato azzera `ResolvedAt`. Gli assegnatari indicati devono esistere, essere attivi e non READONLY. Le annotazioni precedenti sul merge di queste correzioni non sono piu' attuali.
 
-- Endpoint immagini e test sono presenti nel checkout. Il collaudo completo del lavoro dei colleghi, inclusa la persistenza dei file dopo ricreazione del container, resta da verificare; non e' dichiarato concluso dalla sola lettura del codice.
-- Portata di READONLY sulla lettura delle proprie notifiche da chiarire rispetto a RF-17; il codice attuale la consente.
-- Resta l'avviso NU1903 su `Microsoft.OpenApi` 2.0.0; nessuna dipendenza e' stata aggiornata in questa revisione.
+- Persistenza dati/immagini dopo restart e ricreazione backend verificata il 19 ottobre, senza eliminare volumi; evidenze nella cartella di verifica backend.
+- RF-17 deciso dal gruppo e verificato: READONLY consulta le proprie notifiche ma PATCH read restituisce 403 senza scritture; la UI non mostra il comando.
+- `Microsoft.OpenApi` e' fissato a 2.7.5; il precedente avviso su 2.0.0 e' storico.
+- I valori predefiniti di Compose sono per la demo locale, non per un servizio pubblico. Nessuna certificazione completa di sicurezza o prestazioni e' dichiarata.
+- Restano sessioni di usabilita' con persone reali, conformita' CASE e prova cronometrata della presentazione.
 
 Requisiti, design, sorgenti dei diagrammi e verifiche sono in [Documentazione](Documentazione), non in una cartella `docs`.

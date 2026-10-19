@@ -1,0 +1,28 @@
+{
+  "imageSha256": "4BA8D4FD5AB42544FEEFF22D50E84412502433CC95952FD1DF9A5293588DDBEA",
+  "image": "sha256:b18bf66f93a4a965aa9b95d2ec1c3579285e2ad1ba0ec5e9ba02a08eda8796db",
+  "api": "http://127.0.0.1:5256",
+  "observedUtc": "2026-10-19T10:41:38.0771563+00:00",
+  "developmentBackendRestored": true,
+  "openApiStatus": 200,
+  "issue": {
+    "id": 2,
+    "title": "VERIFICA-BACKEND-20261019-100446",
+    "description": "Prova Docker dati e immagini: VERIFICA-BACKEND-20261019-100446",
+    "type": "Bug",
+    "priority": null,
+    "status": "Todo",
+    "createdById": 1,
+    "createdByEmail": "admin@bugboard26.local",
+    "assignedToId": null,
+    "assignedToEmail": null,
+    "duplicateOfIssueId": null,
+    "isArchived": false,
+    "hasImage": true,
+    "createdAt": "2026-10-19T10:04:46.784514Z",
+    "updatedAt": "2026-10-19T10:04:46.818022Z",
+    "resolvedAt": null
+  },
+  "matchesPreviousEvidence": true,
+  "container": "e69894ebb52fe5811a48b26a8dd9e2bc9eab315cadd64e8e574eeca78610c563"
+}

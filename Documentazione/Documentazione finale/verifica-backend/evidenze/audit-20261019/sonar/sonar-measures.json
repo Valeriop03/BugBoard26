@@ -1,0 +1,57 @@
+{
+  "component": {
+    "key": "bugboard26-backend",
+    "name": "BugBoard26 Backend",
+    "qualifier": "TRK",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "93.7",
+        "bestValue": false
+      },
+      {
+        "metric": "bugs",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "lines_to_cover",
+        "value": "829"
+      },
+      {
+        "metric": "uncovered_conditions",
+        "value": "34",
+        "bestValue": false
+      },
+      {
+        "metric": "code_smells",
+        "value": "4",
+        "bestValue": false
+      },
+      {
+        "metric": "uncovered_lines",
+        "value": "36",
+        "bestValue": false
+      },
+      {
+        "metric": "branch_coverage",
+        "value": "88.2",
+        "bestValue": false
+      },
+      {
+        "metric": "vulnerabilities",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "line_coverage",
+        "value": "95.7",
+        "bestValue": false
+      },
+      {
+        "metric": "conditions_to_cover",
+        "value": "289"
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "sonarQube": "26.10.0.133078-community",
+  "hostVmMaxMapCount": 524288,
+  "sonarScanner": "11.3.0",
+  "localConfiguration": "C:\\Users\\Emanuele\\AppData\\Local\\BugBoard26\\quality-local",
+  "volumes": [
+    "8d4c0d28c4ddffc29c700e400bf0f52555660696f3c305a6fe00270c48e4c99e",
+    "bugboard26-quality-local_data",
+    "bugboard26-quality-local_database",
+    "bugboard26-quality-local_extensions",
+    "bugboard26-quality-local_logs",
+    "docker_bugboard26-issue-images",
+    "docker_bugboard26-postgres-data"
+  ],
+  "dockerCompose": "5.6.0",
+  "sourceChanges": [],
+  "observedUtc": "2026-10-19T10:07:51.5546441+00:00",
+  "credentials": "DPAPI Windows, fuori repository; valori non registrati",
+  "dockerEngine": "29.8.2",
+  "dotnetSdk": "10.0.401",
+  "dockerDesktop": "4.95.0",
+  "postgresTests": "16.15",
+  "images": [
+    {
+      "tag": "sonarqube:26.10.0.133078-community",
+      "identity": "sha256:0b3408443fb6a311253de27941b10977c9b977fd53be2265947bfe14161308b8|[\"sonarqube@sha256:0b3408443fb6a311253de27941b10977c9b977fd53be2265947bfe14161308b8\"]"
+    },
+    {
+      "tag": "postgres:16.15-alpine",
+      "identity": "sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea|[\"postgres@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea\"]"
+    },
+    {
+      "tag": "postgres:16",
+      "identity": "sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d|[\"postgres@sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d\"]"
+    },
+    {
+      "tag": "docker-backend",
+      "identity": "sha256:e3529f8fddc0e39ee90a8cd0012e6a69ec260d68226713337722893530337ab6|[\"docker-backend@sha256:e3529f8fddc0e39ee90a8cd0012e6a69ec260d68226713337722893530337ab6\"]"
+    }
+  ],
+  "commit": "6aa175a357dbdf1c35702686b985d46bff58c43e"
+}

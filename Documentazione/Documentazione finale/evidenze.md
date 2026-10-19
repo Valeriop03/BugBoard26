@@ -1,5 +1,37 @@
 # Registro delle evidenze e attività aperte
 
+## Stato corrente - 19 ottobre 2026
+
+HEAD `6aa175a357dbdf1c35702686b985d46bff58c43e` con correzioni locali non
+committate. Report e SHA256 identificano i file effettivamente analizzati.
+
+| ID | Evidenza acquisita | Stato corrente |
+| --- | --- | --- |
+| E01 | Documento unico e slide allineati ai risultati correnti | Rigenerati e verificati secondo verifica_documentale.md; non una consegna gia' inviata. |
+| E02-E03 | Prove del 2 e 9 ottobre | Storiche, non estese al codice attuale. |
+| E04 | Suite PostgreSQL completa | 166/166 backend, di cui 11 dominio e 155 integrazione; TRX/OpenCover reali. |
+| E05 | Test plan UC-02 | Quattordici casi registrati in esiti_test_plan.csv con metodi passati nel TRX e riscontri UI dove richiesti. |
+| E06 | Frontend | Report storico di Valerio in verifica-frontend/; audit corrente con build e 36 test, piu' collaudo browser/API reali. |
+| E07 | SonarQube e Docker | Task SUCCESS, gate OK valutato, coverage importata; 0 bug e 0 vulnerabilita', 4 code smell. Persistenza dopo restart/ricreazione con volumi preservati. |
+| E08 | Review tecnica assistita | CSV e screenshot disponibili; link Utenti e nome accessibile ricerca corretti. Tastiera, contrasto e rete non certificati. |
+| E09 | Sessioni con persone e survey | Aperte: i due CSV contengono solo intestazioni; nessun partecipante o risposta simulato. |
+| E10 | CASE | Sorgenti/PNG verificati; VPD storici non sincronizzati. Accettazione del tool o aggiornamento del modello da confermare. |
+| E11 | RF-17 | Implementato e verificato: GET proprie 200, PATCH READONLY 403 senza scritture anche su gia' lette, UI senza comando. Decisione del gruppo, non dei docenti. |
+| E12 | Presentazione e demo | Nove slide aggiornate; 540 secondi pianificati, non una prova cronometrata. Coordinamento reale ancora aperto. |
+
+Fonti correnti: [audit](verifica-backend/audit-20261019.md),
+[finalizzazione](verifica-backend/finalizzazione-20261019.md),
+[persistenza Docker](verifica-backend/aggiornamento-20261019.md),
+[report frontend storico](verifica-frontend/report.md).
+Tutti i percorsi sono sotto Documentazione/Documentazione finale, non alla
+radice del repository. Non sommare ripetizioni e checkpoint come nuovi test.
+Nessun commit, branch, push, tag, release o invio eseguito automaticamente.
+
+## Registro del 16 ottobre 2026 - storico
+
+Le richieste e gli stati successivi descrivono quella revisione: non sono
+attivita' tecniche ancora mancanti oggi se il riepilogo sopra le dichiara acquisite.
+
 Revisione documentale 16 ottobre 2026. Riferimento locale letto da HEAD: `e13995140dff382dc3d548208c6c1e60be91fe5d`. Integrata la versione aggiornata del documento unico di Valerio, senza sostituirla con un altro documento. Nessuna nuova esecuzione dei test applicativi in questa attività. Un test presente nel sorgente non è automaticamente un test superato.
 
 | ID | Materiale / provenienza | Stato e limite | Azione necessaria |

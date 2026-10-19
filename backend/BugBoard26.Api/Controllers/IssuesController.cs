@@ -314,7 +314,7 @@ public class IssuesController : ControllerBase
         {
             return NotFound();
         }
-        Response.Headers["X-Content-Type-Options"] = "nosniff";
+        Response.Headers.XContentTypeOptions = "nosniff";
         Response.Headers.CacheControl = "private, no-store";
         return File(stream, _imageStorage.GetContentType(issue.ImagePath!));
     }

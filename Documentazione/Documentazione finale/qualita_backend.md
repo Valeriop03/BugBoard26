@@ -1,12 +1,26 @@
 # Qualita' backend - SonarQube locale
 
-## Aggiornamento documentale - 16 ottobre 2026
+## Esito corrente - 19 ottobre 2026
+
+Analisi reale su `6aa175a` con correzioni locali non committate: **166/166 test
+backend**, PostgreSQL dedicato e OpenCover importato su 29 file principali.
+SonarQube Community Build 26.10.0.133078, scanner .NET 11.3.0. Coverage
+complessiva 93,7%, linee 95,7%, rami 88,2%; **Quality Gate OK** con condizioni
+valutate. Zero bug, zero vulnerabilita' e quattro code smell aperti.
+Non e' una certificazione di assenza di ulteriori difetti.
+
+Report, TRX, OpenCover, task e misure: [audit corrente](verifica-backend/audit-20261019.md).
+Stato Git e hash distinguono il codice analizzato dal solo commit iniziale.
+Nessun profilo, gate o esclusione modificato per migliorare i numeri.
+RF-17 e persistenza Docker hanno ora evidenze reali nei report collegati.
+
+## Aggiornamento documentale - 16 ottobre 2026, storico
 
 Le sezioni seguenti conservano la configurazione e gli esiti **storici del 9 ottobre**. Non sono una nuova verifica della disponibilità attuale del server o di Docker. Il gruppo conferma il collaudo frontend reale di Valerio del 16 ottobre con backend Docker e PostgreSQL, riepilogato nel documento unico; questo non sostituisce suite backend, coverage completa e verifica di persistenza dopo ricreazione.
 
 Amico 1 depositerà questi esiti e il report SonarQube effettivo in `verifica-backend/` alla radice, con configurazione, problemi rilevanti, importazione della coverage e Quality Gate se usato. I risultati non sono ancora disponibili. RF-17 è una decisione del gruppo: READONLY consulta le proprie notifiche ma non le segna lette. Backend e test ad amico 1; frontend da allineare e verificare. Questo stato tecnico rimane aperto e non è un chiarimento docente. Nessuna analisi è stata eseguita in questa revisione documentale. Stato e acquisizione delle evidenze sono in [evidenze.md](evidenze.md).
 
-## Scelta e stato
+## Scelta e stato al 9 ottobre 2026, storico
 
 Una sola soluzione: **SonarQube Server locale**, per non creare account/progetti cloud o pubblicare il codice. Il PC dispone di .NET 10 e coverlet.collector 6.0.4; non risultano disponibili un server SonarQube su localhost:9000, uno scanner installato o un token. La configurazione e' predisposta; **nessuna analisi Sonar e nessun Quality Gate sono stati eseguiti**.
 

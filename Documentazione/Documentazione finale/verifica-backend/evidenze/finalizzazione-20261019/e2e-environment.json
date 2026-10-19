@@ -1,0 +1,23 @@
+{
+    "createdUtc":  "2026-10-19T10:33:28.3343643+00:00",
+    "container":  "bugboard26-e2e-3470f6ccde8d",
+    "sourceChanges":  [
+                          "backend/BugBoard26.Api/BugBoard26.Api.csproj",
+                          "backend/BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs",
+                          "backend/BugBoard26.Api/Controllers/IssuesController.cs",
+                          "backend/BugBoard26.Api/Data/DatabaseSeeder.cs",
+                          "backend/BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs",
+                          "backend/BugBoard26.Api/Program.cs",
+                          "backend/BugBoard26.Api/appsettings.Development.json",
+                          "backend/BugBoard26.Api/appsettings.json",
+                          "backend/BugBoard26.Tests/Integration/ApiIntegrationTest.cs",
+                          "backend/BugBoard26.Tests/Integration/IssueApiFactory.cs",
+                          "backend/BugBoard26.Tests/Integration/IssueDuplicateValidationIntegrationTests.cs"
+                      ],
+    "baseUrl":  "http://127.0.0.1:5256",
+    "commit":  "6aa175a357dbdf1c35702686b985d46bff58c43e",
+    "frontendUrl":  "http://127.0.0.1:4200",
+    "imageVolume":  "bugboard26-e2e-images-3470f6ccde8d",
+    "databaseHostContainer":  "bugboard26-tests-postgres-tests-1",
+    "database":  "bugboard26_test_e2e_3470f6ccde8d"
+}

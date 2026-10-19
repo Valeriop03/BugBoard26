@@ -1,0 +1,97 @@
+{
+  "pdfPages": 32,
+  "pdfSha256": "1142e313bc55d3c11619417c39188e7bd965df9439d982fe0c54681d8ce71b28",
+  "renderDpi": 105,
+  "pagesWithTextOutsidePage": [],
+  "overfullWarnings": 0,
+  "underfullWarnings": 1,
+  "undefinedReferences": false,
+  "backendPassed": 166,
+  "testPlanMapping": [
+    {
+      "id": "TP-01",
+      "passedTests": [
+        "AssignedUser_CanResolveIssue_WithPersistedDatesAndNotificationForDifferentCreator"
+      ]
+    },
+    {
+      "id": "TP-02",
+      "passedTests": [
+        "Admin_CanChangeStatusOfIssueAssignedToAnotherUser"
+      ]
+    },
+    {
+      "id": "TP-03",
+      "passedTests": [
+        "OtherUserOrReadonly_CannotResolveIssue_AndDatabaseIsUnchanged"
+      ]
+    },
+    {
+      "id": "TP-04",
+      "passedTests": [
+        "OtherUserOrReadonly_CannotResolveIssue_AndDatabaseIsUnchanged"
+      ]
+    },
+    {
+      "id": "TP-05",
+      "passedTests": [
+        "WithoutToken_CannotChangeStatus_AndDatabaseIsUnchanged"
+      ]
+    },
+    {
+      "id": "TP-06",
+      "passedTests": [
+        "MissingIssue_CannotChangeStatus_AndDatabaseIsUnchanged"
+      ]
+    },
+    {
+      "id": "TP-07",
+      "passedTests": [
+        "RepeatingResolved_DoesNotCreateAnotherNotificationOrChangeDates"
+      ]
+    },
+    {
+      "id": "TP-08",
+      "passedTests": [
+        "ReopenAndResolveAgain_ResetsDateAndCreatesOneNewNotification"
+      ]
+    },
+    {
+      "id": "TP-09",
+      "passedTests": [
+        "DuplicatedIssue_CannotChangeStatus_AndDatabaseIsUnchanged"
+      ]
+    },
+    {
+      "id": "TP-10",
+      "passedTests": [
+        "List_ReturnsOnlyCurrentUsersNotifications_IncludingReadAndUnread",
+        "NonOwner_CannotMarkAnotherUsersNotificationAsRead_AndDatabaseIsUnchanged"
+      ]
+    },
+    {
+      "id": "TP-11",
+      "passedTests": [
+        "PreviouslyAuthenticatedUser_BecomingInactive_CannotChangeStatus"
+      ]
+    },
+    {
+      "id": "TP-12",
+      "passedTests": [
+        "StatusEndpoint_CannotSetDuplicate_EvenForAdmin_AndDatabaseIsUnchanged"
+      ]
+    },
+    {
+      "id": "TP-13",
+      "passedTests": [
+        "Owner_CanMarkNotificationAsRead_WithoutChangingOtherNotifications"
+      ]
+    },
+    {
+      "id": "TP-14",
+      "passedTests": [
+        "Readonly_CannotMarkOwnNotificationAsRead_ButCanStillReadIt_AndDatabaseIsUnchanged"
+      ]
+    }
+  ]
+}

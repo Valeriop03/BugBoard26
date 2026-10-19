@@ -1,0 +1,28 @@
+{
+  "operation": "Solo backend Compose ricreato con immagine aggiornata, volumi conservati",
+  "imageSha256": "4BA8D4FD5AB42544FEEFF22D50E84412502433CC95952FD1DF9A5293588DDBEA",
+  "health": {
+    "status": "ok",
+    "service": "BugBoard26.Api"
+  },
+  "result": "PASS",
+  "checkedUtc": "2026-10-19T11:22:40.3635150+00:00",
+  "issue": {
+    "id": 2,
+    "title": "VERIFICA-BACKEND-20261019-100446",
+    "description": "Prova Docker dati e immagini: VERIFICA-BACKEND-20261019-100446",
+    "type": "Bug",
+    "priority": null,
+    "status": "Todo",
+    "createdById": 1,
+    "createdByEmail": "admin@bugboard26.local",
+    "assignedToId": null,
+    "assignedToEmail": null,
+    "duplicateOfIssueId": null,
+    "isArchived": false,
+    "hasImage": true,
+    "createdAt": "2026-10-19T10:04:46.784514Z",
+    "updatedAt": "2026-10-19T10:04:46.818022Z",
+    "resolvedAt": null
+  }
+}

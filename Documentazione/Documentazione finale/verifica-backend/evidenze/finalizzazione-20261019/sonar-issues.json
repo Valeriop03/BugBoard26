@@ -1,0 +1,238 @@
+{
+  "total": 4,
+  "p": 1,
+  "ps": 500,
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 500,
+    "total": 4
+  },
+  "effortTotal": 15,
+  "issues": [
+    {
+      "key": "7dc68985-32ca-4921-82a4-7a97cbf98c1f",
+      "rule": "csharpsquid:S6932",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/Controllers/IssuesController.cs",
+      "project": "bugboard26-backend",
+      "line": 230,
+      "hash": "0d306e9372d76503716bb12737af2e9a",
+      "textRange": {
+        "startLine": 230,
+        "endLine": 230,
+        "startOffset": 16,
+        "endOffset": 26
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use IFormFile or IFormFileCollection binding instead",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "ema.manu@live.com",
+      "tags": [
+        "asp.net"
+      ],
+      "creationDate": "2026-10-09T17:35:00+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "de177247-f116-4018-ac98-26736d50155b",
+      "rule": "csharpsquid:S6932",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/Controllers/IssuesController.cs",
+      "project": "bugboard26-backend",
+      "line": 230,
+      "hash": "0d306e9372d76503716bb12737af2e9a",
+      "textRange": {
+        "startLine": 230,
+        "endLine": 230,
+        "startOffset": 41,
+        "endOffset": 51
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use IFormFile or IFormFileCollection binding instead",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "ema.manu@live.com",
+      "tags": [
+        "asp.net"
+      ],
+      "creationDate": "2026-10-09T17:35:00+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "d6b10c2a-dd13-428e-9344-7e7f04a4db9a",
+      "rule": "csharpsquid:S6932",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/Controllers/IssuesController.cs",
+      "project": "bugboard26-backend",
+      "line": 234,
+      "hash": "f4de75169b86937a057bf0f0062471d5",
+      "textRange": {
+        "startLine": 234,
+        "endLine": 234,
+        "startOffset": 66,
+        "endOffset": 76
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use IFormFile or IFormFileCollection binding instead",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "ema.manu@live.com",
+      "tags": [
+        "asp.net"
+      ],
+      "creationDate": "2026-10-09T17:35:00+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "4ebd1cdf-1c35-45a6-97f0-cb034365e9f9",
+      "rule": "external_roslyn:ASP0027",
+      "severity": "INFO",
+      "component": "bugboard26-backend:BugBoard26.Api/Program.cs",
+      "project": "bugboard26-backend",
+      "line": 86,
+      "hash": "811997c9ab1fc90a878054f10294fbda",
+      "textRange": {
+        "startLine": 86,
+        "endLine": 86,
+        "startOffset": 0,
+        "endOffset": 32
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Using public partial class Program { } to make the generated Program class public is no longer required in ASP.NET Core apps. See https://aka.ms/aspnetcore-warnings/ASP0027 for more details.",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "ema.manu@live.com",
+      "tags": [],
+      "creationDate": "2026-10-01T18:53:02+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    }
+  ],
+  "components": [
+    {
+      "key": "bugboard26-backend:BugBoard26.Api/Controllers/IssuesController.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "IssuesController.cs",
+      "longName": "BugBoard26.Api/Controllers/IssuesController.cs",
+      "path": "BugBoard26.Api/Controllers/IssuesController.cs"
+    },
+    {
+      "key": "bugboard26-backend",
+      "enabled": true,
+      "qualifier": "TRK",
+      "name": "BugBoard26 Backend",
+      "longName": "BugBoard26 Backend"
+    },
+    {
+      "key": "bugboard26-backend:BugBoard26.Api/Program.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Program.cs",
+      "longName": "BugBoard26.Api/Program.cs",
+      "path": "BugBoard26.Api/Program.cs"
+    }
+  ],
+  "facets": []
+}

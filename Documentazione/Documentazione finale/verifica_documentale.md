@@ -1,4 +1,45 @@
-# Verifica documentale - 16 ottobre 2026
+# Verifica documentale
+
+## Revisione Effettiva Del 19 Ottobre 2026
+
+Documento unico versione 1.3: HEAD `6aa175a` con correzioni locali non
+committate, non solo la revisione Git. [Audit corrente](verifica-backend/audit-20261019.md)
+con TRX, coverage, Sonar e collaudo browser conservati accanto al documento.
+I risultati storici del collega sono preservati e attribuiti; nessun esito
+di test o di utenti e dedotto dalla sola presenza dei sorgenti.
+
+- Tectonic 0.17.0 con `--untrusted --keep-logs`: 32 pagine fisiche,
+  0 Overfull, 0 riferimenti indefiniti, un Underfull non bloccante.
+  Il messaggio Fontconfig non ha impedito l'export; font e rendering controllati.
+- Tutte le pagine renderizzate con Poppler a 105 DPI e controllate,
+  con dettaglio delle tabelle e sezioni aggiornate. Nessun carattere
+  fuori pagina rilevato dal controllo geometrico.
+- Presentazione corrente `presentazione/presentazione_tecnica_20261019.pptx`:
+  9 slide, integrita e geometria senza rilievi, Arial e due tabelle native.
+  Reimportazione ed esame di tutte le nove slide renderizzate riusciti.
+  Nessuna verifica in Microsoft PowerPoint dichiarata.
+- `rigenera.ps1 -SoloDocumento` eseguito con successo; presentazione
+  generata separatamente tramite il suo sorgente e validatore. Il runtime
+  installato viene ora individuato senza un percorso di versione obsoleto.
+- `prepara_documentazione.py`: 12 viste coerenti con metadati PNG e SHA256.
+  VPD non modificati; conformita CASE ancora da risolvere.
+- Controllati 63 collegamenti locali nei README, Markdown finali e report
+  backend: nessuna destinazione mancante. Non e una verifica di URL remoti.
+- Test plan: 14 righe verificate contro nomi Passed del TRX di 166 test.
+  Frontend 36 test e build passati; browser reale 20 controlli. Report e
+  documento distinguono unita, integrazione, browser e prove umane.
+- Budget slide 540 secondi pianificati; nessuna prova cronometrata eseguita.
+
+Evidenze tecniche e impronte in `verifica-backend/evidenze/audit-20261019/`.
+Restano review umana completa, sessioni/questionari reali, decisione CASE,
+rehearsal e pubblicazione/consegna manuali. A differenza della revisione
+storica sottostante, questo audit include fix applicativi e relativi test.
+Nessun commit, branch, push, tag, release o invio effettuato.
+
+## Storico Del 16 Ottobre 2026
+
+I paragrafi seguenti descrivono la revisione 1.2 di allora: non sono
+affermazioni sullo stato corrente o verifiche ancora tecnicamente mancanti.
 
 Questa verifica riguarda documenti e slide. Non certifica l'esecuzione dell'applicazione o la conclusione della consegna.
 

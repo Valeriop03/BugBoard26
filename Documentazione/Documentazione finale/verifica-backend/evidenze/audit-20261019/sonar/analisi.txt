@@ -1,0 +1,271 @@
+SonarScanner for .NET 11.3
+Using the .NET Core version of the Scanner for .NET
+Pre-processing started.
+Preparing working directories...
+13:08:34.168  Updating build integration targets...
+13:08:38.376  Using SonarQube v26.10.0.133078.
+13:08:38.682  Fetching analysis configuration settings...
+13:08:39.074  Provisioning analyzer assemblies for cs...
+13:08:39.075  Installing required Roslyn analyzers...
+13:08:39.075  Processing plugin: csharp version 10.35.0.4138
+13:08:39.232  Provisioning analyzer assemblies for vbnet...
+13:08:39.232  Installing required Roslyn analyzers...
+13:08:39.232  Processing plugin: vbnet version 10.35.0.4138
+13:08:39.246  Incremental PR analysis: Base branch parameter was not provided.
+13:08:39.246  Cache data is empty. A full analysis will be performed.
+13:08:39.293  Pre-processing succeeded.
+  Individuazione dei progetti da ripristinare...
+  Tutti i progetti sono aggiornati per il ripristino.
+D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\Controllers\IssuesController.cs(230,17): warning S6932: Use IFormFile or IFormFileCollection binding instead [D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\BugBoard26.Api.csproj]
+D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\Controllers\IssuesController.cs(230,42): warning S6932: Use IFormFile or IFormFileCollection binding instead [D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\BugBoard26.Api.csproj]
+D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\Controllers\IssuesController.cs(234,67): warning S6932: Use IFormFile or IFormFileCollection binding instead [D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\BugBoard26.Api.csproj]
+  BugBoard26.Api -> D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\bin\Release\net10.0\BugBoard26.Api.dll
+  Sonar: (BugBoard26.Api.csproj) Project processed successfully
+  BugBoard26.Tests -> D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll
+  Sonar: (BugBoard26.Tests.csproj) Project processed successfully
+
+Compilazione completata.
+
+D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\Controllers\IssuesController.cs(230,17): warning S6932: Use IFormFile or IFormFileCollection binding instead [D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\BugBoard26.Api.csproj]
+D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\Controllers\IssuesController.cs(230,42): warning S6932: Use IFormFile or IFormFileCollection binding instead [D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\BugBoard26.Api.csproj]
+D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\Controllers\IssuesController.cs(234,67): warning S6932: Use IFormFile or IFormFileCollection binding instead [D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\BugBoard26.Api.csproj]
+    Avvisi: 3
+    Errori: 0
+
+Tempo trascorso 00:00:13.71
+Esecuzione dei test per D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll (.NETCoreApp,Version=v10.0)
+Un totale di 1 file di test corrisponde al criterio specificato.
+File di risultati: C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-998c6fa62c6840d1836e4b873d7a7b7a\results\backend.trx
+
+Superato!     - Non superati:     0. Superati:   166. Ignorati:     0. Totale:   166. Durata: 35 s - BugBoard26.Tests.dll (net10.0)
+
+Allegati:
+  C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-998c6fa62c6840d1836e4b873d7a7b7a\results\2924e583-7a0a-4cff-8b14-1fd2824038af\coverage.opencover.xml
+Coverage: C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-998c6fa62c6840d1836e4b873d7a7b7a\results\2924e583-7a0a-4cff-8b14-1fd2824038af\coverage.opencover.xml
+SonarScanner for .NET 11.3
+Using the .NET Core version of the Scanner for .NET
+Post-processing started.
+13:09:39.032  Using Java found in Analysis Config: C:\Users\Emanuele\.sonar\cache\d35f31e712f0fcf6ac5a093edc90204fbff22f720ba3950bd09d331d5e621636\OpenJDK21U-jre_x64_windows_hotspot_21.0.12.1_1.zip_extracted\jdk-21.0.12.1+1-jre\bin\java.exe
+13:09:39.432  INFO: Starting SonarScanner Engine...
+13:09:39.433  INFO: Java 21.0.12.1 Eclipse Adoptium (64-bit)
+13:09:40.469  INFO: Load global settings
+13:09:40.599  INFO: Load global settings (done) | time=128ms
+13:09:40.604  INFO: Server id: 3D6604EE-AaFTmmAHAAE_jo7rKOv6
+13:09:40.612  INFO: Loading required plugins
+13:09:40.612  INFO: Load plugins index
+13:09:40.634  INFO: Load plugins index (done) | time=21ms
+13:09:40.634  INFO: Load/download plugins
+13:09:40.648  INFO: Load/download plugins (done) | time=15ms
+13:09:40.988  INFO: Load project settings for component key: 'bugboard26-backend'
+13:09:41.010  INFO: Load project settings for component key: 'bugboard26-backend' (done) | time=23ms
+13:09:41.025  INFO: Process project properties
+13:09:41.055  INFO: Process project properties (done) | time=31ms
+13:09:41.072  INFO: Project key: bugboard26-backend
+13:09:41.073  INFO: Base dir: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend
+13:09:41.073  INFO: Working dir: C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-998c6fa62c6840d1836e4b873d7a7b7a\.sonarqube\out\.sonar
+13:09:41.308  INFO: Load quality profiles
+13:09:41.350  INFO: Load quality profiles (done) | time=43ms
+13:09:41.385  INFO: Load active rules
+13:09:41.595  INFO: Load active rules (done) | time=210ms
+13:09:41.601  INFO: Load analysis cache
+13:09:41.619  INFO: Load analysis cache (2.5 kB) | time=19ms
+13:09:41.701  INFO: Preprocessing files...
+13:09:41.822  INFO: 3 languages detected in 59 preprocessed files (done) | time=122ms
+13:09:41.822  INFO: 4 files ignored because of scm ignore settings
+13:09:41.824  INFO: Loading plugins for detected languages
+13:09:41.824  INFO: Load/download plugins
+13:09:41.840  INFO: Load/download plugins (done) | time=16ms
+13:09:42.061  INFO: Executing phase 2 project builders
+13:09:42.116  INFO: Executing phase 2 project builders (done) | time=56ms
+13:09:42.123  INFO: Load project repositories
+13:09:42.239  INFO: Load project repositories (done) | time=116ms
+13:09:42.279  INFO: Indexing files...
+13:09:42.279  INFO: Project configuration:
+13:09:42.280  INFO:   Excluded sources for coverage: **/Migrations/**, **/bin/**, **/obj/**, **/*.g.cs, **/*.generated.cs, **/*.Designer.cs
+13:09:42.282  INFO: Indexing files of module 'BugBoard26.Api'
+13:09:42.282  INFO:   Base dir: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api
+13:09:42.287  INFO:   Source paths: Contracts/Issues/CreateIssueRequest.cs, Contracts/Issues/Dupl...
+13:09:42.287  INFO:   Excluded sources for coverage: **/Migrations/**, **/bin/**, **/obj/**, **/*.g.cs, **/*.generated.cs, **/*.Designer.cs
+13:09:42.383  INFO: Indexing files of module 'BugBoard26.Tests'
+13:09:42.383  INFO:   Base dir: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests
+13:09:42.385  INFO:   Test paths: Integration/ApiIntegrationTest.cs, Integration/AuthenticationIn...
+13:09:42.386  INFO:   Excluded sources for coverage: **/Migrations/**, **/bin/**, **/obj/**, **/*.g.cs, **/*.generated.cs, **/*.Designer.cs
+13:09:42.426  INFO: Indexing files of module 'bugboard26-backend'
+13:09:42.426  INFO:   Base dir: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend
+13:09:42.426  INFO:   Excluded sources for coverage: **/Migrations/**, **/bin/**, **/obj/**, **/*.g.cs, **/*.generated.cs, **/*.Designer.cs
+13:09:42.427  INFO: 57 files indexed (done) | time=148ms
+13:09:42.428  INFO: Quality profile for cs: Sonar way core
+13:09:42.428  INFO: Quality profile for json: Sonar way comprehensive
+13:09:42.428  INFO: Quality profile for yaml: Sonar way comprehensive
+13:09:42.428  INFO: ------------- Run sensors on module BugBoard26.Api
+13:09:42.476  INFO: Load metrics repository
+13:09:42.503  INFO: Load metrics repository (done) | time=28ms
+13:09:42.848  INFO: Sensor IaC YAML File Type Classification Sensor [iac]
+13:09:42.858  INFO: Sensor IaC YAML File Type Classification Sensor [iac] (done) | time=11ms
+13:09:42.858  INFO: Sensor IaC CloudFormation Sensor [iac]
+13:09:42.859  INFO: There are no files to be analyzed for the CloudFormation language
+13:09:42.859  INFO: Sensor IaC CloudFormation Sensor [iac] (done) | time=0ms
+13:09:42.859  INFO: Sensor IaC cfn-lint report Sensor [iac]
+13:09:42.860  INFO: Sensor IaC cfn-lint report Sensor [iac] (done) | time=1ms
+13:09:42.860  INFO: Sensor IaC hadolint report Sensor [iac]
+13:09:42.860  INFO: Sensor IaC hadolint report Sensor [iac] (done) | time=0ms
+13:09:42.860  INFO: Sensor IaC Azure Resource Manager Sensor [iac]
+13:09:42.861  INFO: There are no files to be analyzed for the Azure Resource Manager language
+13:09:42.861  INFO: Sensor IaC Azure Resource Manager Sensor [iac] (done) | time=0ms
+13:09:42.861  INFO: Sensor Java Config Sensor [iac]
+13:09:42.861  INFO: There are no files to be analyzed for the Java language
+13:09:42.862  INFO: Sensor Java Config Sensor [iac] (done) | time=1ms
+13:09:42.862  INFO: Sensor IaC Docker Sensor [iac]
+13:09:42.866  INFO: There are no files to be analyzed for the Docker language
+13:09:42.867  INFO: Sensor IaC Docker Sensor [iac] (done) | time=5ms
+13:09:42.867  INFO: Sensor C# Project Type Information [csharp]
+13:09:42.869  INFO: Sensor C# Project Type Information [csharp] (done) | time=2ms
+13:09:42.869  INFO: Sensor C# Analysis Log [csharp]
+13:09:42.886  INFO: Roslyn version: 5.9.0.0
+13:09:42.886  INFO: Language version: CSharp14
+13:09:42.886  INFO: Concurrent execution: enabled
+13:09:42.886  INFO: Sensor C# Analysis Log [csharp] (done) | time=17ms
+13:09:42.886  INFO: Sensor C# Method Declarations [csharp]
+13:09:42.888  INFO: Sensor C# Method Declarations [csharp] (done) | time=2ms
+13:09:42.888  INFO: Sensor C# Telemetry [csharp]
+13:09:42.900  INFO: Sensor C# Telemetry [csharp] (done) | time=12ms
+13:09:42.901  INFO: Sensor C# Telemetry Json [csharp]
+13:09:42.915  INFO: Sensor C# Telemetry Json [csharp] (done) | time=15ms
+13:09:42.915  INFO: Sensor C# Properties [csharp]
+13:09:42.917  INFO: Sensor C# Properties [csharp] (done) | time=0ms
+13:09:42.921  INFO: ------------- Run sensors on module BugBoard26.Tests
+13:09:42.970  INFO: Sensor IaC YAML File Type Classification Sensor [iac]
+13:09:42.970  INFO: Sensor IaC YAML File Type Classification Sensor [iac] (done) | time=0ms
+13:09:42.970  INFO: Sensor IaC CloudFormation Sensor [iac]
+13:09:42.970  INFO: There are no files to be analyzed for the CloudFormation language
+13:09:42.970  INFO: Sensor IaC CloudFormation Sensor [iac] (done) | time=0ms
+13:09:42.970  INFO: Sensor IaC cfn-lint report Sensor [iac]
+13:09:42.970  INFO: Sensor IaC cfn-lint report Sensor [iac] (done) | time=0ms
+13:09:42.970  INFO: Sensor IaC Kustomization Sensor [iac]
+13:09:42.971  INFO: Sensor IaC Kustomization Sensor [iac] (done) | time=1ms
+13:09:42.971  INFO: Sensor IaC hadolint report Sensor [iac]
+13:09:42.971  INFO: Sensor IaC hadolint report Sensor [iac] (done) | time=0ms
+13:09:42.971  INFO: Sensor Java Config Sensor [iac]
+13:09:42.971  INFO: There are no files to be analyzed for the Java language
+13:09:42.972  INFO: Sensor Java Config Sensor [iac] (done) | time=0ms
+13:09:42.972  INFO: Sensor IaC Docker Sensor [iac]
+13:09:42.972  INFO: There are no files to be analyzed for the Docker language
+13:09:42.972  INFO: Sensor IaC Docker Sensor [iac] (done) | time=0ms
+13:09:42.972  INFO: Sensor C# Project Type Information [csharp]
+13:09:42.972  INFO: Sensor C# Project Type Information [csharp] (done) | time=1ms
+13:09:42.972  INFO: Sensor C# Analysis Log [csharp]
+13:09:42.982  INFO: Roslyn version: 5.9.0.0
+13:09:42.982  INFO: Language version: CSharp14
+13:09:42.982  INFO: Concurrent execution: enabled
+13:09:42.982  INFO: Sensor C# Analysis Log [csharp] (done) | time=10ms
+13:09:42.982  INFO: Sensor C# Method Declarations [csharp]
+13:09:42.996  INFO: Sensor C# Method Declarations [csharp] (done) | time=13ms
+13:09:42.996  INFO: Sensor C# Telemetry [csharp]
+13:09:42.997  INFO: Sensor C# Telemetry [csharp] (done) | time=1ms
+13:09:42.997  INFO: Sensor C# Telemetry Json [csharp]
+13:09:42.999  INFO: Sensor C# Telemetry Json [csharp] (done) | time=0ms
+13:09:42.999  INFO: Sensor C# Properties [csharp]
+13:09:43.000  INFO: Sensor C# Properties [csharp] (done) | time=0ms
+13:09:43.000  INFO: Sensor IaC Kubernetes Sensor [iac]
+13:09:43.086  INFO: There are no files to be analyzed for the Kubernetes language
+13:09:43.086  INFO: Sensor IaC Kubernetes Sensor [iac] (done) | time=87ms
+13:09:43.087  INFO: ------------- Run sensors on module bugboard26-backend
+13:09:43.128  INFO: Sensor IaC YAML File Type Classification Sensor [iac]
+13:09:43.128  INFO: Sensor IaC YAML File Type Classification Sensor [iac] (done) | time=0ms
+13:09:43.128  INFO: Sensor IaC hadolint report Sensor [iac]
+13:09:43.128  INFO: Sensor IaC hadolint report Sensor [iac] (done) | time=0ms
+13:09:43.129  INFO: Sensor Java Config Sensor [iac]
+13:09:43.129  INFO: There are no files to be analyzed for the Java language
+13:09:43.129  INFO: Sensor Java Config Sensor [iac] (done) | time=0ms
+13:09:43.129  INFO: Sensor IaC Docker Sensor [iac]
+13:09:43.129  INFO: There are no files to be analyzed for the Docker language
+13:09:43.129  INFO: Sensor IaC Docker Sensor [iac] (done) | time=1ms
+13:09:43.129  INFO: Sensor C# Project Type Information [csharp]
+13:09:43.130  INFO: Sensor C# Project Type Information [csharp] (done) | time=0ms
+13:09:43.130  INFO: Sensor C# Analysis Log [csharp]
+13:09:43.130  INFO: Sensor C# Analysis Log [csharp] (done) | time=0ms
+13:09:43.130  INFO: Sensor C# Method Declarations [csharp]
+13:09:43.130  INFO: Sensor C# Method Declarations [csharp] (done) | time=0ms
+13:09:43.130  INFO: Sensor C# Properties [csharp]
+13:09:43.130  INFO: Sensor C# Properties [csharp] (done) | time=1ms
+13:09:43.130  INFO: Sensor TextAndSecretsSensor [text]
+13:09:43.160  INFO: Available processors: 12
+13:09:43.160  INFO: Using 12 threads for analysis.
+13:09:43.510  INFO: The property "sonar.tests" is not set. To improve the analysis accuracy, we categorize a file as a test file if any of the following is true:
+  * The filename starts with "test"
+  * The filename contains "test." or "tests."
+  * Any directory in the file path is named: "doc", "docs", "test", "tests", "mock" or "mocks"
+  * Any directory in the file path has a name ending in "test" or "tests"
+
+13:09:43.539  INFO: Start fetching files for the text and secrets analysis
+13:09:43.746  INFO: Using Git CLI to retrieve dirty files
+13:09:43.807  INFO: Retrieving language associated files and files included via "sonar.text.inclusions" that are tracked by git
+13:09:43.808  INFO: Starting the text and secrets analysis
+13:09:43.809  INFO: 55 source files to be analyzed for the text and secrets analysis
+13:09:43.876  INFO: 55/55 source files have been analyzed for the text and secrets analysis
+13:09:43.876  INFO: Skipped 16 file(s) in the secrets analysis due to automatic test file detection
+13:09:43.879  INFO: Sensor TextAndSecretsSensor [text] (done) | time=748ms
+13:09:43.879  INFO: ------------- Run sensors on project
+13:09:44.211  INFO: Sensor C# Telemetry processor [csharp]
+13:09:44.217  INFO: Sensor C# Telemetry processor [csharp] (done) | time=5ms
+13:09:44.217  INFO: Sensor C# Telemetry Json processor [csharp]
+13:09:44.247  INFO: Sensor C# Telemetry Json processor [csharp] (done) | time=29ms
+13:09:44.247  INFO: Sensor C# [csharp]
+13:09:44.826  INFO: Importing 2 Roslyn reports
+13:09:44.865  INFO: Found 2 MSBuild C# projects: 1 MAIN project. 1 TEST project.
+13:09:44.865  INFO: Sensor C# [csharp] (done) | time=618ms
+13:09:44.865  INFO: Sensor Analysis Warnings import [csharp]
+13:09:44.869  INFO: Sensor Analysis Warnings import [csharp] (done) | time=3ms
+13:09:44.869  INFO: Sensor C# File Caching Sensor [csharp]
+13:09:44.883  INFO: Sensor C# File Caching Sensor [csharp] (done) | time=13ms
+13:09:44.884  INFO: Sensor C# Tests Coverage Report Import [csharp]
+13:09:44.887  INFO: Parsing the OpenCover report C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-998c6fa62c6840d1836e4b873d7a7b7a\results\2924e583-7a0a-4cff-8b14-1fd2824038af\coverage.opencover.xml
+13:09:44.983  INFO: Adding this code coverage report to the cache for later reuse: C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-998c6fa62c6840d1836e4b873d7a7b7a\results\2924e583-7a0a-4cff-8b14-1fd2824038af\coverage.opencover.xml
+13:09:45.041  INFO: Coverage Report Statistics: 29 files, 29 main files, 29 main files with coverage, 0 test files, 0 project excluded files, 0 other language files.
+13:09:45.041  INFO: Sensor C# Tests Coverage Report Import [csharp] (done) | time=157ms
+13:09:45.041  INFO: Sensor JavaScript/TypeScript/CSS analysis [javascript]
+13:09:45.049  INFO: No input files found for analysis
+13:09:45.049  INFO: Hit the cache for 0 out of 0
+13:09:45.052  INFO: Miss the cache for 0 out of 0
+13:09:45.052  INFO: Sensor JavaScript/TypeScript/CSS analysis [javascript] (done) | time=10ms
+13:09:45.052  INFO: Sensor IaC Project Sensor [iac]
+13:09:45.054  INFO: Sensor IaC Project Sensor [iac] (done) | time=2ms
+13:09:45.054  INFO: Sensor Zero Coverage Sensor
+13:09:45.057  INFO: Sensor Zero Coverage Sensor (done) | time=2ms
+13:09:45.057  INFO: ------------- Gather SCA dependencies on project
+13:09:45.065  INFO: Dependency analysis skipped
+13:09:45.096  INFO: SCM Publisher SCM provider for this project is: git
+13:09:45.096  INFO: SCM Publisher 14 source files to be analyzed
+13:09:46.191  INFO: SCM Publisher 0/14 source files have been analyzed (done) | time=1094ms
+13:09:46.191  WARNING: WARN: Missing blame information for the following files:
+13:09:46.191  WARNING: WARN:   * BugBoard26.Api/Contracts/Issues/CreateIssueRequest.cs
+13:09:46.191  WARNING: WARN:   * BugBoard26.Api/Contracts/Issues/UpdateIssueStatusRequest.cs
+13:09:46.191  WARNING: WARN:   * BugBoard26.Tests/Integration/IssueApiFactory.cs
+13:09:46.191  WARNING: WARN:   * BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs
+13:09:46.191  WARNING: WARN:   * BugBoard26.Api/Program.cs
+13:09:46.191  WARNING: WARN:   * BugBoard26.Tests/Integration/ApiIntegrationTest.cs
+13:09:46.191  WARNING: WARN:   * BugBoard26.Tests/Integration/IssueStatusIntegrationTests.cs
+13:09:46.192  WARNING: WARN:   * BugBoard26.Api/Controllers/IssuesController.cs
+13:09:46.192  WARNING: WARN:   * BugBoard26.Api/Data/DatabaseSeeder.cs
+13:09:46.192  WARNING: WARN:   * BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs
+13:09:46.192  WARNING: WARN:   * BugBoard26.Tests/Integration/IssueInputValidationIntegrationTests.cs
+13:09:46.192  WARNING: WARN:   * BugBoard26.Tests/Integration/StartupConfigurationIntegrationTests.cs
+13:09:46.192  WARNING: WARN:   * BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs
+13:09:46.192  WARNING: WARN:   * BugBoard26.Tests/Integration/IssueDuplicateValidationIntegrationTests.cs
+13:09:46.192  WARNING: WARN: This may lead to missing/broken features in SonarQube
+13:09:46.197  INFO: CPD Executor 12 files had no CPD blocks
+13:09:46.197  INFO: CPD Executor Calculating CPD for 24 files
+13:09:46.223  INFO: CPD Executor CPD calculation finished (done) | time=25ms
+13:09:46.229  INFO: SCM revision ID '6aa175a357dbdf1c35702686b985d46bff58c43e'
+13:09:46.415  INFO: Analysis report generated in 162ms, dir size=469.2 kB
+13:09:48.049  INFO: Analysis report compressed in 1634ms, zip size=168.5 kB
+13:09:48.109  INFO: Analysis report uploaded in 60ms
+13:09:48.112  INFO: ANALYSIS SUCCESSFUL, you can find the results at: http://localhost:9000/dashboard?id=bugboard26-backend
+13:09:48.112  INFO: Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+13:09:48.112  INFO: More about the report processing at http://localhost:9000/api/ce/task?id=6c8f631d-770d-403e-8ff3-29c5320c8580
+13:09:48.216  INFO: Analysis total time: 8.768 s
+13:09:48.265  INFO: SonarScanner Engine completed successfully
+13:09:48.329  The scanner engine has finished successfully
+13:09:48.329  Post-processing succeeded.
+Report inviato al server locale; controllare elaborazione e Quality Gate nel progetto.
+Risultati e file temporanei: C:\Users\Emanuele\AppData\Local\Temp\bugboard26-quality-998c6fa62c6840d1836e4b873d7a7b7a

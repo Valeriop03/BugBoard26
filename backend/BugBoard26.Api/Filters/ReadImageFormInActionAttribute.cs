@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BugBoard26.Api.Filters;
 
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class ReadImageFormInActionAttribute : Attribute, IResourceFilter
 {
     public void OnResourceExecuting(ResourceExecutingContext context)

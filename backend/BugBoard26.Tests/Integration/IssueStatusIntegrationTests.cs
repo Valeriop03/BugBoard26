@@ -146,6 +146,56 @@ public class IssueStatusIntegrationTests : ApiIntegrationTest
     }
 
     [Fact]
+    public async Task ReopenAndResolveAgain_ResetsDateAndCreatesOneNewNotification()
+    {
+        await AuthenticateAsync("USER");
+        using var first = await Client.PatchAsJsonAsync($"/api/issues/{IssueId}/status", new { status = "Resolved" });
+        Assert.Equal(HttpStatusCode.OK, first.StatusCode);
+        var resolved = await ReadIssueFromDatabaseAsync(IssueId);
+        var firstNotification = Assert.Single(await ReadNotificationsFromDatabaseAsync());
+
+        using var reopened = await Client.PatchAsJsonAsync($"/api/issues/{IssueId}/status", new { status = "InProgress" });
+        Assert.Equal(HttpStatusCode.OK, reopened.StatusCode);
+        var savedReopened = await ReadIssueFromDatabaseAsync(IssueId);
+        Assert.Equal(IssueStatus.InProgress, savedReopened.Status);
+        Assert.Null(savedReopened.ResolvedAt);
+        Assert.True(savedReopened.UpdatedAt > resolved.UpdatedAt);
+        Assert.Equal(firstNotification.Id, Assert.Single(await ReadNotificationsFromDatabaseAsync()).Id);
+
+        using var second = await Client.PatchAsJsonAsync($"/api/issues/{IssueId}/status", new { status = "Resolved" });
+        Assert.Equal(HttpStatusCode.OK, second.StatusCode);
+        var savedResolved = await ReadIssueFromDatabaseAsync(IssueId);
+        Assert.Equal(IssueStatus.Resolved, savedResolved.Status);
+        Assert.NotNull(savedResolved.ResolvedAt);
+        Assert.True(savedResolved.ResolvedAt > resolved.ResolvedAt);
+        Assert.True(savedResolved.UpdatedAt > savedReopened.UpdatedAt);
+        var notifications = await ReadNotificationsFromDatabaseAsync();
+        Assert.Equal(2, notifications.Length);
+        Assert.All(notifications, notification => Assert.Equal(UserId, notification.UserId));
+        Assert.Contains(notifications, notification => notification.Id == firstNotification.Id &&
+            notification.CreatedAt == firstNotification.CreatedAt && notification.IsRead == firstNotification.IsRead);
+    }
+
+    [Fact]
+    public async Task PreviouslyAuthenticatedUser_BecomingInactive_CannotChangeStatus()
+    {
+        await AuthenticateAsync("USER");
+        using (var scope = Factory.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var user = await db.Users.SingleAsync(user => user.Id == UserId);
+            user.IsActive = false;
+            await db.SaveChangesAsync();
+        }
+        var before = await SnapshotAsync();
+
+        using var response = await Client.PatchAsJsonAsync($"/api/issues/{IssueId}/status", new { status = "Resolved" });
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        Assert.Equal(before, await SnapshotAsync());
+    }
+
+    [Fact]
     public async Task WithoutToken_CannotChangeStatus_AndDatabaseIsUnchanged()
     {
         var before = await SnapshotAsync();

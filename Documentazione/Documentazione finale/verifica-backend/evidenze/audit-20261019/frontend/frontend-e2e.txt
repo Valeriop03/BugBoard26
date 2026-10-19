@@ -1,0 +1,20 @@
+PASS Accesso anonimo alla creazione reindirizzato al login
+PASS Menu per ruolo e nome accessibile ricerca: ADMIN
+PASS Login ADMIN reale e sessione JWT
+PASS Creazione USER dalla pagina utenti
+PASS Creazione READONLY dalla pagina utenti
+PASS Creazione issue, suggerimento reale, upload PNG e dettaglio
+PASS Menu per ruolo e nome accessibile ricerca: USER
+PASS USER non puo accedere alla pagina utenti
+PASS Risoluzione USER assegnatario, data e notifica; ripetizione idempotente
+PASS USER non assegnatario: comando assente, API 403, dati invariati
+PASS USER legge la propria notifica dalla UI e persiste IsRead
+PASS Menu per ruolo e nome accessibile ricerca: READONLY
+PASS READONLY: consultazione immagine, rotte e scritture protette
+PASS READONLY notifiche proprie: GET 200, UI senza scritture, PATCH 403 invariato
+PASS Lista mobile senza overflow orizzontale a 390x844
+PASS Menu per ruolo e nome accessibile ricerca: ADMIN
+PASS ADMIN legge la propria notifica dalla UI e persiste IsRead
+PASS Ricerca, filtro e download CSV reali coerenti con le issue visibili
+PASS Duplicazione e archiviazione ADMIN da UI, riferimento e liste coerenti
+PASS Nessun errore JavaScript non gestito durante il collaudo

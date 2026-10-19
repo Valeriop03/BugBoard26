@@ -7,7 +7,9 @@
         <a routerLink="/issues" routerLinkActive="active">Issue</a>
         <a routerLink="/issues/archived" routerLinkActive="active">Archivio</a>
         <a routerLink="/notifications" routerLinkActive="active">Notifiche</a>
-        <a routerLink="/users" routerLinkActive="active">Utenti</a>
+        @if (currentUser?.role === 'ADMIN') {
+          <a routerLink="/users" routerLinkActive="active">Utenti</a>
+        }
       </nav>
     </div>
 

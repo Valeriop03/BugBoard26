@@ -1,0 +1,10 @@
+{
+  "server": "http://localhost:9000",
+  "startUtc": "2026-10-19T10:05:05.7253802+00:00",
+  "endUtc": "2026-10-19T10:06:14.8445195+00:00",
+  "command": "quality/analyze-backend.ps1 -Mode Analysis (credenziali locali DPAPI), seconda esecuzione completa",
+  "projectKey": "bugboard26-backend",
+  "exitCode": 0,
+  "commit": "6aa175a357dbdf1c35702686b985d46bff58c43e",
+  "sourceChanges": []
+}

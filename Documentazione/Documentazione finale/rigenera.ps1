@@ -5,7 +5,7 @@ param(
     [string]$PlantUmlJar,
     [string]$JavaExecutable = 'java',
     [string]$RuntimeNodeModules = "$env:USERPROFILE\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules",
-    [string]$PresentationsSkillDir = "$env:USERPROFILE\.codex\plugins\cache\openai-primary-runtime\presentations\26.1013.11914\skills\presentations",
+    [string]$PresentationsSkillDir,
     [switch]$RigeneraDiagrammi,
     [switch]$SoloDocumento
 )
@@ -22,6 +22,14 @@ try {
     & $TectonicExecutable --untrusted --keep-logs documentazione_finale.tex
     if ($LASTEXITCODE -ne 0) { throw 'Compilazione LaTeX non riuscita.' }
     if (!$SoloDocumento) {
+        if (!$PresentationsSkillDir) {
+            $versions = Get-ChildItem "$env:USERPROFILE\.codex\plugins\cache\openai-primary-runtime\presentations" -Directory |
+                Sort-Object Name -Descending
+            $PresentationsSkillDir = $versions | ForEach-Object {
+                Join-Path $_.FullName 'skills\presentations'
+            } | Where-Object { Test-Path (Join-Path $_ 'container_tools\artifact_tool_utils.mjs') } | Select-Object -First 1
+            if (!$PresentationsSkillDir) { throw 'Specificare -PresentationsSkillDir: runtime presentazioni non trovato.' }
+        }
         $savedModules = $env:ARTIFACT_NODE_MODULES
         $savedSkill = $env:PRESENTATIONS_SKILL_DIR
         $savedPython = $env:ARTIFACT_PYTHON

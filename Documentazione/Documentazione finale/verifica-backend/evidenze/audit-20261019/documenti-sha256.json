@@ -1,0 +1,78 @@
+[
+  {
+    "path": "Documentazione/Documentazione finale/consegna.md",
+    "sha256": "46ec00a3bf47f15966f3f19a335cc959bfc43385c09ef8addd8c9774878e0415"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/diagrammi_manifest.json",
+    "sha256": "2832f2787537a6aa315870cb1ed6f0cf7fb02b2ebf8f86bb6ee6cee55934bb7d"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/documentazione_finale.pdf",
+    "sha256": "1142e313bc55d3c11619417c39188e7bd965df9439d982fe0c54681d8ce71b28"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/documentazione_finale.tex",
+    "sha256": "853dded311f712723cd541f520d216cb60ddb29ab9d45555006a290e73d481a5"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/esiti_test_plan.csv",
+    "sha256": "72c1371da4673292b0dde66c8648846b160ffbe8ffbc48c5acfbfac6d0d0351c"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/evidenze.md",
+    "sha256": "f9f3cfe275d7ae040d7b3756d7c5386025ef28787eca4aa3ebd505813a416f5b"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/file_modificati.md",
+    "sha256": "577b7464e659290b36ba9b6dd7447145a05d1e29902b1a2905ca83ed8c982159"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/prepara_documentazione.py",
+    "sha256": "7e297297b3ab5a994939ac58cadb89f5444cfe528c5f9fb2046917e342048f95"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/presentazione.mjs",
+    "sha256": "d36a3683e63e40ba823381f49de7b37d8a47922d4301ad37893371221c04382c"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/qualita_backend.md",
+    "sha256": "0345d70a6decf82c0345474a9aaacc45fb2a301015cfa08093782c4db8800a77"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/readme.md",
+    "sha256": "59cf9e65c85c1f7932b2e121173a2358427ba63afcc414274e369634ed32730a"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/rigenera.ps1",
+    "sha256": "29593f575340ab1e9ac644580c9108fffb575b5904088ac577ed4705b700fb38"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/strategie_dominio.tex",
+    "sha256": "fcc0325d8f25d8c09ca7a6d76399114d7467ffe36d25126603de858ca56d2df7"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/test_plan.tex",
+    "sha256": "0be3447a178a9bc89f72295e7de83a2792a23f4e18ca34bb81177de92ef3459c"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/usabilita.md",
+    "sha256": "c6e833934136e1edaf29094e0c248ba2f5453256c48b18b9afc51a8bd3b09160"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/verifica_documentale.md",
+    "sha256": "5f3b69a26f20937021566f82e362565a27901e4424f3b1ad2149ab779360f9dd"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/vincoli_case.tex",
+    "sha256": "9a3cd6d4dd13d65c34fb94552f7849ec06bbf5886c30c2a53eef99f849d9118b"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/presentazione/presentazione_tecnica_20261019.pptx",
+    "sha256": "01f84b0dae80ae17ebb2da3c77d488c9f8769b2744f6c27cb5d803561e26fb4e"
+  },
+  {
+    "path": "Documentazione/Documentazione finale/verifica-backend/audit-20261019.md",
+    "sha256": "c42d7a01b8991d01be087e73b3df1ace5b543e85daf12925e07abdf6b7abb8ca"
+  }
+]

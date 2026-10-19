@@ -12,6 +12,23 @@ namespace BugBoard26.Tests.Integration;
 public class IssueDuplicateValidationIntegrationTests : ApiIntegrationTest
 {
     [Theory]
+    [InlineData("{}")]
+    [InlineData("{\"originalIssueId\":null}")]
+    [InlineData("{\"originalIssueId\":0}")]
+    [InlineData("{\"originalIssueId\":-1}")]
+    public async Task InvalidOriginalReference_ReturnsBadRequest_AndDatabaseIsUnchanged(string json)
+    {
+        await AuthenticateAsync("ADMIN");
+        var before = await SnapshotAsync();
+        using var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        using var response = await Client.PatchAsync($"/api/issues/{IssueId}/duplicate", content);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal(before, await SnapshotAsync());
+    }
+
+    [Theory]
     [InlineData("ADMIN")]
     [InlineData("USER")]
     public async Task StatusEndpoint_CannotSetDuplicate_EvenForAdmin_AndDatabaseIsUnchanged(string role)

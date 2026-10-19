@@ -1,6 +1,6 @@
 # Usabilità: protocollo e raccolta reale
 
-Stato al 16 ottobre 2026: **attività predisposte, non eseguite**. Il §2.4 della traccia richiede una review sistematica e prove con utenti reali/potenziali sul prodotto finito. Non considerare la review tecnica del gruppo come una sessione con utenti.
+Stato al 19 ottobre 2026: review tecnica assistita parziale eseguita, **sessioni con persone e questionari non eseguiti**. Il §2.4 richiede entrambe le attivita: i test automatici non sostituiscono gli utenti reali/potenziali. La [review tecnica](verifica-backend/review-tecnica-20261019.csv) ha evidenziato il collegamento Utenti visibile ai non ADMIN e il campo ricerca senza nome accessibile; entrambi sono stati corretti nell'audit successivo. Sono ancora da completare la review umana sistematica, tastiera, contrasto e osservazione degli errori di rete. Vedere [audit](verifica-backend/audit-20261019.md) e [sessione pronta](verifica-backend/sessione-utenti-pronta.md).
 
 ## Review tecnica con checklist
 
@@ -11,7 +11,7 @@ Un componente esamina ogni punto sul prodotto avviato e un altro rilegge le osse
 3. Caricamento, successo, lista vuota ed errore di rete hanno feedback distinguibili.
 4. Ricerca, filtri e ordinamento sono comprensibili e permettono di ritrovare la issue.
 5. Stato, assegnatario e significato di duplicato/archivio risultano chiari.
-6. La notifica rende riconoscibile la risoluzione e lo stato letto/non letto. Secondo la decisione del gruppo RF-17, READONLY consulta solo le proprie notifiche e non dispone del comando per segnarle lette. Allineamento e verifica restano aperti; questa review non sostituisce i test API.
+6. La notifica rende riconoscibile la risoluzione e lo stato letto/non letto. Secondo la decisione del gruppo RF-17, READONLY consulta solo le proprie notifiche e non dispone del comando per segnarle lette. Allineamento e verifica tecnica acquisiti il 19 ottobre; resta da osservare la comprensione da parte delle persone.
 7. Contrasto, dimensione del testo, etichette e percorso da tastiera permettono le attività previste.
 8. Un errore di upload non fa credere che la issue già salvata sia stata annullata.
 

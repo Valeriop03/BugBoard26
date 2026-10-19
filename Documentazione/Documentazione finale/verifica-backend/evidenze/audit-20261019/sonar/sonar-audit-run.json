@@ -1,0 +1,32 @@
+{
+  "workingTree": [
+    " M backend/BugBoard26.Api/BugBoard26.Api.csproj",
+    " M backend/BugBoard26.Api/Contracts/Issues/CreateIssueRequest.cs",
+    " M backend/BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs",
+    " M backend/BugBoard26.Api/Contracts/Issues/UpdateIssueStatusRequest.cs",
+    " M backend/BugBoard26.Api/Controllers/IssuesController.cs",
+    " M backend/BugBoard26.Api/Data/DatabaseSeeder.cs",
+    " M backend/BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs",
+    " M backend/BugBoard26.Api/Program.cs",
+    " M backend/BugBoard26.Api/appsettings.Development.json",
+    " M backend/BugBoard26.Api/appsettings.json",
+    " M backend/BugBoard26.Tests/Integration/ApiIntegrationTest.cs",
+    " M backend/BugBoard26.Tests/Integration/IssueApiFactory.cs",
+    " M backend/BugBoard26.Tests/Integration/IssueDuplicateValidationIntegrationTests.cs",
+    " M backend/BugBoard26.Tests/Integration/IssueStatusIntegrationTests.cs",
+    " M backend/BugBoard26.Tests/Integration/NotificationsIntegrationTests.cs",
+    "?? \"Documentazione/Documentazione finale/verifica-backend/aggiornamento-20261019.md\"",
+    "?? \"Documentazione/Documentazione finale/verifica-backend/evidenze/20261019/\"",
+    "?? \"Documentazione/Documentazione finale/verifica-backend/evidenze/finalizzazione-20261019/\"",
+    "?? \"Documentazione/Documentazione finale/verifica-backend/finalizzazione-20261019.md\"",
+    "?? \"Documentazione/Documentazione finale/verifica-backend/review-tecnica-20261019.csv\"",
+    "?? \"Documentazione/Documentazione finale/verifica-backend/sessione-utenti-pronta.md\"",
+    "?? backend/BugBoard26.Tests/Integration/IssueInputValidationIntegrationTests.cs",
+    "?? backend/BugBoard26.Tests/Integration/StartupConfigurationIntegrationTests.cs"
+  ],
+  "commit": "6aa175a357dbdf1c35702686b985d46bff58c43e",
+  "endUtc": "2026-10-19T11:09:48.3900831+00:00",
+  "startUtc": "2026-10-19T11:08:30.9825659+00:00",
+  "exitCode": 0,
+  "command": "quality/analyze-backend.ps1 -Mode Analysis via wrapper DPAPI locale"
+}

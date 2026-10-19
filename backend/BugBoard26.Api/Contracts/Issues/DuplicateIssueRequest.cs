@@ -5,5 +5,6 @@ namespace BugBoard26.Api.Contracts.Issues;
 public class DuplicateIssueRequest
 {
     [Required]
-    public int OriginalIssueId { get; set; }
+    [Range(1, int.MaxValue)]
+    public int? OriginalIssueId { get; set; }
 }

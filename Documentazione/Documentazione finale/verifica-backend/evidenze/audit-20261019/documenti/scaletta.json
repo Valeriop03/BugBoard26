@@ -1,0 +1,51 @@
+{
+  "total_seconds": 540,
+  "rehearsal": "NON ESEGUITA",
+  "slides": [
+    {
+      "slide": 1,
+      "title": "BugBoard26",
+      "seconds": 20
+    },
+    {
+      "slide": 2,
+      "title": "Architettura e separazione dei componenti",
+      "seconds": 75
+    },
+    {
+      "slide": 3,
+      "title": "Modello dati e vincoli",
+      "seconds": 75
+    },
+    {
+      "slide": 4,
+      "title": "Astrazioni object-oriented e dipendenze",
+      "seconds": 60
+    },
+    {
+      "slide": 5,
+      "title": "Permessi e controlli sul backend",
+      "seconds": 75
+    },
+    {
+      "slide": 6,
+      "title": "Risoluzione e notifica: persistenza e ripetizione",
+      "seconds": 60
+    },
+    {
+      "slide": 7,
+      "title": "Strategia di test e piano UC-02",
+      "seconds": 80
+    },
+    {
+      "slide": 8,
+      "title": "Qualità misurata e attività ancora aperte",
+      "seconds": 60
+    },
+    {
+      "slide": 9,
+      "title": "Demo breve coordinata con il frontend",
+      "seconds": 35
+    }
+  ]
+}

@@ -15,12 +15,16 @@ public class IssueApiFactory : WebApplicationFactory<Program>
     private readonly string _baseConnectionString;
     private readonly string _databaseName = $"bugboard26_test_{Guid.NewGuid():N}";
     private readonly string _testConnectionString;
+    private readonly string _jwtKey = Convert.ToHexString(System.Security.Cryptography.RandomNumberGenerator.GetBytes(32));
+    private readonly string _bootstrapPassword = Guid.NewGuid().ToString("N");
+    private readonly IReadOnlyDictionary<string, string?> _configurationOverrides;
     private bool _databaseCreated;
 
     public string ImageDirectory { get; } = Path.Combine(Path.GetTempPath(), $"bugboard26-images-{Guid.NewGuid():N}");
 
-    public IssueApiFactory()
+    public IssueApiFactory(IReadOnlyDictionary<string, string?>? configurationOverrides = null)
     {
+        _configurationOverrides = configurationOverrides ?? new Dictionary<string, string?>();
         var connection = new NpgsqlConnectionStringBuilder(
             Environment.GetEnvironmentVariable("BUGBOARD26_TEST_CONNECTION_STRING")
             ?? "Host=127.0.0.1;Port=55432;Database=bugboard26_tests;Username=bugboard26_tests;Password=bugboard26_tests")
@@ -64,11 +68,21 @@ public class IssueApiFactory : WebApplicationFactory<Program>
     {
         builder.UseEnvironment("Testing");
         builder.ConfigureAppConfiguration((_, configuration) =>
-            configuration.AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            var settings = new Dictionary<string, string?>
             {
                 ["ConnectionStrings:DefaultConnection"] = _testConnectionString,
-                ["IssueImages:Directory"] = ImageDirectory
-            }));
+                ["IssueImages:Directory"] = ImageDirectory,
+                ["Jwt:Key"] = _jwtKey,
+                ["DefaultAdmin:Email"] = "bootstrap@integration.bugboard26.local",
+                ["DefaultAdmin:Password"] = _bootstrapPassword
+            };
+            foreach (var setting in _configurationOverrides)
+            {
+                settings[setting.Key] = setting.Value;
+            }
+            configuration.AddInMemoryCollection(settings);
+        });
 
         builder.ConfigureServices(services =>
         {
@@ -108,6 +122,7 @@ public class IssueApiFactory : WebApplicationFactory<Program>
             {
                 Directory.Delete(ImageDirectory, true);
             }
+            GC.SuppressFinalize(this);
         }
     }
 }

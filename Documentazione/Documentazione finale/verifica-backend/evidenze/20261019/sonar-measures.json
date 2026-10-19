@@ -1,0 +1,86 @@
+{
+  "component": {
+    "key": "bugboard26-backend",
+    "name": "BugBoard26 Backend",
+    "qualifier": "TRK",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "92.8",
+        "bestValue": false
+      },
+      {
+        "metric": "reliability_rating",
+        "value": "1.0",
+        "bestValue": true
+      },
+      {
+        "metric": "duplicated_lines_density",
+        "value": "0.0",
+        "bestValue": true
+      },
+      {
+        "metric": "code_smells",
+        "value": "10",
+        "bestValue": false
+      },
+      {
+        "metric": "security_rating",
+        "value": "3.0",
+        "bestValue": false
+      },
+      {
+        "metric": "security_hotspots",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "sqale_rating",
+        "value": "1.0",
+        "bestValue": true
+      },
+      {
+        "metric": "bugs",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "lines_to_cover",
+        "value": "824"
+      },
+      {
+        "metric": "uncovered_conditions",
+        "value": "38",
+        "bestValue": false
+      },
+      {
+        "metric": "uncovered_lines",
+        "value": "42",
+        "bestValue": false
+      },
+      {
+        "metric": "branch_coverage",
+        "value": "86.7",
+        "bestValue": false
+      },
+      {
+        "metric": "ncloc",
+        "value": "1562"
+      },
+      {
+        "metric": "vulnerabilities",
+        "value": "2",
+        "bestValue": false
+      },
+      {
+        "metric": "line_coverage",
+        "value": "94.9",
+        "bestValue": false
+      },
+      {
+        "metric": "conditions_to_cover",
+        "value": "285"
+      }
+    ]
+  }
+}

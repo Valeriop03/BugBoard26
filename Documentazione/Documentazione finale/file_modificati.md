@@ -1,5 +1,11 @@
 # File modificati in questa attività
 
+## Audit finale del 19 ottobre 2026
+
+Questa revisione comprende anche correzioni applicative e test, non soltanto documentazione. L'inventario aggiornato e le evidenze sono in [audit-20261019.md](verifica-backend/audit-20261019.md): validazione enum nei DTO, test HTTP, menu utenti per ruolo e nome accessibile della ricerca; inoltre documentazione, PDF, presentazione datata e script di rigenerazione. Nessun commit, branch o push e stato eseguito. La lista seguente resta il resoconto storico della sola attivita documentale del 16 ottobre, non l'inventario corrente.
+
+## Storico Del 16 Ottobre
+
 Tutti i percorsi seguenti sono relativi a `Documentazione`. La base è la versione aggiornata di Valerio; nessun altro documento finale viene creato.
 
 L'aggiornamento RF-17 del 16 ottobre interviene su **16 file già esistenti**, compresi PDF, PPTX, sorgente/PNG dei casi d'uso e manifest. Mantiene invariato il riepilogo del collaudo frontend. Aggiorna inoltre responsabilità, criteri di TP-14, evidenze attese e punti aperti; non aggiunge documenti di consegna. La tabella conserva anche gli interventi della prima integrazione.

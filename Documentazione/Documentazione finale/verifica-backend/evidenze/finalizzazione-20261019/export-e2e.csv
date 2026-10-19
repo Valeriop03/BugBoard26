@@ -1,0 +1,4 @@
+Id,Title,Type,Priority,Status,CreatedByEmail,AssignedToEmail,CreatedAt
+5,FINALE-1792406247968 notifica USER,Bug,,Resolved,finale-1792406247968-user@e2e.local,admin@e2e.bugboard26.local,2026-10-19T10:37:31.2852800Z
+4,FINALE-1792406247968 assegnata,Bug,,Resolved,admin@e2e.bugboard26.local,finale-1792406247968-user@e2e.local,2026-10-19T10:37:30.5743680Z
+3,FINALE-1792406247968 immagine,Bug,High,Todo,admin@e2e.bugboard26.local,admin@e2e.bugboard26.local,2026-10-19T10:37:30.4045530Z

@@ -1,0 +1,96 @@
+{
+  "run": "FINALE-1792406247968",
+  "sourceCommit": "6aa175a357dbdf1c35702686b985d46bff58c43e",
+  "uncommittedBackendFixes": true,
+  "database": "bugboard26_test_e2e_3470f6ccde8d",
+  "testEnvironment": "Browser Chrome e API Docker reali, PostgreSQL dedicato ai test, nessun mock HTTP",
+  "surveyOrHumanSession": false,
+  "results": [
+    {
+      "name": "Accesso anonimo alla creazione reindirizzato al login",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:29.092Z"
+    },
+    {
+      "name": "Login ADMIN reale e sessione JWT",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:29.557Z"
+    },
+    {
+      "name": "Creazione USER dalla pagina utenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:29.841Z",
+      "id": 4
+    },
+    {
+      "name": "Creazione READONLY dalla pagina utenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:30.120Z",
+      "id": 5
+    },
+    {
+      "name": "Creazione issue, suggerimento reale, upload PNG e dettaglio",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:30.515Z",
+      "issueId": 3,
+      "assignedToId": 1
+    },
+    {
+      "name": "USER non puo accedere alla pagina utenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:30.967Z"
+    },
+    {
+      "name": "Risoluzione USER assegnatario, data e notifica; ripetizione idempotente",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:31.145Z"
+    },
+    {
+      "name": "USER non assegnatario: comando assente, API 403, dati invariati",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:31.279Z"
+    },
+    {
+      "name": "USER legge la propria notifica dalla UI e persiste IsRead",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:31.500Z"
+    },
+    {
+      "name": "READONLY: consultazione immagine, rotte e scritture protette",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:32.383Z"
+    },
+    {
+      "name": "READONLY notifiche proprie: GET 200, UI senza scritture, PATCH 403 invariato",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:32.507Z",
+      "fixtureCreatedDirectlyInDedicatedTestDatabase": true
+    },
+    {
+      "name": "Lista mobile senza overflow orizzontale a 390x844",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:32.741Z"
+    },
+    {
+      "name": "ADMIN legge la propria notifica dalla UI e persiste IsRead",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:33.227Z"
+    },
+    {
+      "name": "Ricerca, filtro e download CSV reali coerenti con le issue visibili",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:33.622Z"
+    },
+    {
+      "name": "Duplicazione e archiviazione ADMIN da UI, riferimento e liste coerenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:33.911Z"
+    },
+    {
+      "name": "Nessun errore JavaScript non gestito durante il collaudo",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T10:37:33.911Z"
+    }
+  ],
+  "pageErrors": []
+}

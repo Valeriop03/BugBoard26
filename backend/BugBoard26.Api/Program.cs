@@ -30,9 +30,6 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IssueDomainService>();
 builder.Services.AddScoped<IssueImageStorage>();
 
-var jwtKey = builder.Configuration["Jwt:Key"]
-    ?? throw new InvalidOperationException("Jwt:Key non configurata.");
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -44,7 +41,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidAudience = builder.Configuration["Jwt:Audience"],
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromMinutes(2),
             RoleClaimType = "role",
@@ -56,6 +53,17 @@ builder.Services.AddAuthorization();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+if (string.IsNullOrWhiteSpace(app.Configuration.GetConnectionString("DefaultConnection")))
+{
+    throw new InvalidOperationException("ConnectionStrings:DefaultConnection non configurata. Usa variabili d'ambiente o user-secrets per lo sviluppo locale.");
+}
+
+var jwtKey = app.Configuration["Jwt:Key"];
+if (string.IsNullOrWhiteSpace(jwtKey) || Encoding.UTF8.GetByteCount(jwtKey) < 32)
+{
+    throw new InvalidOperationException("Jwt:Key deve essere configurata con almeno 32 byte. Non usare una chiave pubblica in produzione.");
+}
 
 if (app.Environment.IsDevelopment())
 {
@@ -73,6 +81,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
 
 public partial class Program { }

@@ -1,0 +1,115 @@
+{
+  "component": {
+    "key": "bugboard26-backend",
+    "name": "BugBoard26 Backend",
+    "qualifier": "TRK",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "93.6",
+        "bestValue": false
+      },
+      {
+        "metric": "reliability_rating",
+        "value": "1.0",
+        "bestValue": true
+      },
+      {
+        "metric": "code_smells",
+        "value": "4",
+        "bestValue": false
+      },
+      {
+        "metric": "new_lines",
+        "period": {
+          "index": 1,
+          "value": "172"
+        }
+      },
+      {
+        "metric": "security_rating",
+        "value": "1.0",
+        "bestValue": true
+      },
+      {
+        "metric": "new_coverage",
+        "period": {
+          "index": 1,
+          "value": "100.0",
+          "bestValue": true
+        }
+      },
+      {
+        "metric": "security_hotspots",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "sqale_rating",
+        "value": "1.0",
+        "bestValue": true
+      },
+      {
+        "metric": "bugs",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "lines_to_cover",
+        "value": "829"
+      },
+      {
+        "metric": "uncovered_conditions",
+        "value": "35",
+        "bestValue": false
+      },
+      {
+        "metric": "uncovered_lines",
+        "value": "37",
+        "bestValue": false
+      },
+      {
+        "metric": "branch_coverage",
+        "value": "87.9",
+        "bestValue": false
+      },
+      {
+        "metric": "new_violations",
+        "period": {
+          "index": 1,
+          "value": "0",
+          "bestValue": true
+        }
+      },
+      {
+        "metric": "vulnerabilities",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "new_uncovered_lines",
+        "period": {
+          "index": 1,
+          "value": "0",
+          "bestValue": true
+        }
+      },
+      {
+        "metric": "line_coverage",
+        "value": "95.5",
+        "bestValue": false
+      },
+      {
+        "metric": "conditions_to_cover",
+        "value": "289"
+      },
+      {
+        "metric": "new_lines_to_cover",
+        "period": {
+          "index": 1,
+          "value": "14"
+        }
+      }
+    ]
+  }
+}

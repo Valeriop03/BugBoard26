@@ -1,0 +1,652 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="a50a22d5-d3b2-445d-b649-8be61a6ec905" name="Emanuele@DESKTOP-JTGFFBO 2026-10-19 13:07:35" runUser="DESKTOP-JTGFFBO\Emanuele" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-19T13:07:35.6159450+02:00" queuing="2026-10-19T13:07:35.6159458+02:00" start="2026-10-19T13:07:30.8254132+02:00" finish="2026-10-19T13:07:38.6083218+02:00" />
+  <TestSettings name="default" id="842304bd-2768-4ff5-bd03-f2eaadd959e8">
+    <Deployment runDeploymentRoot="Emanuele_DESKTOP-JTGFFBO_2026-10-19_13_07_35" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="4bd77712-a68b-491b-b510-633a50ab4e0e" testId="bd357a75-6a01-84d8-d9eb-0f02bffa826a" testName="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: &quot;{\&quot;title\&quot;:\&quot;Priorita non valida\&quot;,\&quot;description\&quot;&quot;···)" computerName="DESKTOP-JTGFFBO" duration="00:00:00.1379034" startTime="2026-10-19T13:07:37.4401364+02:00" endTime="2026-10-19T13:07:37.9725439+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4bd77712-a68b-491b-b510-633a50ab4e0e">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: BadRequest&#xD;
+Actual:   Created</Message>
+          <StackTrace>   at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 22&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2ef3cb3a-04ee-4698-be43-92c180cd56b0" testId="391a2b29-58ff-33d6-0217-5e4a56986523" testName="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: &quot;{\&quot;title\&quot;:\&quot;Tipo non valido\&quot;,\&quot;description\&quot;:\&quot;D&quot;···)" computerName="DESKTOP-JTGFFBO" duration="00:00:00.1698993" startTime="2026-10-19T13:07:36.2621388+02:00" endTime="2026-10-19T13:07:36.8679112+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ef3cb3a-04ee-4698-be43-92c180cd56b0">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: BadRequest&#xD;
+Actual:   Created</Message>
+          <StackTrace>   at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 22&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2645ac19-2923-407f-925f-44d0ef9bf340" testId="456530ad-e9fd-74fd-de2b-a6df3f64a1b1" testName="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: -1)" computerName="DESKTOP-JTGFFBO" duration="00:00:00.1793388" startTime="2026-10-19T13:07:35.5945485+02:00" endTime="2026-10-19T13:07:36.2578617+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2645ac19-2923-407f-925f-44d0ef9bf340">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: BadRequest&#xD;
+Actual:   OK</Message>
+          <StackTrace>   at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(Int32 status) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 37&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="920028e7-4845-41a8-8e78-cb7a31775320" testId="106362b9-4fd0-4527-436e-6b72e87169b9" testName="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: 999)" computerName="DESKTOP-JTGFFBO" duration="00:00:00.7418086" startTime="2026-10-19T13:07:32.3265481+02:00" endTime="2026-10-19T13:07:35.5656601+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="920028e7-4845-41a8-8e78-cb7a31775320">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: BadRequest&#xD;
+Actual:   OK</Message>
+          <StackTrace>   at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(Int32 status) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 37&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="148c6b39-f0fa-4357-9755-7afe1fee7ae4" testId="fee28a1a-8c7b-a6bc-5d8f-417d3c1d7ed4" testName="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: &quot;{\&quot;title\&quot;:\&quot;Priorita non valida\&quot;,\&quot;description\&quot;&quot;···)" computerName="DESKTOP-JTGFFBO" duration="00:00:00.1375661" startTime="2026-10-19T13:07:37.9735336+02:00" endTime="2026-10-19T13:07:38.5161877+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="148c6b39-f0fa-4357-9755-7afe1fee7ae4">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: BadRequest&#xD;
+Actual:   Created</Message>
+          <StackTrace>   at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 22&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6bfb6ba0-a143-47f3-9039-5f5680c095e5" testId="0380d7cd-5d3f-453f-f88e-af5aab3b3ea7" testName="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: &quot;{\&quot;title\&quot;:\&quot;Tipo non valido\&quot;,\&quot;description\&quot;:\&quot;D&quot;···)" computerName="DESKTOP-JTGFFBO" duration="00:00:00.1639034" startTime="2026-10-19T13:07:36.8691866+02:00" endTime="2026-10-19T13:07:37.4387497+02:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6bfb6ba0-a143-47f3-9039-5f5680c095e5">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Equal() Failure: Values differ&#xD;
+Expected: BadRequest&#xD;
+Actual:   Created</Message>
+          <StackTrace>   at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 22&#xD;
+--- End of stack trace from previous location ---</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: &quot;{\&quot;title\&quot;:\&quot;Priorita non valida\&quot;,\&quot;description\&quot;&quot;···)" storage="d:\emanuele\uni\ingsw3\progetto\bugboard26\backend\bugboard26.tests\bin\release\net10.0\bugboard26.tests.dll" id="bd357a75-6a01-84d8-d9eb-0f02bffa826a">
+      <Execution id="4bd77712-a68b-491b-b510-633a50ab4e0e" />
+      <TestMethod codeBase="D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests" name="UndefinedTypeOrPriority_IsRejectedWithoutChanges" />
+    </UnitTest>
+    <UnitTest name="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: &quot;{\&quot;title\&quot;:\&quot;Priorita non valida\&quot;,\&quot;description\&quot;&quot;···)" storage="d:\emanuele\uni\ingsw3\progetto\bugboard26\backend\bugboard26.tests\bin\release\net10.0\bugboard26.tests.dll" id="fee28a1a-8c7b-a6bc-5d8f-417d3c1d7ed4">
+      <Execution id="148c6b39-f0fa-4357-9755-7afe1fee7ae4" />
+      <TestMethod codeBase="D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests" name="UndefinedTypeOrPriority_IsRejectedWithoutChanges" />
+    </UnitTest>
+    <UnitTest name="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: &quot;{\&quot;title\&quot;:\&quot;Tipo non valido\&quot;,\&quot;description\&quot;:\&quot;D&quot;···)" storage="d:\emanuele\uni\ingsw3\progetto\bugboard26\backend\bugboard26.tests\bin\release\net10.0\bugboard26.tests.dll" id="391a2b29-58ff-33d6-0217-5e4a56986523">
+      <Execution id="2ef3cb3a-04ee-4698-be43-92c180cd56b0" />
+      <TestMethod codeBase="D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests" name="UndefinedTypeOrPriority_IsRejectedWithoutChanges" />
+    </UnitTest>
+    <UnitTest name="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: 999)" storage="d:\emanuele\uni\ingsw3\progetto\bugboard26\backend\bugboard26.tests\bin\release\net10.0\bugboard26.tests.dll" id="106362b9-4fd0-4527-436e-6b72e87169b9">
+      <Execution id="920028e7-4845-41a8-8e78-cb7a31775320" />
+      <TestMethod codeBase="D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests" name="UndefinedStatus_IsRejectedWithoutChanges" />
+    </UnitTest>
+    <UnitTest name="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: &quot;{\&quot;title\&quot;:\&quot;Tipo non valido\&quot;,\&quot;description\&quot;:\&quot;D&quot;···)" storage="d:\emanuele\uni\ingsw3\progetto\bugboard26\backend\bugboard26.tests\bin\release\net10.0\bugboard26.tests.dll" id="0380d7cd-5d3f-453f-f88e-af5aab3b3ea7">
+      <Execution id="6bfb6ba0-a143-47f3-9039-5f5680c095e5" />
+      <TestMethod codeBase="D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests" name="UndefinedTypeOrPriority_IsRejectedWithoutChanges" />
+    </UnitTest>
+    <UnitTest name="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: -1)" storage="d:\emanuele\uni\ingsw3\progetto\bugboard26\backend\bugboard26.tests\bin\release\net10.0\bugboard26.tests.dll" id="456530ad-e9fd-74fd-de2b-a6df3f64a1b1">
+      <Execution id="2645ac19-2923-407f-925f-44d0ef9bf340" />
+      <TestMethod codeBase="D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests" name="UndefinedStatus_IsRejectedWithoutChanges" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="bd357a75-6a01-84d8-d9eb-0f02bffa826a" executionId="4bd77712-a68b-491b-b510-633a50ab4e0e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="391a2b29-58ff-33d6-0217-5e4a56986523" executionId="2ef3cb3a-04ee-4698-be43-92c180cd56b0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="456530ad-e9fd-74fd-de2b-a6df3f64a1b1" executionId="2645ac19-2923-407f-925f-44d0ef9bf340" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="106362b9-4fd0-4527-436e-6b72e87169b9" executionId="920028e7-4845-41a8-8e78-cb7a31775320" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fee28a1a-8c7b-a6bc-5d8f-417d3c1d7ed4" executionId="148c6b39-f0fa-4357-9755-7afe1fee7ae4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0380d7cd-5d3f-453f-f88e-af5aab3b3ea7" executionId="6bfb6ba0-a143-47f3-9039-5f5680c095e5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Risultati non in elenco" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Tutti i risultati caricati" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="6" executed="6" passed="0" failed="6" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.12)&#xD;
+[xUnit.net 00:00:00.21]   Discovering: BugBoard26.Tests&#xD;
+[xUnit.net 00:00:00.34]   Discovered:  BugBoard26.Tests&#xD;
+[xUnit.net 00:00:00.39]   Starting:    BugBoard26.Tests&#xD;
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]&#xD;
+      Failed executing DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT "MigrationId", "ProductVersion"&#xD;
+      FROM "__EFMigrationsHistory"&#xD;
+      ORDER BY "MigrationId";&#xD;
+info: Microsoft.EntityFrameworkCore.Migrations[20402]&#xD;
+      Applying migration '20260629102322_InitialCreate'.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Testing&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?', @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?', @p15='?' (DbType = DateTime), @p16='?', @p17='?' (DbType = Boolean), @p18='?', @p19='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p5, @p6, @p7, @p8, @p9)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p10, @p11, @p12, @p13, @p14)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p15, @p16, @p17, @p18, @p19)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime), @p13='?' (DbType = Int32), @p14='?' (DbType = DateTime), @p15='?' (DbType = Int32), @p16='?', @p17='?' (DbType = Int32), @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?', @p25='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (3ms) [Parameters=[@email='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Email" = @email&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."Email", u."PasswordHash", u."Role", u."IsActive", u."CreatedAt"&#xD;
+      FROM "Users" AS u&#xD;
+      ORDER BY u."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", i."AssignedToId", i."DuplicateOfIssueId", i."ImagePath", i."IsArchived", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      ORDER BY i."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT n."Id", n."UserId", n."IssueId", n."Message", n."IsRead", n."CreatedAt"&#xD;
+      FROM "Notifications" AS n&#xD;
+      ORDER BY n."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@userId_Value='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Id" = @userId_Value AND u."IsActive"&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."AssignedToId", i."CreatedAt", i."CreatedById", i."Description", i."DuplicateOfIssueId", i."ImagePath", i."IsArchived", i."Priority", i."ResolvedAt", i."Status", i."Title", i."Type", i."UpdatedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      WHERE i."Id" = @id&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p2='?' (DbType = Int32), @p0='?', @p1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      UPDATE "Issues" SET "Status" = @p0, "UpdatedAt" = @p1&#xD;
+      WHERE "Id" = @p2;&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (3ms) [Parameters=[@issue_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", u."Email" AS "CreatedByEmail", i."AssignedToId", u0."Email" AS "AssignedToEmail", i."DuplicateOfIssueId", i."IsArchived", i."ImagePath" IS NOT NULL AND i."ImagePath" &lt;&gt; '' AS "HasImage", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      INNER JOIN "Users" AS u ON i."CreatedById" = u."Id"&#xD;
+      LEFT JOIN "Users" AS u0 ON i."AssignedToId" = u0."Id"&#xD;
+      WHERE i."Id" = @issue_Id&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:03.68]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:03.68]       Expected: BadRequest&#xD;
+[xUnit.net 00:00:03.68]       Actual:   OK&#xD;
+[xUnit.net 00:00:03.68]       Stack Trace:&#xD;
+[xUnit.net 00:00:03.68]         D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs(37,0): at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(Int32 status)&#xD;
+[xUnit.net 00:00:03.68]         --- End of stack trace from previous location ---&#xD;
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]&#xD;
+      Failed executing DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT "MigrationId", "ProductVersion"&#xD;
+      FROM "__EFMigrationsHistory"&#xD;
+      ORDER BY "MigrationId";&#xD;
+info: Microsoft.EntityFrameworkCore.Migrations[20402]&#xD;
+      Applying migration '20260629102322_InitialCreate'.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Testing&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?', @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?', @p15='?' (DbType = DateTime), @p16='?', @p17='?' (DbType = Boolean), @p18='?', @p19='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p5, @p6, @p7, @p8, @p9)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p10, @p11, @p12, @p13, @p14)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p15, @p16, @p17, @p18, @p19)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime), @p13='?' (DbType = Int32), @p14='?' (DbType = DateTime), @p15='?' (DbType = Int32), @p16='?', @p17='?' (DbType = Int32), @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?', @p25='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (3ms) [Parameters=[@email='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Email" = @email&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."Email", u."PasswordHash", u."Role", u."IsActive", u."CreatedAt"&#xD;
+      FROM "Users" AS u&#xD;
+      ORDER BY u."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", i."AssignedToId", i."DuplicateOfIssueId", i."ImagePath", i."IsArchived", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      ORDER BY i."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT n."Id", n."UserId", n."IssueId", n."Message", n."IsRead", n."CreatedAt"&#xD;
+      FROM "Notifications" AS n&#xD;
+      ORDER BY n."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (3ms) [Parameters=[@userId_Value='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Id" = @userId_Value AND u."IsActive"&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."AssignedToId", i."CreatedAt", i."CreatedById", i."Description", i."DuplicateOfIssueId", i."ImagePath", i."IsArchived", i."Priority", i."ResolvedAt", i."Status", i."Title", i."Type", i."UpdatedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      WHERE i."Id" = @id&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p2='?' (DbType = Int32), @p0='?', @p1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      UPDATE "Issues" SET "Status" = @p0, "UpdatedAt" = @p1&#xD;
+      WHERE "Id" = @p2;&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@issue_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", u."Email" AS "CreatedByEmail", i."AssignedToId", u0."Email" AS "AssignedToEmail", i."DuplicateOfIssueId", i."IsArchived", i."ImagePath" IS NOT NULL AND i."ImagePath" &lt;&gt; '' AS "HasImage", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      INNER JOIN "Users" AS u ON i."CreatedById" = u."Id"&#xD;
+      LEFT JOIN "Users" AS u0 ON i."AssignedToId" = u0."Id"&#xD;
+      WHERE i."Id" = @issue_Id&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:04.37]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:04.37]       Expected: BadRequest&#xD;
+[xUnit.net 00:00:04.37]       Actual:   OK&#xD;
+[xUnit.net 00:00:04.37]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.37]         D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs(37,0): at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(Int32 status)&#xD;
+[xUnit.net 00:00:04.37]         --- End of stack trace from previous location ---&#xD;
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]&#xD;
+      Failed executing DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT "MigrationId", "ProductVersion"&#xD;
+      FROM "__EFMigrationsHistory"&#xD;
+      ORDER BY "MigrationId";&#xD;
+info: Microsoft.EntityFrameworkCore.Migrations[20402]&#xD;
+      Applying migration '20260629102322_InitialCreate'.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Testing&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?', @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?', @p15='?' (DbType = DateTime), @p16='?', @p17='?' (DbType = Boolean), @p18='?', @p19='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p5, @p6, @p7, @p8, @p9)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p10, @p11, @p12, @p13, @p14)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p15, @p16, @p17, @p18, @p19)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime), @p13='?' (DbType = Int32), @p14='?' (DbType = DateTime), @p15='?' (DbType = Int32), @p16='?', @p17='?' (DbType = Int32), @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?', @p25='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@email='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Email" = @email&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."Email", u."PasswordHash", u."Role", u."IsActive", u."CreatedAt"&#xD;
+      FROM "Users" AS u&#xD;
+      ORDER BY u."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", i."AssignedToId", i."DuplicateOfIssueId", i."ImagePath", i."IsArchived", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      ORDER BY i."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT n."Id", n."UserId", n."IssueId", n."Message", n."IsRead", n."CreatedAt"&#xD;
+      FROM "Notifications" AS n&#xD;
+      ORDER BY n."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@userId_Value='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Id" = @userId_Value AND u."IsActive"&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@issue_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", u."Email" AS "CreatedByEmail", i."AssignedToId", u0."Email" AS "AssignedToEmail", i."DuplicateOfIssueId", i."IsArchived", i."ImagePath" IS NOT NULL AND i."ImagePath" &lt;&gt; '' AS "HasImage", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      INNER JOIN "Users" AS u ON i."CreatedById" = u."Id"&#xD;
+      LEFT JOIN "Users" AS u0 ON i."AssignedToId" = u0."Id"&#xD;
+      WHERE i."Id" = @issue_Id&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:04.98]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:04.98]       Expected: BadRequest&#xD;
+[xUnit.net 00:00:04.98]       Actual:   Created&#xD;
+[xUnit.net 00:00:04.98]       Stack Trace:&#xD;
+[xUnit.net 00:00:04.98]         D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs(22,0): at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json)&#xD;
+[xUnit.net 00:00:04.98]         --- End of stack trace from previous location ---&#xD;
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]&#xD;
+      Failed executing DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT "MigrationId", "ProductVersion"&#xD;
+      FROM "__EFMigrationsHistory"&#xD;
+      ORDER BY "MigrationId";&#xD;
+info: Microsoft.EntityFrameworkCore.Migrations[20402]&#xD;
+      Applying migration '20260629102322_InitialCreate'.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Testing&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?', @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?', @p15='?' (DbType = DateTime), @p16='?', @p17='?' (DbType = Boolean), @p18='?', @p19='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p5, @p6, @p7, @p8, @p9)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p10, @p11, @p12, @p13, @p14)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p15, @p16, @p17, @p18, @p19)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime), @p13='?' (DbType = Int32), @p14='?' (DbType = DateTime), @p15='?' (DbType = Int32), @p16='?', @p17='?' (DbType = Int32), @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?', @p25='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@email='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Email" = @email&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."Email", u."PasswordHash", u."Role", u."IsActive", u."CreatedAt"&#xD;
+      FROM "Users" AS u&#xD;
+      ORDER BY u."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", i."AssignedToId", i."DuplicateOfIssueId", i."ImagePath", i."IsArchived", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      ORDER BY i."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT n."Id", n."UserId", n."IssueId", n."Message", n."IsRead", n."CreatedAt"&#xD;
+      FROM "Notifications" AS n&#xD;
+      ORDER BY n."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@userId_Value='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Id" = @userId_Value AND u."IsActive"&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@issue_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", u."Email" AS "CreatedByEmail", i."AssignedToId", u0."Email" AS "AssignedToEmail", i."DuplicateOfIssueId", i."IsArchived", i."ImagePath" IS NOT NULL AND i."ImagePath" &lt;&gt; '' AS "HasImage", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      INNER JOIN "Users" AS u ON i."CreatedById" = u."Id"&#xD;
+      LEFT JOIN "Users" AS u0 ON i."AssignedToId" = u0."Id"&#xD;
+      WHERE i."Id" = @issue_Id&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:05.55]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:05.55]       Expected: BadRequest&#xD;
+[xUnit.net 00:00:05.55]       Actual:   Created&#xD;
+[xUnit.net 00:00:05.55]       Stack Trace:&#xD;
+[xUnit.net 00:00:05.55]         D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs(22,0): at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json)&#xD;
+[xUnit.net 00:00:05.55]         --- End of stack trace from previous location ---&#xD;
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]&#xD;
+      Failed executing DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT "MigrationId", "ProductVersion"&#xD;
+      FROM "__EFMigrationsHistory"&#xD;
+      ORDER BY "MigrationId";&#xD;
+info: Microsoft.EntityFrameworkCore.Migrations[20402]&#xD;
+      Applying migration '20260629102322_InitialCreate'.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Testing&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?', @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?', @p15='?' (DbType = DateTime), @p16='?', @p17='?' (DbType = Boolean), @p18='?', @p19='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p5, @p6, @p7, @p8, @p9)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p10, @p11, @p12, @p13, @p14)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p15, @p16, @p17, @p18, @p19)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime), @p13='?' (DbType = Int32), @p14='?' (DbType = DateTime), @p15='?' (DbType = Int32), @p16='?', @p17='?' (DbType = Int32), @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?', @p25='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@email='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Email" = @email&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."Email", u."PasswordHash", u."Role", u."IsActive", u."CreatedAt"&#xD;
+      FROM "Users" AS u&#xD;
+      ORDER BY u."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", i."AssignedToId", i."DuplicateOfIssueId", i."ImagePath", i."IsArchived", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      ORDER BY i."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT n."Id", n."UserId", n."IssueId", n."Message", n."IsRead", n."CreatedAt"&#xD;
+      FROM "Notifications" AS n&#xD;
+      ORDER BY n."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (1ms) [Parameters=[@userId_Value='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Id" = @userId_Value AND u."IsActive"&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@issue_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", u."Email" AS "CreatedByEmail", i."AssignedToId", u0."Email" AS "AssignedToEmail", i."DuplicateOfIssueId", i."IsArchived", i."ImagePath" IS NOT NULL AND i."ImagePath" &lt;&gt; '' AS "HasImage", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      INNER JOIN "Users" AS u ON i."CreatedById" = u."Id"&#xD;
+      LEFT JOIN "Users" AS u0 ON i."AssignedToId" = u0."Id"&#xD;
+      WHERE i."Id" = @issue_Id&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:06.08]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:06.08]       Expected: BadRequest&#xD;
+[xUnit.net 00:00:06.08]       Actual:   Created&#xD;
+[xUnit.net 00:00:06.08]       Stack Trace:&#xD;
+[xUnit.net 00:00:06.08]         D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs(22,0): at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json)&#xD;
+[xUnit.net 00:00:06.08]         --- End of stack trace from previous location ---&#xD;
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]&#xD;
+      Failed executing DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT "MigrationId", "ProductVersion"&#xD;
+      FROM "__EFMigrationsHistory"&#xD;
+      ORDER BY "MigrationId";&#xD;
+info: Microsoft.EntityFrameworkCore.Migrations[20402]&#xD;
+      Applying migration '20260629102322_InitialCreate'.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Testing&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?', @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?' (DbType = DateTime), @p11='?', @p12='?' (DbType = Boolean), @p13='?', @p14='?', @p15='?' (DbType = DateTime), @p16='?', @p17='?' (DbType = Boolean), @p18='?', @p19='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p5, @p6, @p7, @p8, @p9)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p10, @p11, @p12, @p13, @p14)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Users" ("CreatedAt", "Email", "IsActive", "PasswordHash", "Role")&#xD;
+      VALUES (@p15, @p16, @p17, @p18, @p19)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime), @p13='?' (DbType = Int32), @p14='?' (DbType = DateTime), @p15='?' (DbType = Int32), @p16='?', @p17='?' (DbType = Int32), @p18='?', @p19='?' (DbType = Boolean), @p20='?', @p21='?' (DbType = DateTime), @p22='?', @p23='?', @p24='?', @p25='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22, @p23, @p24, @p25)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@email='?'], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Email" = @email&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."Email", u."PasswordHash", u."Role", u."IsActive", u."CreatedAt"&#xD;
+      FROM "Users" AS u&#xD;
+      ORDER BY u."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", i."AssignedToId", i."DuplicateOfIssueId", i."ImagePath", i."IsArchived", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      ORDER BY i."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT n."Id", n."UserId", n."IssueId", n."Message", n."IsRead", n."CreatedAt"&#xD;
+      FROM "Notifications" AS n&#xD;
+      ORDER BY n."Id"&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (1ms) [Parameters=[@userId_Value='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT u."Id", u."CreatedAt", u."Email", u."IsActive", u."PasswordHash", u."Role"&#xD;
+      FROM "Users" AS u&#xD;
+      WHERE u."Id" = @userId_Value AND u."IsActive"&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Boolean), @p7='?', @p8='?' (DbType = DateTime), @p9='?', @p10='?', @p11='?', @p12='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='15']&#xD;
+      INSERT INTO "Issues" ("AssignedToId", "CreatedAt", "CreatedById", "Description", "DuplicateOfIssueId", "ImagePath", "IsArchived", "Priority", "ResolvedAt", "Status", "Title", "Type", "UpdatedAt")&#xD;
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)&#xD;
+      RETURNING "Id";&#xD;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]&#xD;
+      Executed DbCommand (2ms) [Parameters=[@issue_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='15']&#xD;
+      SELECT i."Id", i."Title", i."Description", i."Type", i."Priority", i."Status", i."CreatedById", u."Email" AS "CreatedByEmail", i."AssignedToId", u0."Email" AS "AssignedToEmail", i."DuplicateOfIssueId", i."IsArchived", i."ImagePath" IS NOT NULL AND i."ImagePath" &lt;&gt; '' AS "HasImage", i."CreatedAt", i."UpdatedAt", i."ResolvedAt"&#xD;
+      FROM "Issues" AS i&#xD;
+      INNER JOIN "Users" AS u ON i."CreatedById" = u."Id"&#xD;
+      LEFT JOIN "Users" AS u0 ON i."AssignedToId" = u0."Id"&#xD;
+      WHERE i."Id" = @issue_Id&#xD;
+      LIMIT 2&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+[xUnit.net 00:00:06.63]       Assert.Equal() Failure: Values differ&#xD;
+[xUnit.net 00:00:06.63]       Expected: BadRequest&#xD;
+[xUnit.net 00:00:06.63]       Actual:   Created&#xD;
+[xUnit.net 00:00:06.63]       Stack Trace:&#xD;
+[xUnit.net 00:00:06.63]         D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs(22,0): at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json)&#xD;
+[xUnit.net 00:00:06.63]         --- End of stack trace from previous location ---&#xD;
+[xUnit.net 00:00:06.63]   Finished:    BugBoard26.Tests&#xD;
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="DESKTOP-JTGFFBO" outcome="Error" timestamp="2026-10-19T13:07:35.5690835+02:00">
+        <Text>[xUnit.net 00:00:03.68]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: 999) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-JTGFFBO" outcome="Error" timestamp="2026-10-19T13:07:36.2585619+02:00">
+        <Text>[xUnit.net 00:00:04.37]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: -1) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-JTGFFBO" outcome="Error" timestamp="2026-10-19T13:07:36.8683058+02:00">
+        <Text>[xUnit.net 00:00:04.98]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Tipo non valido\",\"description\":\"D"···) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-JTGFFBO" outcome="Error" timestamp="2026-10-19T13:07:37.4390486+02:00">
+        <Text>[xUnit.net 00:00:05.55]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Tipo non valido\",\"description\":\"D"···) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-JTGFFBO" outcome="Error" timestamp="2026-10-19T13:07:37.9729256+02:00">
+        <Text>[xUnit.net 00:00:06.08]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Priorita non valida\",\"description\""···) [FAIL]</Text>
+      </RunInfo>
+      <RunInfo computerName="DESKTOP-JTGFFBO" outcome="Error" timestamp="2026-10-19T13:07:38.5164619+02:00">
+        <Text>[xUnit.net 00:00:06.63]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Priorita non valida\",\"description\""···) [FAIL]</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

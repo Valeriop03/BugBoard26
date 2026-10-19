@@ -20,12 +20,16 @@ public static class DatabaseSeeder
 
         var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
         var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
-        var email = NormalizeEmail(configuration["DefaultAdmin:Email"] ?? "admin@bugboard26.local");
-        var password = configuration["DefaultAdmin:Password"] ?? "Admin123!";
+        var email = configuration["DefaultAdmin:Email"];
+        var password = configuration["DefaultAdmin:Password"];
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+        {
+            throw new InvalidOperationException("Configura DefaultAdmin:Email e DefaultAdmin:Password per inizializzare il primo amministratore.");
+        }
 
         dbContext.Users.Add(new User
         {
-            Email = email,
+            Email = NormalizeEmail(email),
             PasswordHash = passwordHasher.Hash(password),
             Role = UserRole.Admin,
             IsActive = true

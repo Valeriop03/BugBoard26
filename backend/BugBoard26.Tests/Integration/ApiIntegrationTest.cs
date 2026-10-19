@@ -97,7 +97,7 @@ public abstract class ApiIntegrationTest : IAsyncLifetime
         return await db.Issues.AsNoTracking().SingleAsync(issue => issue.Id == id);
     }
 
-    protected async Task<IssueResponse> ReadIssueFromResponseAsync(HttpResponseMessage response)
+    protected static async Task<IssueResponse> ReadIssueFromResponseAsync(HttpResponseMessage response)
     {
         var issue = await response.Content.ReadFromJsonAsync<IssueResponse>(JsonOptions);
         Assert.NotNull(issue);

@@ -1,0 +1,30 @@
+{
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 1,
+    "total": 1
+  },
+  "analyses": [
+    {
+      "key": "53587a71-a106-4f53-acf0-39a31c071ff9",
+      "date": "2026-10-19T12:06:04+02:00",
+      "events": [
+        {
+          "key": "e1f0aeaf-b636-4630-bebb-2fdf7be86222",
+          "category": "SQ_UPGRADE",
+          "name": "26.10.0.133078"
+        },
+        {
+          "key": "aba94455-8275-4e38-b7ae-11fd7fe61092",
+          "category": "VERSION",
+          "name": "not provided"
+        }
+      ],
+      "projectVersion": "not provided",
+      "manualNewCodePeriodBaseline": false,
+      "revision": "6aa175a357dbdf1c35702686b985d46bff58c43e",
+      "detectedCI": "undetected",
+      "relativePathFromScmRoot": "backend"
+    }
+  ]
+}

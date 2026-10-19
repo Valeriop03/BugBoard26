@@ -26,4 +26,7 @@ Il Fact usa soltanto READONLY attivo e USER inattivo e attende \texttt{null}.
 Parita' per ID, ADMIN candidato, InProgress, archiviati ed elenco vuoto non
 hanno casi unitari dedicati nel file. Il codice implementa queste regole e
 sono presenti scenari HTTP aggiuntivi; non si trasforma la loro presenza
-in un esito di esecuzione o in copertura unitaria misurata.
+in copertura unitaria misurata. La suite del 19 ottobre esegue anche questi
+test HTTP: 166 casi complessivi superati, 11 di dominio e 155 di integrazione.
+Il report e il TRX sono in \path{verifica-backend/}; non si attribuiscono
+alle sole prove unitarie i risultati ottenuti attraverso l'API.

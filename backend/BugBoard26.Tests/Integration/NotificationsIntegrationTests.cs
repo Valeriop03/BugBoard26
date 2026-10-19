@@ -71,6 +71,10 @@ public class NotificationsIntegrationTests : ApiIntegrationTest
         var visibleNotifications = await listResponse.Content.ReadFromJsonAsync<NotificationResponse[]>();
         Assert.NotNull(visibleNotifications);
         Assert.True(Assert.Single(visibleNotifications, notification => notification.Id == data.UnreadId).IsRead);
+        var beforeRepeat = await SnapshotAsync();
+        using var repeated = await Client.PatchAsJsonAsync($"/api/notifications/{data.UnreadId}/read", new { });
+        Assert.Equal(HttpStatusCode.OK, repeated.StatusCode);
+        Assert.Equal(beforeRepeat, await SnapshotAsync());
     }
 
     [Fact]
@@ -90,6 +94,9 @@ public class NotificationsIntegrationTests : ApiIntegrationTest
         Assert.NotNull(notifications);
         Assert.False(Assert.Single(notifications, notification => notification.Id == data.UnreadId).IsRead);
         Assert.All(notifications, notification => Assert.Equal(data.OwnerId, notification.UserId));
+        Assert.Equal(before, await SnapshotAsync());
+        using var alreadyRead = await Client.PatchAsJsonAsync($"/api/notifications/{data.ReadId}/read", new { });
+        Assert.Equal(HttpStatusCode.Forbidden, alreadyRead.StatusCode);
         Assert.Equal(before, await SnapshotAsync());
     }
 

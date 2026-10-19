@@ -1,0 +1,38 @@
+{
+  "endUtc": "2026-10-19T10:30:51.7493127+00:00",
+  "projectKey": "bugboard26-backend",
+  "command": "quality/analyze-backend.ps1 -Mode Analysis via wrapper locale DPAPI",
+  "server": "http://127.0.0.1:9000",
+  "workingTree": [
+    " M backend/BugBoard26.Api/BugBoard26.Api.csproj",
+    " M backend/BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs",
+    " M backend/BugBoard26.Api/Controllers/IssuesController.cs",
+    " M backend/BugBoard26.Api/Data/DatabaseSeeder.cs",
+    " M backend/BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs",
+    " M backend/BugBoard26.Api/Program.cs",
+    " M backend/BugBoard26.Api/appsettings.Development.json",
+    " M backend/BugBoard26.Api/appsettings.json",
+    " M backend/BugBoard26.Tests/Integration/ApiIntegrationTest.cs",
+    " M backend/BugBoard26.Tests/Integration/IssueApiFactory.cs",
+    " M backend/BugBoard26.Tests/Integration/IssueDuplicateValidationIntegrationTests.cs",
+    "?? \"Documentazione/Documentazione finale/verifica-backend/aggiornamento-20261019.md\"",
+    "?? \"Documentazione/Documentazione finale/verifica-backend/evidenze/20261019/\"",
+    "?? backend/BugBoard26.Tests/Integration/StartupConfigurationIntegrationTests.cs"
+  ],
+  "exitCode": 1,
+  "startUtc": "2026-10-19T10:29:46.0274812+00:00",
+  "sourceChanges": [
+    "backend/BugBoard26.Api/BugBoard26.Api.csproj",
+    "backend/BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs",
+    "backend/BugBoard26.Api/Controllers/IssuesController.cs",
+    "backend/BugBoard26.Api/Data/DatabaseSeeder.cs",
+    "backend/BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs",
+    "backend/BugBoard26.Api/Program.cs",
+    "backend/BugBoard26.Api/appsettings.Development.json",
+    "backend/BugBoard26.Api/appsettings.json",
+    "backend/BugBoard26.Tests/Integration/ApiIntegrationTest.cs",
+    "backend/BugBoard26.Tests/Integration/IssueApiFactory.cs",
+    "backend/BugBoard26.Tests/Integration/IssueDuplicateValidationIntegrationTests.cs"
+  ],
+  "commit": "6aa175a357dbdf1c35702686b985d46bff58c43e"
+}

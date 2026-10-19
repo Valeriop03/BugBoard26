@@ -1,0 +1,630 @@
+{
+  "total": 12,
+  "p": 1,
+  "ps": 500,
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 500,
+    "total": 12
+  },
+  "effortTotal": 85,
+  "issues": [
+    {
+      "key": "7dc68985-32ca-4921-82a4-7a97cbf98c1f",
+      "rule": "csharpsquid:S6932",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/Controllers/IssuesController.cs",
+      "project": "bugboard26-backend",
+      "line": 230,
+      "hash": "0d306e9372d76503716bb12737af2e9a",
+      "textRange": {
+        "startLine": 230,
+        "endLine": 230,
+        "startOffset": 41,
+        "endOffset": 51
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use IFormFile or IFormFileCollection binding instead",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "ema.manu@live.com",
+      "tags": [
+        "asp.net"
+      ],
+      "creationDate": "2026-10-09T17:35:00+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "de177247-f116-4018-ac98-26736d50155b",
+      "rule": "csharpsquid:S6932",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/Controllers/IssuesController.cs",
+      "project": "bugboard26-backend",
+      "line": 230,
+      "hash": "0d306e9372d76503716bb12737af2e9a",
+      "textRange": {
+        "startLine": 230,
+        "endLine": 230,
+        "startOffset": 16,
+        "endOffset": 26
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use IFormFile or IFormFileCollection binding instead",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "ema.manu@live.com",
+      "tags": [
+        "asp.net"
+      ],
+      "creationDate": "2026-10-09T17:35:00+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "d6b10c2a-dd13-428e-9344-7e7f04a4db9a",
+      "rule": "csharpsquid:S6932",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/Controllers/IssuesController.cs",
+      "project": "bugboard26-backend",
+      "line": 234,
+      "hash": "f4de75169b86937a057bf0f0062471d5",
+      "textRange": {
+        "startLine": 234,
+        "endLine": 234,
+        "startOffset": 66,
+        "endOffset": 76
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use IFormFile or IFormFileCollection binding instead",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "ema.manu@live.com",
+      "tags": [
+        "asp.net"
+      ],
+      "creationDate": "2026-10-09T17:35:00+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "8ea28854-48ce-42eb-82fe-45a272bcfda9",
+      "rule": "external_roslyn:ASP0015",
+      "severity": "INFO",
+      "component": "bugboard26-backend:BugBoard26.Api/Controllers/IssuesController.cs",
+      "project": "bugboard26-backend",
+      "line": 317,
+      "hash": "142d9e2ca4a561fbbc54157f9d2527fe",
+      "textRange": {
+        "startLine": 317,
+        "endLine": 317,
+        "startOffset": 8,
+        "endOffset": 50
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "The header 'X-Content-Type-Options' can be accessed using the XContentTypeOptions property",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "ema.manu@live.com",
+      "tags": [],
+      "creationDate": "2026-10-09T17:35:00+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "1fa9a40f-cbd8-4577-97c3-0c3278007a68",
+      "rule": "external_roslyn:CA1018",
+      "severity": "INFO",
+      "component": "bugboard26-backend:BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs",
+      "project": "bugboard26-backend",
+      "line": 6,
+      "hash": "c537e47408ec688cfab7c605f6e4d51c",
+      "textRange": {
+        "startLine": 6,
+        "endLine": 6,
+        "startOffset": 13,
+        "endOffset": 43
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Specificare AttributeUsage su ReadImageFormInActionAttribute",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "ema.manu@live.com",
+      "tags": [],
+      "creationDate": "2026-10-09T17:35:00+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "23038bfa-02ce-454f-b212-c5f318777799",
+      "rule": "external_roslyn:CA1816",
+      "severity": "INFO",
+      "component": "bugboard26-backend:BugBoard26.Tests/Integration/IssueApiFactory.cs",
+      "project": "bugboard26-backend",
+      "line": 99,
+      "hash": "4216641314fc332b7a3a204474a42831",
+      "textRange": {
+        "startLine": 99,
+        "endLine": 99,
+        "startOffset": 36,
+        "endOffset": 48
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Cambiare IssueApiFactory.DisposeAsync() in modo da chiamare GC.SuppressFinalize(object). In questo modo si eviterà che i tipi derivati che introducono un finalizzatore debbano eseguire una nuova implementazione di 'IDisposable' per chiamarlo.",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "ema.manu@live.com",
+      "tags": [],
+      "creationDate": "2026-10-09T17:35:00+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "TEST",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "4ebd1cdf-1c35-45a6-97f0-cb034365e9f9",
+      "rule": "external_roslyn:ASP0027",
+      "severity": "INFO",
+      "component": "bugboard26-backend:BugBoard26.Api/Program.cs",
+      "project": "bugboard26-backend",
+      "line": 78,
+      "hash": "811997c9ab1fc90a878054f10294fbda",
+      "textRange": {
+        "startLine": 78,
+        "endLine": 78,
+        "startOffset": 0,
+        "endOffset": 32
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Using public partial class Program { } to make the generated Program class public is no longer required in ASP.NET Core apps. See https://aka.ms/aspnetcore-warnings/ASP0027 for more details.",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "ema.manu@live.com",
+      "tags": [],
+      "creationDate": "2026-10-01T18:53:02+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "9ba09582-0685-4342-bdb2-4a369d344d01",
+      "rule": "external_roslyn:CA1822",
+      "severity": "INFO",
+      "component": "bugboard26-backend:BugBoard26.Tests/Integration/ApiIntegrationTest.cs",
+      "project": "bugboard26-backend",
+      "line": 100,
+      "hash": "1bbb540947fd315817f757b63ab972d8",
+      "textRange": {
+        "startLine": 100,
+        "endLine": 100,
+        "startOffset": 40,
+        "endOffset": 66
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Il membro ReadIssueFromResponseAsync non accede ai dati di istanza e può essere contrassegnato come static",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "ema.manu@live.com",
+      "tags": [],
+      "creationDate": "2026-10-01T18:53:02+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "externalRuleEngine": "roslyn",
+      "scope": "TEST",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "4a3bccf1-89b4-472d-9724-7f59d249aca2",
+      "rule": "csharpsquid:S6964",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs",
+      "project": "bugboard26-backend",
+      "line": 8,
+      "hash": "6992a33409303cb2fa91af146dfb1287",
+      "textRange": {
+        "startLine": 8,
+        "endLine": 8,
+        "startOffset": 15,
+        "endOffset": 30
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "emanuel.lupoli17@gmail.com",
+      "tags": [
+        "asp.net"
+      ],
+      "creationDate": "2026-07-01T16:07:39+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "TRUSTWORTHY",
+      "cleanCodeAttributeCategory": "RESPONSIBLE",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "94a80843-40c8-488e-9878-2081f8d2b446",
+      "rule": "csharpsquid:S2068",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/appsettings.json",
+      "project": "bugboard26-backend",
+      "line": 13,
+      "hash": "36fc89c9a2a20ad2e162f06026093088",
+      "textRange": {
+        "startLine": 13,
+        "endLine": 13,
+        "startOffset": 17,
+        "endOffset": 26
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "\"password\" detected here, make sure this is not a hard-coded credential.",
+      "effort": "30min",
+      "debt": "30min",
+      "author": "emanuel.lupoli17@gmail.com",
+      "tags": [
+        "cwe",
+        "secret",
+        "former-hotspot"
+      ],
+      "creationDate": "2026-06-30T17:56:37+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "VULNERABILITY",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "TRUSTWORTHY",
+      "cleanCodeAttributeCategory": "RESPONSIBLE",
+      "impacts": [
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "cd3bc580-3557-4946-a854-a311e430f19e",
+      "rule": "csharpsquid:S2068",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/appsettings.json",
+      "project": "bugboard26-backend",
+      "line": 3,
+      "hash": "38c37db2ed47aaf409b15eb6e4ec8ff2",
+      "textRange": {
+        "startLine": 3,
+        "endLine": 3,
+        "startOffset": 26,
+        "endOffset": 110
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "\"password\" detected here, make sure this is not a hard-coded credential.",
+      "effort": "30min",
+      "debt": "30min",
+      "author": "supermine200@gmail.com",
+      "tags": [
+        "cwe",
+        "secret",
+        "former-hotspot"
+      ],
+      "creationDate": "2026-06-29T12:41:54+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "VULNERABILITY",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "TRUSTWORTHY",
+      "cleanCodeAttributeCategory": "RESPONSIBLE",
+      "impacts": [
+        {
+          "softwareQuality": "SECURITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "df31a29f-7138-4795-88aa-0bac10e03380",
+      "rule": "csharpsquid:S6966",
+      "severity": "MAJOR",
+      "component": "bugboard26-backend:BugBoard26.Api/Program.cs",
+      "project": "bugboard26-backend",
+      "line": 76,
+      "hash": "2c00f42b764b8134043380893434076b",
+      "textRange": {
+        "startLine": 76,
+        "endLine": 76,
+        "startOffset": 0,
+        "endOffset": 9
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Await RunAsync instead.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "supermine200@gmail.com",
+      "tags": [
+        "async-await"
+      ],
+      "creationDate": "2026-06-24T19:15:25+02:00",
+      "updateDate": "2026-10-19T12:06:04+02:00",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    }
+  ],
+  "components": [
+    {
+      "key": "bugboard26-backend:BugBoard26.Api/Controllers/IssuesController.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "IssuesController.cs",
+      "longName": "BugBoard26.Api/Controllers/IssuesController.cs",
+      "path": "BugBoard26.Api/Controllers/IssuesController.cs"
+    },
+    {
+      "key": "bugboard26-backend:BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "ReadImageFormInActionAttribute.cs",
+      "longName": "BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs",
+      "path": "BugBoard26.Api/Filters/ReadImageFormInActionAttribute.cs"
+    },
+    {
+      "key": "bugboard26-backend:BugBoard26.Api/appsettings.json",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "appsettings.json",
+      "longName": "BugBoard26.Api/appsettings.json",
+      "path": "BugBoard26.Api/appsettings.json"
+    },
+    {
+      "key": "bugboard26-backend",
+      "enabled": true,
+      "qualifier": "TRK",
+      "name": "BugBoard26 Backend",
+      "longName": "BugBoard26 Backend"
+    },
+    {
+      "key": "bugboard26-backend:BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "DuplicateIssueRequest.cs",
+      "longName": "BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs",
+      "path": "BugBoard26.Api/Contracts/Issues/DuplicateIssueRequest.cs"
+    },
+    {
+      "key": "bugboard26-backend:BugBoard26.Tests/Integration/ApiIntegrationTest.cs",
+      "enabled": true,
+      "qualifier": "UTS",
+      "name": "ApiIntegrationTest.cs",
+      "longName": "BugBoard26.Tests/Integration/ApiIntegrationTest.cs",
+      "path": "BugBoard26.Tests/Integration/ApiIntegrationTest.cs"
+    },
+    {
+      "key": "bugboard26-backend:BugBoard26.Api/Program.cs",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Program.cs",
+      "longName": "BugBoard26.Api/Program.cs",
+      "path": "BugBoard26.Api/Program.cs"
+    },
+    {
+      "key": "bugboard26-backend:BugBoard26.Tests/Integration/IssueApiFactory.cs",
+      "enabled": true,
+      "qualifier": "UTS",
+      "name": "IssueApiFactory.cs",
+      "longName": "BugBoard26.Tests/Integration/IssueApiFactory.cs",
+      "path": "BugBoard26.Tests/Integration/IssueApiFactory.cs"
+    }
+  ],
+  "facets": []
+}

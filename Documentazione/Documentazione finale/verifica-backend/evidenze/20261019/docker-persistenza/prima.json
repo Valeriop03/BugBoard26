@@ -1,0 +1,38 @@
+{
+  "sourceChanges": [],
+  "observedUtc": "2026-10-19T10:04:49.6621292+00:00",
+  "backendContainer": "74ad8539d42987e15d26015a90c570b72a890b9d76ebc3a219c8cce5e5e5e689",
+  "commit": "6aa175a357dbdf1c35702686b985d46bff58c43e",
+  "openApiStatus": 200,
+  "imageContentType": "image/png",
+  "backendImage": "sha256:e3529f8fddc0e39ee90a8cd0012e6a69ec260d68226713337722893530337ab6",
+  "imageSha256": "4BA8D4FD5AB42544FEEFF22D50E84412502433CC95952FD1DF9A5293588DDBEA",
+  "postgresContainer": "05af51258a129bda0c11a58bedf867760e24fe1a51677d80d139fc57fe543e38",
+  "mounts": {
+    "Type": "volume",
+    "Name": "docker_bugboard26-issue-images",
+    "Destination": "/var/lib/bugboard26/issue-images",
+    "RW": true
+  },
+  "imageDirectoryWritable": true,
+  "phase": "prima",
+  "uid": "1654",
+  "issue": {
+    "id": 2,
+    "title": "VERIFICA-BACKEND-20261019-100446",
+    "description": "Prova Docker dati e immagini: VERIFICA-BACKEND-20261019-100446",
+    "type": "Bug",
+    "priority": null,
+    "status": "Todo",
+    "createdById": 1,
+    "createdByEmail": "admin@bugboard26.local",
+    "assignedToId": null,
+    "assignedToEmail": null,
+    "duplicateOfIssueId": null,
+    "isArchived": false,
+    "hasImage": true,
+    "createdAt": "2026-10-19T10:04:46.784514Z",
+    "updatedAt": "2026-10-19T10:04:46.818022Z",
+    "resolvedAt": null
+  }
+}

@@ -32,17 +32,17 @@ L'immagine opzionale si mostra solo se il collaudo reale del collega è disponib
 
 ## Coordinamento delle evidenze
 
-Amico 1 deposita suite backend, persistenza e SonarQube in `verifica-backend/` alla radice. Valerio prepara il report permanente del collaudo frontend. I report non sono ancora acquisiti. La gestione del documento unico e della presentazione resta a questa attività documentale, riutilizzando gli stessi file. RF-17 è una decisione del gruppo: READONLY consulta le proprie notifiche ma non le segna lette. Backend e test sono affidati ad amico 1; frontend da allineare e verificare. Nessun chiarimento del docente viene attribuito a questa decisione.
+Al 19 ottobre i risultati effettivi sono raccolti in `verifica-backend/` accanto a questo documento: suite completa 166/166, SonarQube con Quality Gate OK e persistenza Docker verificata. L'audit e i report precedenti distinguono le rispettive esecuzioni e le modifiche locali dal commit iniziale. I test frontend correnti sono 36/36. RF-17 e verificato: READONLY consulta le proprie notifiche, ma PATCH read restituisce 403 senza scritture; il frontend non offre quel comando. Nessun chiarimento del docente viene attribuito alla decisione del gruppo. Vedere [audit corrente](verifica-backend/audit-20261019.md) e [registro evidenze](evidenze.md).
 
 ## Checklist finale di consegna
 
 - [ ] Consolidare i report test completi e il test plan sullo stesso riferimento stabile del codice.
-- [ ] Integrare report effettivo di qualità backend e limiti, senza sostituirlo con la sola configurazione.
+- [x] Integrare report effettivo di qualita backend e limiti: analisi eseguita, non solo predisposta.
 - [ ] Eseguire review sistematica e sessioni con utenti reali/potenziali, con survey e osservazioni effettive.
 - [ ] Risolvere la conformità CASE o conservare una risposta esplicita dei docenti; non presentare i VPD storici come aggiornati.
 - [x] Registrare la decisione del gruppo RF-17: consultazione delle proprie notifiche consentita a READONLY, modifica del flag di lettura vietata.
-- [ ] Acquisire l’allineamento backend/test di amico 1 e verificare anche il frontend per RF-17: TP-14, rifiuto 403 senza scritture e assenza di comando UI. La decisione non è una prova riuscita.
-- [ ] Verificare il documento unico, indice, diagrammi, sorgenti/immagini, collegamenti e slide dopo l'ultima rigenerazione.
+- [x] Verificare RF-17 in backend e frontend: TP-14, rifiuto 403 senza scritture e assenza di comando UI.
+- [x] Verificare documento unico, indice, diagrammi, sorgenti/immagini e slide dopo la rigenerazione del 19 ottobre; rifare i controlli dopo eventuali aggiornamenti.
 - [ ] Confermare l'assegnazione del gruppo e il materiale sorgente/build/eseguibile richiesto dalla traccia. Conservare Dockerfile e istruzioni esistenti.
 - [ ] Fare la prova tecnica cronometrata entro 10 minuti e concordare la demo con il collega frontend.
 - [ ] Solo quando pronto, pubblicare sul repository il materiale definitivo e creare una release GitHub riferita alla revisione consegnata. Questa attività non lo fa.
@@ -57,12 +57,13 @@ Esempi da valutare soltanto dopo review del gruppo. Nessun commit, branch, push,
 
 ```powershell
 git status --short
-git diff -- Documentazione
-git add -- Documentazione
+git diff --stat
+# Dopo review, includere anche le correzioni applicative e i test approvati.
+git add -- README.md backend frontend Documentazione
 git diff --cached --stat
 git diff --cached --name-only
 # Controllare che lo staging contenga soltanto il materiale approvato.
-git commit -m "docs: prepara documentazione e presentazione BugBoard26"
+git commit -m "correzioni finali e aggiornamento verifiche BugBoard26"
 # Soltanto dopo approvazione e sul ramo concordato:
 git push
 ```

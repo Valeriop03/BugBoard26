@@ -1,15 +1,15 @@
 id,stato,data,checkout,ambiente,evidenza,risultato_effettivo,note
-TP-01,DA_ESEGUIRE,,,,,,
-TP-02,DA_ESEGUIRE,,,,,,
-TP-03,DA_ESEGUIRE,,,,,,
-TP-04,DA_ESEGUIRE,,,,,,
-TP-05,DA_ESEGUIRE,,,,,,
-TP-06,DA_ESEGUIRE,,,,,,
-TP-07,DA_ESEGUIRE,,,,,,
-TP-08,DA_ESEGUIRE,,,,,,
-TP-09,DA_ESEGUIRE,,,,,,
-TP-10,DA_ESEGUIRE,,,,,,
-TP-11,DA_ESEGUIRE,,,,,,
-TP-12,DA_ESEGUIRE,,,,,,
-TP-13,DA_ESEGUIRE,,,,,,
-TP-14,DA_ESEGUIRE,,,,,,Decisione gruppo RF-17: GET proprie 200; PATCH read 403 senza scritture; UI senza comando; attuazione e verifica aperte
+TP-01,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,AssignedUser_CanResolveIssue_WithPersistedDatesAndNotificationForDifferentCreator: 200 e notifica per creatore distinto,Snapshot e date persistite controllati
+TP-02,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,Admin_CanChangeStatusOfIssueAssignedToAnotherUser: 200,Theory con InProgress Resolved Closed
+TP-03,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP e browser reali,verifica-backend/evidenze/audit-20261019/suite/backend.trx,OtherUserOrReadonly_CannotResolveIssue_AndDatabaseIsUnchanged: 403 per altro USER,Assenza pannello anche nel collaudo E2E del report audit
+TP-04,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP e browser reali,verifica-backend/evidenze/audit-20261019/suite/backend.trx,OtherUserOrReadonly_CannotResolveIssue_AndDatabaseIsUnchanged: 403 READONLY anche assegnatario,Snapshot invariato e assenza pannello nel browser
+TP-05,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,WithoutToken_CannotChangeStatus_AndDatabaseIsUnchanged: 401,Snapshot invariato
+TP-06,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,MissingIssue_CannotChangeStatus_AndDatabaseIsUnchanged: 404,Snapshot invariato
+TP-07,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,RepeatingResolved_DoesNotCreateAnotherNotificationOrChangeDates: 200,Stesse date e numero notifiche
+TP-08,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,ReopenAndResolveAgain_ResetsDateAndCreatesOneNewNotification: 200,ResolvedAt azzerata e poi nuova; conservata la prima notifica
+TP-09,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,DuplicatedIssue_CannotChangeStatus_AndDatabaseIsUnchanged: 409,Theory ADMIN e USER sugli altri quattro stati
+TP-10,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,List_ReturnsOnlyCurrentUsersNotifications_IncludingReadAndUnread e NonOwner_CannotMarkAnotherUsersNotificationAsRead_AndDatabaseIsUnchanged,Isolamento destinatario e 403 altrui anche ADMIN
+TP-11,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,PreviouslyAuthenticatedUser_BecomingInactive_CannotChangeStatus: 401,JWT precedente alla disattivazione; snapshot dopo fixture invariato
+TP-12,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,StatusEndpoint_CannotSetDuplicate_EvenForAdmin_AndDatabaseIsUnchanged: 400,Theory ADMIN e USER; snapshot invariato
+TP-13,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP/PostgreSQL dedicato,verifica-backend/evidenze/audit-20261019/suite/backend.trx,Owner_CanMarkNotificationAsRead_WithoutChangingOtherNotifications: primo e secondo PATCH 200,Snapshot sul ripetuto; MissingNotification e WithoutToken coprono 404 e 401
+TP-14,SUPERATO,2026-10-19,6aa175a+fix-locali,HTTP e browser reali,verifica-backend/evidenze/audit-20261019/suite/backend.trx,Readonly_CannotMarkOwnNotificationAsRead_ButCanStillReadIt_AndDatabaseIsUnchanged: GET 200 e PATCH 403,Anche su gia letta; UI senza comando o PATCH automatici nel collaudo E2E

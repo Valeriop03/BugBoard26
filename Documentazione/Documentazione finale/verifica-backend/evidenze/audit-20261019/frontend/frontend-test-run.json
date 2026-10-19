@@ -1,0 +1,7 @@
+{
+  "commit": "6aa175a357dbdf1c35702686b985d46bff58c43e",
+  "command": "node node_modules/@angular/cli/bin/ng.js test --watch=false --browsers=ChromeHeadless",
+  "exitCode": 0,
+  "startUtc": "2026-10-19T11:12:44.7281439+00:00",
+  "endUtc": "2026-10-19T11:12:55.9227618+00:00"
+}

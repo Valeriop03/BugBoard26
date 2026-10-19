@@ -14,8 +14,10 @@ public class CreateIssueRequest
     public string Description { get; set; } = string.Empty;
 
     [Required]
+    [EnumDataType(typeof(IssueType))]
     public IssueType? Type { get; set; }
 
+    [EnumDataType(typeof(IssuePriority))]
     public IssuePriority? Priority { get; set; }
 
     public int? AssignedToId { get; set; }

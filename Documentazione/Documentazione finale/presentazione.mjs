@@ -56,11 +56,11 @@ function table(s,values,widths,top,height,size=25) {
 }
 
 let s=slide('BugBoard26',20,
-  'Progetto SWE 2025/2026, modalità tradizionale. Presentare perimetro assegnato e scelte tecniche. Specificare che il materiale è una revisione aperta: risultati finali ancora da consolidare. Fonte: traccia §§3.2, 8, 10 e specifica requisiti. Repository: https://github.com/Valeriop03/BugBoard26.');
+  'Progetto SWE 2025/2026, modalità tradizionale. Perimetro assegnato: funzionalita 1, 2, 3, 6, 8, 11, 13, 14, 15, 16. Risultati tecnici acquisiti il 19 ottobre sul commit 6aa175a e correzioni locali non committate. Restano prove con persone, decisione CASE e prova cronometrata. Fonte: traccia §§3.2, 8, 10 e verifica-backend/audit-20261019.md. Repository: https://github.com/Valeriop03/BugBoard26.');
 text(s,'Architettura, modello e verifica',64,236,1152,84,48,true,ink);
 text(s,'Progetto di Ingegneria del Software 2025/2026',64,350,1152,60,30);
-text(s,'Revisione documentale del 16 ottobre 2026',64,440,1152,50,26);
-text(s,'Risultati finali ancora da consolidare',64,520,1152,62,32,true);
+text(s,'Verifica tecnica e documentale del 19 ottobre 2026',64,440,1152,50,26);
+text(s,'Risultati reali e limiti dichiarati',64,520,1152,62,32,true);
 
 s=slide('Architettura e separazione dei componenti',75,
   'Spiegare perché SPA e API sono eseguibili separatamente. Il browser chiama REST con JWT, il backend centralizza dati e regole. EF Core/Npgsql accede a PostgreSQL; i file immagine risiedono nello storage backend. Compose esegue API e database, Angular resta sul PC. Motivare indipendenza dalla UI e limite del setup HTTP locale. Fonti: backend/BugBoard26.Api/Program.cs, docker/docker-compose.yml, README.md, component_diagram.puml. Il disegno è una vista sintetica del modello esistente.');
@@ -84,7 +84,7 @@ text(s,'I controller orchestrano e usano direttamente DbContext',64,550,1152,52,
 text(s,'Il codice attuale non introduce repository applicativi',64,614,1152,44,26);
 
 s=slide('Permessi e controlli sul backend',75,
-  'La UI nasconde comandi ma il server resta il punto di controllo. Mostrare la distinzione tra creazione, cambio stato, archiviazione/duplicazione e gestione utenti. CanChangeIssueStatus verifica account attivo e assegnazione. Non attribuire un lookup account attivo a ogni endpoint: Archive e MarkAsDuplicate usano il ruolo JWT. NotificationsController controlla claim e account nel metodo, senza attributo Authorize. RF-17, decisione del gruppo del 16 ottobre 2026, non chiarimento docente: READONLY consulta le proprie notifiche ma non le segna lette. Backend e test affidati ad amico 1; frontend da allineare e verificare. Oracolo TP-14: GET proprie 200, PATCH read su notifica propria esistente 403 senza scritture, nessun comando UI. Non presentare questi esiti come già acquisiti. Fonti: IssuesController, UsersController, NotificationsController, IssueDomainService, auth.guard.ts.');
+  'La UI nasconde comandi ma il server resta il punto di controllo. Distinguere creazione, cambio stato, archivio/duplicati e gestione utenti. CanChangeIssueStatus verifica account attivo e assegnazione. Non attribuire un lookup account attivo a ogni endpoint: Archive e MarkAsDuplicate usano il ruolo JWT. RF-17 e una decisione del gruppo, non del docente: READONLY consulta le proprie notifiche ma non le segna lette. Verificati GET 200, PATCH read 403 senza scritture e assenza del comando UI. Il menu Utenti e ora visibile solo ad ADMIN, con tre test dedicati. Fonti: controller, IssueDomainService, auth.guard.ts, app.component.spec.ts e report di audit.');
 table(s,[['Operazione','ADMIN','USER','READONLY'],
   ['Consultare ed esportare','Sì','Sì','Sì'],
   ['Creare issue','Sì','Sì','No'],
@@ -92,7 +92,7 @@ table(s,[['Operazione','ADMIN','USER','READONLY'],
   ['Archiviare / duplicato','Sì','No','No'],
   ['Gestire utenti','Sì','No','No']], [510,180,282,180],164,366,25);
 text(s,'RF-17, decisione del gruppo: READONLY consulta le proprie notifiche',64,554,1152,42,26,true);
-text(s,'Segna letta vietato. Allineamento e verifica ancora aperti.',64,602,1152,42,26);
+text(s,'PATCH read: 403 senza scritture. Verificato anche nella UI.',64,602,1152,42,26);
 
 s=slide('Risoluzione e notifica: persistenza e ripetizione',60,
   'Seguire la sequenza cambio stato esistente. Ingresso in Resolved aggiorna UpdatedAt e ResolvedAt e aggiunge Notification per CreatedById, non per AssignedToId. Una sola SaveChangesAsync persiste le modifiche. Stesso stato valido su issue non duplicata non scrive date o notifiche. Uscire da Resolved azzera ResolvedAt, senza cancellare notifiche. Duplicate è rifiutato nel percorso status con 400, una issue già duplicata dà 409. Non introdurre una matrice generale di transizioni assente nel codice. Fonti: IssuesController.UpdateStatus, sequence_cambio_stato.puml, IssueStatusIntegrationTests.cs.');
@@ -103,23 +103,23 @@ text(s,'4. Un salvataggio EF per issue e notifica',64,450,1152,60,34);
 text(s,'Stesso stato: date e notifiche restano invariate',64,580,1152,58,31,true);
 
 s=slide('Strategia di test e piano UC-02',80,
-  'Tre metodi non banali a due parametri già testati in xUnit. SearchIssues: titolo, descrizione, nessuna corrispondenza; assert sul conteggio, non sugli ID. CanChangeIssueStatus: ruoli, attività, assegnazione. SuggestAssignee: carichi e assenza candidati. Esporre anche i limiti: null/trim e case della ricerca, parità e archiviati non hanno casi unitari dedicati. Test HTTP reali con PostgreSQL separato verificano autorizzazione, query e persistenza. TP-UC02 copre risoluzione, date, notifica, rifiuti e ripetizione. In questa attività i test non sono rilanciati e non si dichiara coverage completa. Fonti: IssueDomainServiceTests.cs, Integration/*, documentazione_finale.tex, strategie_dominio.tex, test_plan.tex.');
+  'Tre metodi non banali a due parametri testati in xUnit. SearchIssues: titolo, descrizione, nessuna corrispondenza; assert sul conteggio, non sugli ID. CanChangeIssueStatus: ruoli, attivita, assegnazione. SuggestAssignee: carichi e assenza candidati. Restano limiti unitari documentati su null/trim e parita; i test HTTP con PostgreSQL dedicato coprono anche query, permessi e persistenza. Suite corrente 166/166: 11 test di dominio e 155 integrazione. Tutti i 14 casi del test plan hanno evidenze, inclusi riapertura e seconda risoluzione, account disattivato e ripetizione della lettura. Sei test hanno prima riprodotto valori enum invalidi accettati, poi verificato la correzione dei DTO. Frontend 36/36. Fonti: TRX, test_plan.tex, strategie_dominio.tex, audit-20261019.md.');
 text(s,'SearchIssues: titolo, descrizione, nessun risultato',64,170,1152,66,31,true);
 text(s,'CanChangeIssueStatus: ruolo, attività e assegnazione',64,258,1152,66,31);
 text(s,'SuggestAssignee: carico e assenza di candidati',64,346,1152,66,31);
 text(s,'TP-UC02: permessi, date, notifiche e ripetizione',64,448,1152,66,31,true);
 text(s,'xUnit in memoria e test HTTP con PostgreSQL isolato',64,550,1152,48,27);
-text(s,'Strategie documentate. Esiti finali da acquisire.',64,616,1152,44,26,true);
+text(s,'166 test backend superati. Evidenze per tutti i 14 casi TP.',64,616,1152,44,26,true);
 
-s=slide('Qualità, usabilità ed evidenze aperte',60,
-  'Il collaudo frontend reale di Valerio del 16 ottobre è riportato nel documento unico ed è confermato dal gruppo. Comprende build e 27 test frontend e scenari UI/API con backend Docker e PostgreSQL reali; non è una nuova esecuzione dell’autore documentale e non equivale alla suite backend o alle prove con utenti. Report e screenshot permanenti da acquisire. Amico 1 depositerà suite/coverage backend, persistenza dopo ricreazione e report SonarQube in verifica-backend/ alla radice del repository. Report ancora da acquisire e leggere, non verificati dalla presenza del codice. La nota del 9 ottobre resta storica e parziale. Il §2.4 richiede review sistematica, utenti reali/potenziali e survey: attività ancora da svolgere. Conformità CASE ancora aperta. RF-17 deciso dal gruppo: READONLY consulta le proprie notifiche e non le segna lette. Backend e test ad amico 1, frontend da allineare e verificare; esiti ancora aperti. Fonti: documentazione_finale.tex, sezione Collaudo frontend reale, evidenze.md, qualita_backend.md, usabilita.md, traccia §§2.4 e 3.2.');
+s=slide('Qualità misurata e attività ancora aperte',60,
+  'Analisi SonarQube realmente completata il 19 ottobre: Quality Gate OK, coverage complessiva 93,7%, linee 95,7%, branch 88,2%, zero bug e vulnerabilita segnalati, quattro code smell residui. Questi numeri non dimostrano assenza assoluta di difetti. Test backend 166/166 e frontend 36/36; collaudo browser reale con API Docker e PostgreSQL separato, non mock. Persistenza di dati e immagine verificata dopo riavvio e ricreazione del backend; volumi conservati. Review tecnica assistita parziale: corretti menu e nome accessibile ricerca. Restano osservazioni con persone e survey, review umana completa, decisione CASE e prova cronometrata. I report precedenti restano storici. Fonti: verifica-backend/audit-20261019.md, finalizzazione-20261019.md, aggiornamento-20261019.md, usabilita.md.');
 text(s,'Collaudo frontend',64,164,1152,53,34,true);
-text(s,'Riepilogo reale di Valerio. Report permanente atteso.',64,221,1152,55,29);
+text(s,'36 test superati e percorsi UI/API reali, senza mock.',64,221,1152,55,29);
 text(s,'Qualità backend',64,316,1152,53,34,true);
-text(s,'Amico 1 depositerà gli esiti in verifica-backend/.',64,373,1152,55,29);
+text(s,'Coverage 93,7%. Gate OK. Zero bug e vulnerabilità segnalati.',64,373,1152,70,28);
 text(s,'Usabilità e conformità CASE',64,468,1152,53,34,true);
 text(s,'Prove con utenti e accettazione del tool ancora aperte.',64,525,1152,55,29);
-text(s,'Documentazione aperta fino alle evidenze necessarie',64,620,1152,43,26,true);
+text(s,'Non confondere test automatici con prove con persone',64,620,1152,43,26,true);
 
 s=slide('Demo breve coordinata con il frontend',35,
   'Passare al collega frontend dopo la presentazione tecnica. Proposta di demo successiva di 2-3 minuti, da concordare e provare realmente. Preparare account distinti S e A, READONLY e una issue già assegnata. Legare ogni passaggio a un controllo tecnico. Non dichiarare collaudata la demo prima della prova. Tutti i membri devono conoscere ogni parte del sistema. Fonte: consegna.md e traccia §10. Budget complessivo delle slide: 540 secondi, previsione non prova cronometrata.');
@@ -131,7 +131,7 @@ text(s,'Passaggio al collega e prova congiunta ancora da confermare',64,582,1152
 if(specs.reduce((n,s)=>n+s.seconds,0)!==540)throw new Error('Budget slide inatteso');
 const candidate=path.join(build,'candidate.pptx');
 await(await PresentationFile.exportPptx(p)).save(candidate);
-let final=path.join(root,'presentazione','presentazione_tecnica.pptx');
+let final=path.join(root,'presentazione','presentazione_tecnica_20261019.pptx');
 await fs.mkdir(path.dirname(final),{recursive:true});
 try { await fs.access(final); final=path.join(root,'presentazione',`presentazione_tecnica_${Date.now()}.pptx`); } catch {}
 await finalizePresentation({workspaceDir:root,candidatePath:candidate,finalPath:final,

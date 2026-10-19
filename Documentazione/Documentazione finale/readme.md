@@ -1,6 +1,47 @@
 # Documentazione finale
 
-## Integrazione del 16 ottobre 2026 - documentazione ancora aperta
+## Revisione del 19 ottobre 2026
+
+Riferimento: `6aa175a357dbdf1c35702686b985d46bff58c43e` con correzioni locali
+non committate, identificate nei report e tramite SHA256 dei sorgenti.
+La consegna resta aperta per sessioni di usabilita', conformita' CASE e prova
+cronometrata della presentazione, non per assenza dei risultati tecnici.
+
+- [Documento unico](documentazione_finale.pdf) e [sorgente](documentazione_finale.tex).
+- [Presentazione aggiornata](presentazione/presentazione_tecnica_20261019.pptx):
+  9 slide, 540 secondi pianificati, non una prova cronometrata.
+- [Audit corrente](verifica-backend/audit-20261019.md): 166 test backend, Sonar
+  realmente elaborato, 0 bug e 0 vulnerabilita', gate OK e limiti residui.
+- [Collaudo integrato del 19 ottobre](verifica-backend/finalizzazione-20261019.md)
+  e [report frontend storico](verifica-frontend/report.md), mantenuti distinti.
+- [Test plan](esiti_test_plan.csv): ogni esito rimanda a test HTTP e, dove
+  richiesto, al browser reale; non e' una prova con persone.
+- [Registro](evidenze.md), [qualita' backend](qualita_backend.md),
+  [checklist di consegna](consegna.md) e [usabilita'](usabilita.md).
+- [Scheda per utenti reali](verifica-backend/sessione-utenti-pronta.md): i CSV
+  di sessioni/questionari restano vuoti finche' non arrivano risposte reali.
+
+RF-17 e' implementato e verificato: READONLY legge le proprie notifiche ma
+non le segna lette, anche se gia' lette. La decisione e' del gruppo, non dei
+docenti. I report si trovano sotto `Documentazione/Documentazione finale/`,
+non in una cartella `verifica-backend/` alla radice del repository.
+
+Per rigenerare sul PC corrente, dalla radice del repository:
+
+```powershell
+& '.\Documentazione\Documentazione finale\rigenera.ps1' -SoloDocumento `
+  -TectonicExecutable "$env:LOCALAPPDATA\BugBoard26\document-tools\tectonic-0.17.0\tectonic.exe"
+```
+
+Senza `-SoloDocumento` vengono generate anche slide in un nuovo file, senza
+sovrascrivere il PowerPoint preesistente. I percorsi dei runtime sono
+parametrizzabili; lo script rileva la skill Presentations installata anziche'
+vincolarsi a una vecchia versione. Controllare sempre PDF e slide generati.
+
+## Integrazione del 16 ottobre 2026 - storico
+
+Le indicazioni successive su verifiche mancanti descrivono il checkout di
+allora: per lo stato corrente usare il riepilogo del 19 ottobre e i suoi report.
 
 La base è il **documento unico già creato da Valerio**, acquisito nuovamente prima dell'integrazione. Il suo riepilogo del collaudo frontend reale è conservato integralmente, con attribuzione della provenienza. Non è stato creato un secondo documento finale. Le note del 2 e 9 ottobre sotto restano storiche.
 

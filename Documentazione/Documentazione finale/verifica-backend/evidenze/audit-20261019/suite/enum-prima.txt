@@ -1,0 +1,63 @@
+  Individuazione dei progetti da ripristinare...
+  Tutti i progetti sono aggiornati per il ripristino.
+  BugBoard26.Api -> D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Api\bin\Release\net10.0\BugBoard26.Api.dll
+  BugBoard26.Tests -> D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll
+Esecuzione dei test per D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\bin\Release\net10.0\BugBoard26.Tests.dll (.NETCoreApp,Version=v10.0)
+Un totale di 1 file di test corrisponde al criterio specificato.
+[xUnit.net 00:00:03.68]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: 999) [FAIL]
+  Non superato BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: 999) [741 ms]
+  Messaggio di errore:
+   Assert.Equal() Failure: Values differ
+Expected: BadRequest
+Actual:   OK
+  Analisi dello stack:
+     at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(Int32 status) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 37
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:04.37]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: -1) [FAIL]
+[xUnit.net 00:00:04.98]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Tipo non valido\",\"description\":\"D"···) [FAIL]
+  Non superato BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(status: -1) [179 ms]
+  Messaggio di errore:
+   Assert.Equal() Failure: Values differ
+Expected: BadRequest
+Actual:   OK
+  Analisi dello stack:
+     at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedStatus_IsRejectedWithoutChanges(Int32 status) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 37
+--- End of stack trace from previous location ---
+  Non superato BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Tipo non valido\",\"description\":\"D"···) [169 ms]
+  Messaggio di errore:
+   Assert.Equal() Failure: Values differ
+Expected: BadRequest
+Actual:   Created
+  Analisi dello stack:
+     at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 22
+--- End of stack trace from previous location ---
+[xUnit.net 00:00:05.55]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Tipo non valido\",\"description\":\"D"···) [FAIL]
+[xUnit.net 00:00:06.08]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Priorita non valida\",\"description\""···) [FAIL]
+[xUnit.net 00:00:06.63]     BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Priorita non valida\",\"description\""···) [FAIL]
+  Non superato BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Tipo non valido\",\"description\":\"D"···) [163 ms]
+  Messaggio di errore:
+   Assert.Equal() Failure: Values differ
+Expected: BadRequest
+Actual:   Created
+  Analisi dello stack:
+     at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 22
+--- End of stack trace from previous location ---
+  Non superato BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Priorita non valida\",\"description\""···) [137 ms]
+  Messaggio di errore:
+   Assert.Equal() Failure: Values differ
+Expected: BadRequest
+Actual:   Created
+  Analisi dello stack:
+     at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 22
+--- End of stack trace from previous location ---
+  Non superato BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(json: "{\"title\":\"Priorita non valida\",\"description\""···) [137 ms]
+  Messaggio di errore:
+   Assert.Equal() Failure: Values differ
+Expected: BadRequest
+Actual:   Created
+  Analisi dello stack:
+     at BugBoard26.Tests.Integration.IssueInputValidationIntegrationTests.UndefinedTypeOrPriority_IsRejectedWithoutChanges(String json) in D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\backend\BugBoard26.Tests\Integration\IssueInputValidationIntegrationTests.cs:line 22
+--- End of stack trace from previous location ---
+File di risultati: C:\Users\Emanuele\AppData\Local\BugBoard26\audit-20261019\enum-prima\enum-prima.trx
+
+Non superato! - Non superati:     6. Superati:     0. Ignorati:     0. Totale:     6. Durata: 6 s - BugBoard26.Tests.dll (net10.0)

@@ -1,0 +1,39 @@
+{
+  "database": "bugboard26_test_review_9572cbe9aaac",
+  "recordedUtc": "2026-10-19T16:03:57.1322222+00:00",
+  "testCommand": "node node_modules/@angular/cli/bin/ng.js test --watch=false --browsers=ChromeHeadless",
+  "developmentBackendHealth": {
+    "status": "ok",
+    "service": "BugBoard26.Api"
+  },
+  "buildCommand": "node node_modules/@angular/cli/bin/ng.js build",
+  "workingTree": [
+    " M \"Documentazione/Documentazione finale/consegna.md\"",
+    " M \"Documentazione/Documentazione finale/documentazione_finale.pdf\"",
+    " M \"Documentazione/Documentazione finale/documentazione_finale.tex\"",
+    " M \"Documentazione/Documentazione finale/evidenze.md\"",
+    " M \"Documentazione/Documentazione finale/evidenze/questionario.csv\"",
+    " M \"Documentazione/Documentazione finale/evidenze/sessioni_utenti.csv\"",
+    " M \"Documentazione/Documentazione finale/readme.md\"",
+    " M \"Documentazione/Documentazione finale/usabilita.md\"",
+    " M \"Documentazione/Documentazione finale/verifica_documentale.md\"",
+    " M frontend/src/app/pages/archived-issues-page/archived-issues-page.component.css",
+    " M frontend/src/app/pages/issue-detail-page/issue-detail-page.component.css",
+    " M frontend/src/app/pages/issue-form-page/issue-form-page.component.css",
+    " M frontend/src/app/pages/issues-page/issues-page.component.css",
+    " M frontend/src/app/pages/issues-page/issues-page.component.spec.ts",
+    " M frontend/src/app/pages/issues-page/issues-page.component.ts",
+    " M frontend/src/app/pages/login-page/login-page.component.css",
+    "?? \"Documentazione/Documentazione finale/evidenze/questionario-da-inviare.md\"",
+    "?? \"Documentazione/Documentazione finale/evidenze/risposte-parziali-usabilita.md\"",
+    "?? \"Documentazione/Documentazione finale/verifica-frontend/review-20261019/\""
+  ],
+  "testExitCode": 0,
+  "realApi": "127.0.0.1:5257",
+  "buildExitCode": 0,
+  "serverProcess": "Angular gia avviato 127.0.0.1:4200",
+  "faults": "Solo ritardo o abort della richiesta nel browser nei casi dichiarati",
+  "commit": "06ae1b090637ad5ee2f8debea3c5d8cb55cdd036",
+  "reviewContainer": "bugboard26-review-9572cbe9aaac (arrestato dopo la prova)",
+  "newPermanentTests": 0
+}

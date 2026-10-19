@@ -1,0 +1,217 @@
+[
+  {
+    "path": "contrasti.json",
+    "bytes": 1399,
+    "sha256": "d635c9a7ab6e5229342bf076ef6ed54e2dcc3d545ddd34714a588bb3593a95c1"
+  },
+  {
+    "path": "dettaglio-admin.png",
+    "bytes": 64621,
+    "sha256": "397abfcda1c3506434b68d6e7ca869d3600b83de60c7280f77e1c8a5a89336fa"
+  },
+  {
+    "path": "documento-build.txt",
+    "bytes": 916,
+    "sha256": "9f2c20a9fe451fc6b1197a02b0943226a6d188bd9c3c0bcfc06ce2acc06b786a"
+  },
+  {
+    "path": "documento-controlli.json",
+    "bytes": 227,
+    "sha256": "5542561ef6fb91381d057e2c3ab5e18dfcd522ad2aecb283c93bb5311d7578c1"
+  },
+  {
+    "path": "documento-latex.txt",
+    "bytes": 16059,
+    "sha256": "19b3b25cff6cbdd78a6aaa22b51c0bfb3074e851e07d85e0d7efb2eaa2413845"
+  },
+  {
+    "path": "documento-review.png",
+    "bytes": 243457,
+    "sha256": "93a478669f152382267fe8252548df9bc6db154c3ca07c34f3a7a814b3d93f23"
+  },
+  {
+    "path": "e2e-environment.json",
+    "bytes": 426,
+    "sha256": "662a6398484ab0fdf14cae466be8f89efe4ab7eaaab90c38015551515074ccd4"
+  },
+  {
+    "path": "focus-invio.png",
+    "bytes": 57824,
+    "sha256": "42ffa96f1152987fefeddf23e2b0166a43c80ef7b75ef74ef8a37039f4a1b476"
+  },
+  {
+    "path": "focus-ricerca.png",
+    "bytes": 124528,
+    "sha256": "b85d7d6926a34135a776374a3f520c1dcdca18657714e4f6c7ba211037ee03c7"
+  },
+  {
+    "path": "form-validazione.png",
+    "bytes": 62160,
+    "sha256": "f058635f2ee8dbdfe55d1d87eea70d05ae4891dc2242d41db17fffe03716434b"
+  },
+  {
+    "path": "frontend-build.txt",
+    "bytes": 567,
+    "sha256": "9187ea179c2dcd7afafdb17ba4d5340d90649dd67c3712e20412be8635ed0056"
+  },
+  {
+    "path": "frontend-e2e-results.json",
+    "bytes": 8134,
+    "sha256": "a9f8d0a6b93fdfdbbb3743183b22fb20d3349465688742bc9013755688b3b16d"
+  },
+  {
+    "path": "frontend-test.txt",
+    "bytes": 5127,
+    "sha256": "38d39d01f33840d3aef8b2e0a7f1214aa8be5a39ef8f870c6ac836502b0fbbde"
+  },
+  {
+    "path": "lista-caricamento.png",
+    "bytes": 35161,
+    "sha256": "315fcde3f0a41c1c61abe7958885409c17308c0b864429bd9fe6b6b5baf2591b"
+  },
+  {
+    "path": "lista-desktop.png",
+    "bytes": 64973,
+    "sha256": "e38d4731cadfeafe51be67397e86a5cd4aacfb508b4863f7211c6721168e7a0e"
+  },
+  {
+    "path": "lista-errore-rete.png",
+    "bytes": 36194,
+    "sha256": "5f83f288c17a105c6172d0eebc6f50b21d58686a614a0d439f0577381882e10a"
+  },
+  {
+    "path": "lista-mobile.png",
+    "bytes": 136751,
+    "sha256": "9834895a7547b0f9be0f5d533fac3938d753f2c8263cc3910768b1043e9727fa"
+  },
+  {
+    "path": "lista-vuota.png",
+    "bytes": 36222,
+    "sha256": "aa5370d329f46ff02d9eda6dd1303b399ae9846955886fe228ca3a5a7e716a04"
+  },
+  {
+    "path": "login-errore.png",
+    "bytes": 33059,
+    "sha256": "672ac777720f4055987ec834e0a4cd957c548ed6fc36c7c8b78a4854e4e72836"
+  },
+  {
+    "path": "metadata.json",
+    "bytes": 2250,
+    "sha256": "9ef4f00e0b4b0e42ed788751d0d31f6ba218cdb1ae20d00faddd4d65d9cf1f93"
+  },
+  {
+    "path": "mobile-320-issues-archived.png",
+    "bytes": 43609,
+    "sha256": "20a7fa1184b978d3b4de1140bfb2cde46c1e3c58f7f34bcc94f16c7382a6e7b8"
+  },
+  {
+    "path": "mobile-320-issues-new.png",
+    "bytes": 55139,
+    "sha256": "3d370c5af6aaf455ea5b6a725c24bc2a8fcc132e0c48e536e441c11eb9d37f95"
+  },
+  {
+    "path": "mobile-320-issues.png",
+    "bytes": 142031,
+    "sha256": "155d40797a49a0859cd2d223b207e37cb9ad0a433f5b64adfb5b76af30c4c6bf"
+  },
+  {
+    "path": "mobile-320-notifications.png",
+    "bytes": 51849,
+    "sha256": "75cd9fc72cce165314ebc52634e806ed8da6e7b1e6a78bd3ee927a775bd915e1"
+  },
+  {
+    "path": "mobile-390-issues-archived.png",
+    "bytes": 44609,
+    "sha256": "1758e72e521a577868f1575796cb78cb876369fa08e3720e3885d38a89fac1ef"
+  },
+  {
+    "path": "mobile-390-issues-new.png",
+    "bytes": 55510,
+    "sha256": "a96e131eac0486903be6ae58fefa773f385eb15c4931b8e727c9893e6a504180"
+  },
+  {
+    "path": "mobile-390-issues.png",
+    "bytes": 145384,
+    "sha256": "0d56edc8894209d9c54d591d9993208ded19f241fc8b6389a8e357a396077d0f"
+  },
+  {
+    "path": "mobile-390-notifications.png",
+    "bytes": 51216,
+    "sha256": "1e639492e9d7f16df1ecfdd903a4991f34ac9432fba3277ded428adf41f787bb"
+  },
+  {
+    "path": "mobile.json",
+    "bytes": 978,
+    "sha256": "1c5b69533e936062af71c9120f842a1ea32ce721660bcf9768bed5f20a6f4ba8"
+  },
+  {
+    "path": "notifiche-readonly.png",
+    "bytes": 27953,
+    "sha256": "181d37b3f23a9f1b6980f2b85343e8e7589f4259ac8f1b4fba4ea06b4f9bf827"
+  },
+  {
+    "path": "prima/contrasti.json",
+    "bytes": 1405,
+    "sha256": "a714f94599ec9fc6bea1e449293d0028f37a4b9759ac9866c1f4a6448b3d0a64"
+  },
+  {
+    "path": "prima/frontend-e2e-results.json",
+    "bytes": 8139,
+    "sha256": "d50f91869189b988a5b847ba85a259a881599120f1df8da2b53430cace1b0ef0"
+  },
+  {
+    "path": "prima/mobile.json",
+    "bytes": 978,
+    "sha256": "1c5b69533e936062af71c9120f842a1ea32ce721660bcf9768bed5f20a6f4ba8"
+  },
+  {
+    "path": "prima/review-prima.txt",
+    "bytes": 1797,
+    "sha256": "a9727923495b463260e5863adb03ae65e15bd0a78a66cdfaf7063e70f03343f5"
+  },
+  {
+    "path": "report.md",
+    "bytes": 7095,
+    "sha256": "31f4bb70b487ca8f0c1a220d6dacce6c21aab97bd9b3758074b794ecba11f4ec"
+  },
+  {
+    "path": "review-finale.txt",
+    "bytes": 1797,
+    "sha256": "a9727923495b463260e5863adb03ae65e15bd0a78a66cdfaf7063e70f03343f5"
+  },
+  {
+    "path": "sorgenti-sha256.json",
+    "bytes": 7932,
+    "sha256": "4e0abbdc45188cd03baf52695b4d99fbbc503668e9615ccaeb610fc8da874b49"
+  },
+  {
+    "path": "tastiera.json",
+    "bytes": 2864,
+    "sha256": "66f14f173a11ad39a7cdfd4aa97b9f70647904c03aae9a62903b95ec5d13a5af"
+  },
+  {
+    "path": "tentativo-attesa-dom.json",
+    "bytes": 4364,
+    "sha256": "eef7cfa66c5c9cdb73f0a6c66d22b4e70cfd25a0f16df2bd84370750c15b6c22"
+  },
+  {
+    "path": "tentativo-attesa-dom.txt",
+    "bytes": 1662,
+    "sha256": "a60cc149abb00bff7dafbc9e0dd00c8fc4150dceaba44232744354ca6639978e"
+  },
+  {
+    "path": "tentativo-fixture.json",
+    "bytes": 2035,
+    "sha256": "9c8376711a0a527f78f5871e7bacbef5ba3c747c371026ebd39195ce7e5a34b9"
+  },
+  {
+    "path": "tentativo-fixture.txt",
+    "bytes": 663,
+    "sha256": "fbfba473e0a7be369108dec5083358058dd05defbd0c862856365d99821eb41f"
+  },
+  {
+    "path": "upload-rifiutato.png",
+    "bytes": 68254,
+    "sha256": "247a819f2c1f16a566067487e332a06edc2ca8c854615ee0118259346f11b2ed"
+  }
+]

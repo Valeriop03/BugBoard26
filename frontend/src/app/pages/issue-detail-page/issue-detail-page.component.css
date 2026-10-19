@@ -77,7 +77,7 @@ dd {
   padding: 14px 28px;
   border: 1px solid #cfcfcf;
   border-radius: 7px;
-  color: #777777;
+  color: #66717d;
   background: #f5f5f5;
 }
 
@@ -116,7 +116,7 @@ select {
   padding: 13px 14px;
   border: 1px solid #d3d3d3;
   border-radius: 8px;
-  color: #777777;
+  color: #66717d;
   font: inherit;
 }
 
@@ -181,7 +181,7 @@ button:disabled {
 
 .status-card p {
   margin: 0;
-  color: #9a9a9a;
+  color: #66717d;
   font-size: 12px;
 }
 

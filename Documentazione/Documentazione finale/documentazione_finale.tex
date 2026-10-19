@@ -46,9 +46,9 @@ Componenti & Valerio Porcile -- N86004517\\
  & Emanuel Giuseppe Lupoli -- N86004280\\
  & Emanuele Martucci -- N86004084\\
 Modalita' & Tradizionale\\
-Versione & 1.3 -- audit e verifiche integrate\\
+Versione & 1.5 -- review sistematica e sessioni di usabilita'\\
 Data di riferimento & 19 ottobre 2026\\
-Codice esaminato & \texttt{6aa175a} + correzioni locali\\
+Codice esaminato & \texttt{06ae1b0} + correzioni locali\\
 \end{tabular}
 \vfill
 \end{titlepage}
@@ -67,8 +67,14 @@ commit \texttt{6aa175a} con correzioni locali non committate. Sono disponibili
 suite backend completa, analisi SonarQube reale, importazione coverage,
 persistenza Docker e collaudo browser di RF-17. Report, stato Git e impronte
 dei sorgenti sono in \path{verifica-backend/}, sotto questa cartella documentale.
-Restano sessioni di usabilita' con persone e questionari reali, conformita'
-CASE e prova cronometrata della presentazione, indicate nel capitolo 4.
+Sono inoltre registrate tre sessioni con amici del moderatore, riportate
+nel suo resoconto per il 19 ottobre: tutti USER su PC condiviso, con completamento
+autonomo dopo spiegazione iniziale e quindici risposte numeriche al survey.
+Non sono riportati nomi. Le osservazioni qualitative non sono fornite.
+E' inoltre completata la review sistematica assistita, documentata con
+evidenze browser, rilievi di contrasto corretti e limiti espliciti.
+Restano verifica dei modelli CASE, revisione editoriale finale e prova
+cronometrata della presentazione, indicate nel capitolo 4.
 Non vengono attribuiti esiti positivi alle attivita' non eseguite.
 
 \textbf{Repository:} \url{https://github.com/Valeriop03/BugBoard26}.
@@ -358,6 +364,8 @@ CreatedAt; usa UTF-8 ed escaping di virgole, doppi apici e ritorni a capo.
 Il frontend scarica il Blob con nome \texttt{issues.csv} e passa i filtri
 correnti anche durante l'attesa della ricerca live. RxJS \texttt{switchMap}
 annulla le richieste precedenti evitando risultati obsoleti.
+Il download browser aggiunge BOM UTF-8 e la dichiarazione \texttt{sep=,}
+per l'apertura in Excel; la risposta CSV standard dell'API resta invariata.
 
 \section{Immagini, archivio e duplicati}
 L'immagine viene caricata dopo la creazione come multipart con campo
@@ -568,8 +576,11 @@ node node_modules/@angular/cli/bin/ng.js test `
 \end{minipage}\par
 Il database di test usa la porta 55432 ed e' distinto da quello di sviluppo.
 La sola esecuzione dei test di dominio con filtro non sostituisce la suite
-di integrazione. I test Jasmine/Karma sono 36, inclusi tre casi di regressione
-sulla navigazione per ruolo, eseguiti in ChromeHeadless senza watch.
+di integrazione. Dopo l'adattamento del download CSV i test Jasmine/Karma
+sono 40, inclusi controlli di navigazione e creazione per ruolo e verifica
+dei byte esportati, eseguiti in ChromeHeadless senza watch. La build e'
+riuscita e il browser reale ha verificato il download; l'utente ha poi
+confermato l'apertura corretta del CSV in Excel durante il collaudo interno.
 
 SonarQube locale e la raccolta OpenCover sono predisposti in
 \path{quality/analyze-backend.ps1} e \path{quality/coverage.runsettings}.
@@ -590,18 +601,20 @@ solo backend, senza eliminare volumi; il rebuild successivo conserva la
 stessa issue e lo stesso SHA256 immagine. Nessun test automatico usa il
 database di sviluppo; le prove Docker con dati riconoscibili sono distinte.
 
-\section{Valutazione dell'usabilita' -- review e sessioni da completare}
+\section{Valutazione dell'usabilita' -- review e sessioni}
 Il collaudo tecnico precedente non e' una prova con utenti potenziali.
 La traccia richiede sia una review sistematica sia osservazioni e survey
-con utenti. Non sono disponibili sessioni o questionari compilati;
-questa sezione definisce il piano, non risultati fittizi.
+con utenti. Questa sezione distingue il protocollo, la review assistita
+e le tre sessioni riferite dall'utente. Non si deducono attivita', tempi o
+osservazioni qualitative dai soli voti del questionario.
 
 \subsection{Review tramite checklist}
-La review assistita del 19 ottobre e' registrata in
-\path{verifica-backend/review-tecnica-20261019.csv}; distingue conformita',
-problemi e verifiche non svolte. Link Utenti e ricerca accessibile sono stati
-corretti durante l'audit. Restano da osservare con persone tastiera, messaggi,
-errori di rete e recupero dell'upload. La review non certifica WCAG.
+La review sistematica assistita del 19 ottobre e' registrata in
+\path{evidenze/review_tecnica.csv}, con otto criteri, evidenze e limiti.
+Il report completo e' in \path{verifica-frontend/review-20261019/report.md};
+la prima review backend resta storica. Sono ispezionati sorgenti e screenshot
+e provati 28 controlli browser con API Docker reale e PostgreSQL dedicato.
+La review non e' attribuita a un revisore umano indipendente e non certifica WCAG.
 \begin{itemize}
 \item Terminologia coerente fra lista, form e dettaglio.
 \item Navigazione riconoscibile e ritorno alla lista disponibile.
@@ -611,6 +624,25 @@ errori di rete e recupero dell'upload. La review non certifica WCAG.
 \item Uso da tastiera, focus visibile e leggibilita' su schermi piccoli.
 \item Recupero dell'upload senza indurre una seconda creazione.
 \end{itemize}
+
+Login, ricerca e creazione sono percorsi con Tab, Shift+Tab ed Enter,
+controllando il focus visibile. Sono distinti caricamento, lista vuota e
+errore di rete; ritardo e interruzione sono simulati soltanto nel browser,
+con recupero tramite Pulisci. Un falso PNG e' invece realmente rifiutato
+dall'API: il form mostra l'ID gia' salvato e il nuovo upload valido usa lo
+stesso ID, con una sola richiesta di creazione. Nessun dato di sviluppo
+e' modificato. Quattro viste sono controllate a 320 e 390 pixel senza
+overflow orizzontale rilevato.
+
+Quattro dei cinque campioni di contrasto della lista erano insufficienti
+e sono corretti: intestazioni e nota export passano a 4,97:1, priorita'
+a 5,25:1, stato a 5,63:1; il pulsante resta a 4,70:1. Le soglie sono
+confrontate sui valori non arrotondati. Sono scurite anche note analoghe
+del form/dettaglio e testo di errore login, senza ridisegnare l'interfaccia.
+I 40 test frontend esistenti e la build sono superati nuovamente; non sono
+aggiunti test permanenti. Restano migliorabili annunci per lettori schermo,
+focus iniziale sugli errori e conferma delle azioni admin. La review e'
+completata nel perimetro dichiarato, non e' una certificazione di accessibilita'.
 
 \subsection{Sessioni con utenti e questionario}
 Coinvolgere utenti reali o potenziali del sistema, usando account e dati
@@ -631,17 +663,49 @@ domanda aperta: ``Quale passaggio e' stato meno chiaro?''.
 Riportare numero reale di sessioni, risultati e limiti del campione;
 non attribuire validazione statistica a poche osservazioni.
 Il protocollo operativo esteso, le attivita' e il questionario sono in
-\path{usabilita.md}; i modelli in \path{evidenze/} contengono solo intestazioni.
-Chiediamo al gruppo di svolgere le sessioni e fornire osservazioni e risposte
-reali, con partecipazione volontaria e codici anonimi. Nessuna richiesta e'
-stata inviata all'esterno. La review tecnica resta distinta dalle sessioni.
+\path{usabilita.md}. I file \path{evidenze/questionario.csv} e
+\path{evidenze/sessioni_utenti.csv} contengono i dati ricevuti, non esempi.
+
+\subsection{Risultati riferiti delle tre sessioni}
+Fonte: resoconto del moderatore e risposte trascritte del questionario;
+non sono allegate registrazioni delle sessioni. Data: 19 ottobre 2026. Tre amici hanno
+usato il PC del moderatore in condivisione, tutti con ruolo USER. P01 e P03
+hanno svolto U2, creazione issue; P02 U4, riscontro e lettura notifica.
+Per tutti il completamento e' dichiarato autonomo dopo una spiegazione
+iniziale, che viene esplicitamente registrata. Non e' descritto il contenuto
+dell'introduzione o il mezzo di condivisione.
+
+\begin{center}
+\begin{tabular}{llrrrrr}
+\toprule Codice & Attivita' & Q1 & Q2 & Q3 & Q4 & Q5\\\midrule
+P01 & U2 & 5 & 4 & 4 & 4 & 5\\
+P02 & U4 & 4 & 4 & 5 & 4 & 4\\
+P03 & U2 & 4 & 3 & 4 & 4 & 3\\
+\bottomrule
+\end{tabular}
+\end{center}
+Q1 indica navigazione, Q2 campi, Q3 ricerca, Q4 esiti, Q5 permessi;
+scala da 1 (per nulla) a 5 (molto). Sono riportati i valori ricevuti senza
+trasformarli in un punteggio SUS o in una validazione statistica.
+I voti 3 di P03 per campi e permessi indicano una valutazione moderata:
+in assenza di osservazioni non si attribuiscono cause specifiche.
+
+I partecipanti sono identificati con codici senza nomi nei file consegnati;
+il moderatore li conosce, quindi non si dichiara anonimato assoluto.
+Campione di convenienza ridotto, attivita' diverse e solo ruolo USER limitano
+la generalizzabilita'. Non si assume che ciascuno abbia svolto ricerca,
+filtri o prove con gli altri ruoli. Profilo, esperienza, browser, checkout
+effettivo, tempi e risposte aperte Q6/Q7 non sono comunicati. I campi vuoti
+significano non fornito, non assenza di problemi. La modalita' del consenso
+non e' documentata. La review tecnica resta un'attivita' distinta.
+Dettagli e provenienza: \path{evidenze/risposte-parziali-usabilita.md}.
 
 \chapter{Limiti e completamento della consegna}
 \section{Punti ancora aperti}
 \begin{enumerate}
 \item Consolidare nel commit e nella release manuali i sorgenti effettivamente verificati; i risultati attuali includono modifiche locali non committate.
-\item Completare la review e le sessioni di usabilita' con osservazioni e questionari reali; i modelli delle sessioni restano vuoti.
-\item Chiudere la conformita' CASE: le immagini aggiornate provengono dai sorgenti PlantUML; i file Visual Paradigm storici non rappresentano tutte le modifiche attuali.
+\item Rifinire la relazione separando promemoria operativi e contenuti di consegna; review assistita, tre sessioni USER e quindici voti sono documentati con limiti espliciti.
+\item Verificare l'allineamento dei modelli nel tool CASE rispetto a codice e diagrammi finali. Sorgenti PlantUML e PNG sono coerenti; i file originali non sono stati verificati nel loro programma, non e' accertata una non conformita'.
 \item Eseguire la prova cronometrata della presentazione e coordinare la demo; predisporre la consegna individuale Teams.
 \end{enumerate}
 \input{vincoli_case.tex}
@@ -682,11 +746,12 @@ Per rigenerare documento e slide con controlli di sorgenti/PNG usare
 compilazione non esegue test applicativi. Il registro \path{evidenze.md}
 mantiene distinti risultati storici, esito frontend riportato da Valerio e
 risultati del 19 ottobre in \path{verifica-backend/}. L'audit corrente
-registra 166 test backend e 36 frontend superati, oltre all'analisi
+registra 166 test backend e, dopo il fix CSV, 40 frontend superati, oltre all'analisi
 SonarQube effettiva. Il report distingue il commit iniziale dalle
-correzioni locali non committate. Le sessioni con persone, la decisione
-CASE e la prova cronometrata restano attivita del gruppo, non esiti dedotti
-dalla compilazione.
+correzioni locali non committate. Le tre sessioni con persone sono riportate
+dal moderatore e restano distinte dai test automatici. La review sistematica
+assistita ha evidenze separate; verifica CASE e prova cronometrata non sono
+dedotte dalla compilazione.
 La checklist di release e invio individuale Teams
 e' in \path{consegna.md}; nessuna consegna viene effettuata qui.
 

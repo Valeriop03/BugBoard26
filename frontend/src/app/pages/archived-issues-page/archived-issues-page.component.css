@@ -27,7 +27,7 @@ p {
 }
 
 .heading {
-  color: #777777;
+  color: #66717d;
   font-size: 15px;
   font-weight: 700;
 }
@@ -54,12 +54,12 @@ p {
 }
 
 .priority {
-  color: #ff2424;
+  color: #b42318;
   background: #ffdede;
 }
 
 .status {
-  color: #2274ff;
+  color: #1756b8;
   background: #dbeaff;
 }
 

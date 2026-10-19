@@ -1,5 +1,6 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Subject } from 'rxjs';
+import { provideRouter } from '@angular/router';
+import { of, Subject } from 'rxjs';
 import { Issue } from '../../models/issue.model';
 import { AuthService } from '../../services/auth.service';
 import { IssuesService } from '../../services/issues.service';
@@ -99,4 +100,49 @@ describe('IssuesPageComponent ricerca live', () => {
     fixture.destroy();
     tick(350);
   }));
+
+  it('scarica CSV per Excel con BOM e separatore esplicito senza modificare i dati', async () => {
+    const csv = 'Id,Title,AssignedToEmail\r\n1,"Caff\u00e8, ""API""\nseconda riga",\r\n';
+    service.exportIssues.and.returnValue(of(new Blob([csv], { type: 'text/csv' })));
+    const createUrl = spyOn(URL, 'createObjectURL').and.returnValue('blob:export-test');
+    const revokeUrl = spyOn(URL, 'revokeObjectURL');
+    const click = spyOn(HTMLAnchorElement.prototype, 'click');
+    const fixture = TestBed.createComponent(IssuesPageComponent);
+
+    fixture.componentInstance.exportCsv();
+
+    expect(createUrl).toHaveBeenCalledTimes(1);
+    const file = createUrl.calls.mostRecent().args[0] as Blob;
+    expect(file.type).toBe('text/csv;charset=utf-8');
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    expect(Array.from(bytes.slice(0, 3))).toEqual([239, 187, 191]);
+    expect(await file.slice(3).text()).toBe('sep=,\r\n' + csv);
+    expect(click).toHaveBeenCalledTimes(1);
+    expect(revokeUrl).toHaveBeenCalledWith('blob:export-test');
+    expect(fixture.componentInstance.exportMessage).toBe('Export CSV completato.');
+    fixture.destroy();
+  });
+});
+
+describe('IssuesPageComponent permessi di creazione', () => {
+  for (const role of ['ADMIN', 'USER', 'READONLY'] as const) {
+    it(`mostra Nuova Issue solo ad ADMIN e USER (${role})`, async () => {
+      await TestBed.configureTestingModule({
+        imports: [IssuesPageComponent],
+        providers: [
+          provideRouter([]),
+          { provide: IssuesService, useValue: { getIssues: () => of([]) } },
+          { provide: AuthService, useValue: { getCurrentUser: () => ({ role }) } }
+        ]
+      }).compileComponents();
+      const fixture = TestBed.createComponent(IssuesPageComponent);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(!!fixture.nativeElement.querySelector('a[href="/issues/new"]')).toBe(role !== 'READONLY');
+
+      fixture.destroy();
+    });
+  }
 });

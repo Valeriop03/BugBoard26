@@ -1,0 +1,58 @@
+[
+  {
+    "width": 320,
+    "route": "/issues",
+    "viewport": 320,
+    "pageWidth": 320,
+    "clippedCells": []
+  },
+  {
+    "width": 320,
+    "route": "/issues/new",
+    "viewport": 320,
+    "pageWidth": 320,
+    "clippedCells": []
+  },
+  {
+    "width": 320,
+    "route": "/notifications",
+    "viewport": 320,
+    "pageWidth": 320,
+    "clippedCells": []
+  },
+  {
+    "width": 320,
+    "route": "/issues/archived",
+    "viewport": 320,
+    "pageWidth": 320,
+    "clippedCells": []
+  },
+  {
+    "width": 390,
+    "route": "/issues",
+    "viewport": 390,
+    "pageWidth": 390,
+    "clippedCells": []
+  },
+  {
+    "width": 390,
+    "route": "/issues/new",
+    "viewport": 390,
+    "pageWidth": 390,
+    "clippedCells": []
+  },
+  {
+    "width": 390,
+    "route": "/notifications",
+    "viewport": 390,
+    "pageWidth": 390,
+    "clippedCells": []
+  },
+  {
+    "width": 390,
+    "route": "/issues/archived",
+    "viewport": 390,
+    "pageWidth": 390,
+    "clippedCells": []
+  }
+]

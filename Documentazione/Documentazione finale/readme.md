@@ -2,14 +2,17 @@
 
 ## Revisione del 19 ottobre 2026
 
-Riferimento: `6aa175a357dbdf1c35702686b985d46bff58c43e` con correzioni locali
-non committate, identificate nei report e tramite SHA256 dei sorgenti.
-La consegna resta aperta per sessioni di usabilita', conformita' CASE e prova
-cronometrata della presentazione, non per assenza dei risultati tecnici.
+L'audit tecnico riguarda `6aa175a357dbdf1c35702686b985d46bff58c43e` con
+correzioni locali identificate nei report. L'integrazione successiva del
+survey e del fix CSV parte da `06ae1b0`, ancora con modifiche locali.
+Sono registrate tre sessioni USER riferite dal moderatore e completata la
+review sistematica assistita. Restano verifica dei modelli CASE, revisione
+editoriale finale e prova cronometrata, non l'assenza dei risultati tecnici.
 
 - [Documento unico](documentazione_finale.pdf) e [sorgente](documentazione_finale.tex).
 - [Presentazione aggiornata](presentazione/presentazione_tecnica_20261019.pptx):
-  9 slide, 540 secondi pianificati, non una prova cronometrata.
+  9 slide e 540 secondi pianificati nell'audit tecnico. Da allineare alla
+  successiva raccolta di usabilita'; non e' una prova cronometrata.
 - [Audit corrente](verifica-backend/audit-20261019.md): 166 test backend, Sonar
   realmente elaborato, 0 bug e 0 vulnerabilita', gate OK e limiti residui.
 - [Collaudo integrato del 19 ottobre](verifica-backend/finalizzazione-20261019.md)
@@ -18,8 +21,12 @@ cronometrata della presentazione, non per assenza dei risultati tecnici.
   richiesto, al browser reale; non e' una prova con persone.
 - [Registro](evidenze.md), [qualita' backend](qualita_backend.md),
   [checklist di consegna](consegna.md) e [usabilita'](usabilita.md).
-- [Scheda per utenti reali](verifica-backend/sessione-utenti-pronta.md): i CSV
-  di sessioni/questionari restano vuoti finche' non arrivano risposte reali.
+- [Review sistematica completata](verifica-frontend/review-20261019/report.md):
+  otto criteri, evidenze, correzioni di contrasto e limiti espliciti.
+- [Scheda per utenti reali](verifica-backend/sessione-utenti-pronta.md) e
+  [sessioni e risposte ricevute](evidenze/risposte-parziali-usabilita.md):
+  tre sessioni USER del 19/10 e 15 risposte numeriche; risposte aperte non
+  fornite, senza inventare difficolta' o assenza di problemi.
 
 RF-17 e' implementato e verificato: READONLY legge le proprie notifiche ma
 non le segna lette, anche se gia' lette. La decisione e' del gruppo, non dei

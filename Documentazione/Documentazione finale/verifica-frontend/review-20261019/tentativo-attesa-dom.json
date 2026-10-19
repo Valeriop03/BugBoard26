@@ -1,0 +1,133 @@
+{
+  "run": "FINALE-1792425609141",
+  "sourceCommit": "06ae1b090637ad5ee2f8debea3c5d8cb55cdd036",
+  "uncommittedChanges": true,
+  "database": "bugboard26_test_review_9572cbe9aaac",
+  "testEnvironment": "API Docker reale 5257 e PostgreSQL dedicato; URL API del frontend inoltrato dal browser; guasti di rete dichiarati nei singoli casi",
+  "surveyOrHumanSession": false,
+  "results": [
+    {
+      "name": "Accesso anonimo alla creazione reindirizzato al login",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:10.270Z"
+    },
+    {
+      "name": "Menu per ruolo e nome accessibile ricerca: ADMIN",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:10.797Z"
+    },
+    {
+      "name": "Login ADMIN reale e sessione JWT",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:10.797Z"
+    },
+    {
+      "name": "Creazione USER dalla pagina utenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:11.100Z",
+      "id": 6
+    },
+    {
+      "name": "Creazione READONLY dalla pagina utenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:11.356Z",
+      "id": 7
+    },
+    {
+      "name": "Creazione issue, suggerimento reale, upload PNG e dettaglio",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:11.802Z",
+      "issueId": 8,
+      "assignedToId": 6
+    },
+    {
+      "name": "Menu per ruolo e nome accessibile ricerca: USER",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:12.325Z"
+    },
+    {
+      "name": "USER non puo accedere alla pagina utenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:12.463Z"
+    },
+    {
+      "name": "Risoluzione USER assegnatario, data e notifica; ripetizione idempotente",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:12.696Z"
+    },
+    {
+      "name": "USER non assegnatario: comando assente, API 403, dati invariati",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:12.880Z"
+    },
+    {
+      "name": "USER legge la propria notifica dalla UI e persiste IsRead",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:13.153Z"
+    },
+    {
+      "name": "Menu per ruolo e nome accessibile ricerca: READONLY",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:13.807Z"
+    },
+    {
+      "name": "READONLY: consultazione immagine, rotte e scritture protette",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:14.246Z"
+    },
+    {
+      "name": "READONLY notifiche proprie: GET 200, UI senza scritture, PATCH 403 invariato",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:14.415Z",
+      "fixtureCreatedDirectlyInDedicatedTestDatabase": true
+    },
+    {
+      "name": "Lista mobile senza overflow orizzontale a 390x844",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:14.708Z"
+    },
+    {
+      "name": "Menu per ruolo e nome accessibile ricerca: ADMIN",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:15.111Z"
+    },
+    {
+      "name": "ADMIN legge la propria notifica dalla UI e persiste IsRead",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:15.323Z"
+    },
+    {
+      "name": "Ricerca, filtro e download CSV reali coerenti con le issue visibili",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:15.811Z"
+    },
+    {
+      "name": "Duplicazione e archiviazione ADMIN da UI, riferimento e liste coerenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:16.142Z"
+    },
+    {
+      "name": "Login: errore comprensibile, recupero e invio da tastiera con focus visibile",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:16.644Z"
+    },
+    {
+      "name": "Lista vuota reale e ricerca raggiunta e usata con Tab e tastiera",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:17.358Z"
+    },
+    {
+      "name": "Caricamento, errore rete e recupero con Pulisci distinti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T16:00:18.508Z",
+      "faultInjection": "Ritardo della risposta reale e connessione interrotta soltanto nel browser; API non arrestata"
+    },
+    {
+      "name": "Collaudo interrotto",
+      "outcome": "FAIL",
+      "observedUtc": "2026-10-19T16:00:18.738Z",
+      "message": "Expected values to be strictly equal:\n\n0 !== 2\n"
+    }
+  ],
+  "pageErrors": []
+}

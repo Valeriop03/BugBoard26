@@ -1,0 +1,11 @@
+{
+  "physicalPages": 33,
+  "outsidePage": [],
+  "surveyPages": [
+    3,
+    31
+  ],
+  "pdfSha256": "921d900d3d960d33782853269335bf946a58ebfb934bd171afdde436a9395be5",
+  "renderDpi": 105,
+  "slidesRegenerated": false
+}

@@ -124,7 +124,9 @@ export class IssuesPageComponent {
   }
 
   private downloadFile(file: Blob): void {
-    const url = window.URL.createObjectURL(file);
+    // Excel usa il separatore locale: il download dichiara virgola e UTF-8.
+    const excelFile = new Blob(['\uFEFFsep=,\r\n', file], { type: 'text/csv;charset=utf-8' });
+    const url = window.URL.createObjectURL(excelFile);
     const link = document.createElement('a');
 
     link.href = url;

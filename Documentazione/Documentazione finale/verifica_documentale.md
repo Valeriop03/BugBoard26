@@ -1,5 +1,45 @@
 # Verifica documentale
 
+## Review Sistematica - Versione 1.5
+
+Integrata la review assistita degli otto criteri, con matrice compilata in
+`evidenze/review_tecnica.csv` e report/evidenze in
+`verifica-frontend/review-20261019/`. Distinta dalle tre sessioni riferite dal
+moderatore: nessun nuovo partecipante, risposta o secondo revisore inventato.
+Correzioni limitate ai colori di cinque pagine; 28 controlli browser finali,
+40 test frontend e build riusciti. Nessun nuovo test permanente e nessuna
+nuova esecuzione della suite backend dichiarata per queste modifiche CSS.
+
+PDF versione 1.5 ricompilato con Tectonic: 33 pagine, nessun Overfull o
+riferimento indefinito e un Underfull non bloccante. Rendering di tutte le
+pagine a 105 DPI e controllo visuale, con dettaglio della sezione review;
+nessun carattere fuori pagina. Il messaggio Fontconfig resta non bloccante.
+Slide non rigenerate; pulizia editoriale generale e verifica dei modelli
+CASE restano distinte da questa review.
+
+## Integrazione Survey - Versione 1.4
+
+Tre sessioni del 19/10/2026 registrate secondo il resoconto del moderatore:
+P01/U2, P02/U4, P03/U2, tutti USER sul suo PC in condivisione, con
+completamento autonomo dopo spiegazione iniziale. Riportati i quindici
+punteggi Q1-Q5; non inventate risposte aperte, tempi o osservazioni.
+CSV, riepilogo, registro e documento unico sono aggiornati. Le limitazioni
+del campione e i campi mancanti restano espliciti. Il checkout effettivo
+delle sessioni non e' desunto automaticamente dall'HEAD di registrazione.
+
+PDF ricompilato con Tectonic 0.17.0, 33 pagine fisiche: zero Overfull,
+zero riferimenti indefiniti e un Underfull non bloccante. Tutte le pagine
+renderizzate a 105 DPI e controllate; nessun carattere fuori pagina.
+Letta a grandezza maggiore la nuova tabella con i risultati e i limiti.
+La compilazione emette lo stesso messaggio Fontconfig gia' documentato,
+senza impedire l'export o il rendering. Non rigenerate le slide, da
+allineare alla raccolta prima della prova finale richiesta dal gruppo.
+
+Il documento riporta anche i risultati successivi al fix CSV: 40 test
+frontend, 166 backend e apertura CSV in Excel confermata dall'utente.
+Non sono nuove esecuzioni durante questa sola integrazione documentale.
+Le verifiche dell'audit 1.3 riportate sotto restano riferite ai suoi artefatti.
+
 ## Revisione Effettiva Del 19 Ottobre 2026
 
 Documento unico versione 1.3: HEAD `6aa175a` con correzioni locali non

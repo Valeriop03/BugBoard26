@@ -1,10 +1,10 @@
 # Usabilità: protocollo e raccolta reale
 
-Stato al 19 ottobre 2026: review tecnica assistita parziale eseguita, **sessioni con persone e questionari non eseguiti**. Il §2.4 richiede entrambe le attivita: i test automatici non sostituiscono gli utenti reali/potenziali. La [review tecnica](verifica-backend/review-tecnica-20261019.csv) ha evidenziato il collegamento Utenti visibile ai non ADMIN e il campo ricerca senza nome accessibile; entrambi sono stati corretti nell'audit successivo. Sono ancora da completare la review umana sistematica, tastiera, contrasto e osservazione degli errori di rete. Vedere [audit](verifica-backend/audit-20261019.md) e [sessione pronta](verifica-backend/sessione-utenti-pronta.md).
+Stato: review sistematica assistita completata sugli otto criteri sotto, con [report ed evidenze](verifica-frontend/review-20261019/report.md) e matrice CSV. Ispezionati interfaccia e screenshot, tastiera, cinque campioni di contrasto, condizioni di errore e recupero upload; 28 controlli browser finali superati. Corretti i colori insufficienti; nessuna certificazione WCAG o revisione umana indipendente dichiarata. Le tre sessioni riferite dall'utente del 19/10/2026 restano distinte: P01/P03 U2 e P02 U4, tutti USER su PC condiviso, esecuzione autonoma dopo introduzione e 15 voti Q1-Q5. Dettagli in [sessioni e risposte](evidenze/risposte-parziali-usabilita.md), senza attribuire attivita' o risposte aperte non comunicate. La [review precedente](verifica-backend/review-tecnica-20261019.csv) resta storica: i suoi rilievi e le voci non verificate non sono lo stato dell'ultima review.
 
 ## Review tecnica con checklist
 
-Un componente esamina ogni punto sul prodotto avviato e un altro rilegge le osservazioni. Registrare `conforme`, `non conforme` o `non verificato`, schermata, evidenza e conseguenza. La priorità dipende dall'impedimento concreto, non da un punteggio inventato.
+La review corrente confronta ogni punto col prodotto avviato, i sorgenti e le schermate osservate. La matrice registra `conforme`, `non conforme` o `non verificato`, evidenza e conseguenza; l'esito e' circoscritto ai percorsi provati. Non sono inventati un secondo revisore o partecipanti aggiuntivi. La priorita' dipende dall'impedimento concreto, non da un punteggio arbitrario.
 
 1. Ruolo corrente e operazioni consentite sono riconoscibili; i comandi riservati non inducono in errore.
 2. Login e form spiegano errori e come correggerli; campi obbligatori e limiti sono leggibili.
@@ -49,10 +49,10 @@ Scala per Q1-Q5: **1 per nulla, 2 poco, 3 moderatamente, 4 abbastanza, 5 molto**
 6. Quale passaggio è stato meno chiaro? Descrivi ciò che ti aspettavi.
 7. Facoltativo: quale modifica aiuterebbe maggiormente a svolgere queste attività?
 
-Usare [questionario.csv](evidenze/questionario.csv) e [sessioni_utenti.csv](evidenze/sessioni_utenti.csv). I modelli contengono soltanto intestazioni. Non aggiungere righe dimostrative che possano sembrare risultati.
+Usare [questionario.csv](evidenze/questionario.csv) e [sessioni_utenti.csv](evidenze/sessioni_utenti.csv). Contengono i punteggi e i tre esiti riferiti dall'utente. I campi non forniti restano vuoti; non aggiungere righe dimostrative che possano sembrare risultati e non sostituire le risposte mancanti con valori inventati.
 
-## Richiesta al gruppo e integrazione
+## Integrazione Delle Evidenze
 
-**Al gruppo:** svolgete la review e le sessioni sul prodotto finito, poi fornite osservazioni e risposte reali nei modelli. Indicate checkout/data/ambiente e le attività effettivamente proposte. Non inserite dati personali non necessari. Nessun messaggio è stato inviato da questa attività.
+Review e sessioni hanno fonti differenti: la prima e' assistita da controlli browser e ispezione; le seconde sono riferite dal moderatore. Sono conservati codici, attivita', esiti e punteggi realmente comunicati, senza dati personali non necessari. Nessun messaggio esterno o consegna e' stato effettuato.
 
-Chi integra i dati controlla che corrispondano a sessioni realmente svolte, conserva il testo originale anonimizzato e distingue osservazione, interpretazione e proposta. Riporta numero effettivo di persone e attività solo dopo averle contate dai dati. Con pochi partecipanti privilegia esempi e problemi osservati rispetto a percentuali. Eventuali fix applicativi restano fuori dall'ambito di questo lavoro. Aggiornare registro delle evidenze, capitolo testing e slide soltanto con risultati verificati.
+Il resoconto distingue osservazione, interpretazione e proposta. Il campione e' limitato a tre persone e non viene generalizzato con percentuali. I fix della review riguardano soltanto i colori: nessuna nuova funzione o regola backend. I campi non comunicati restano vuoti; le slide saranno allineate prima della prova finale.

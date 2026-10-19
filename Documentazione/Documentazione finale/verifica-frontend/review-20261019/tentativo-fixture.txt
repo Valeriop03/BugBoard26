@@ -1,0 +1,14 @@
+PASS Accesso anonimo alla creazione reindirizzato al login
+PASS Menu per ruolo e nome accessibile ricerca: ADMIN
+PASS Login ADMIN reale e sessione JWT
+PASS Creazione USER dalla pagina utenti
+PASS Creazione READONLY dalla pagina utenti
+PASS Creazione issue, suggerimento reale, upload PNG e dettaglio
+PASS Menu per ruolo e nome accessibile ricerca: USER
+PASS USER non puo accedere alla pagina utenti
+PASS Risoluzione USER assegnatario, data e notifica; ripetizione idempotente
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+1 !== 0
+
+    at C:\Users\Emanuele\AppData\Local\BugBoard26\review-20261019\frontend-review.cjs:118:10

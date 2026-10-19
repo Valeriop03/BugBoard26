@@ -1,0 +1,66 @@
+{
+  "run": "FINALE-1792425578745",
+  "sourceCommit": "06ae1b090637ad5ee2f8debea3c5d8cb55cdd036",
+  "uncommittedChanges": true,
+  "database": "bugboard26_test_review_9572cbe9aaac",
+  "testEnvironment": "API Docker reale 5257 e PostgreSQL dedicato; URL API del frontend inoltrato dal browser; guasti di rete dichiarati nei singoli casi",
+  "surveyOrHumanSession": false,
+  "results": [
+    {
+      "name": "Accesso anonimo alla creazione reindirizzato al login",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T15:59:40.124Z"
+    },
+    {
+      "name": "Menu per ruolo e nome accessibile ricerca: ADMIN",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T15:59:40.630Z"
+    },
+    {
+      "name": "Login ADMIN reale e sessione JWT",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T15:59:40.630Z"
+    },
+    {
+      "name": "Creazione USER dalla pagina utenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T15:59:40.931Z",
+      "id": 4
+    },
+    {
+      "name": "Creazione READONLY dalla pagina utenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T15:59:41.186Z",
+      "id": 5
+    },
+    {
+      "name": "Creazione issue, suggerimento reale, upload PNG e dettaglio",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T15:59:41.636Z",
+      "issueId": 6,
+      "assignedToId": 4
+    },
+    {
+      "name": "Menu per ruolo e nome accessibile ricerca: USER",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T15:59:42.129Z"
+    },
+    {
+      "name": "USER non puo accedere alla pagina utenti",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T15:59:42.259Z"
+    },
+    {
+      "name": "Risoluzione USER assegnatario, data e notifica; ripetizione idempotente",
+      "outcome": "PASS",
+      "observedUtc": "2026-10-19T15:59:42.492Z"
+    },
+    {
+      "name": "Collaudo interrotto",
+      "outcome": "FAIL",
+      "observedUtc": "2026-10-19T15:59:42.708Z",
+      "message": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    }
+  ],
+  "pageErrors": []
+}

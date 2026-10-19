@@ -2,22 +2,24 @@
 
 ## Stato corrente - 19 ottobre 2026
 
-HEAD `6aa175a357dbdf1c35702686b985d46bff58c43e` con correzioni locali non
-committate. Report e SHA256 identificano i file effettivamente analizzati.
+L'audit tecnico riguarda `6aa175a357dbdf1c35702686b985d46bff58c43e` con
+correzioni locali identificate dai report e dagli SHA256. Dopo il commit
+manuale `06ae1b0`, il fix CSV e l'integrazione delle sessioni restano locali.
+Le due revisioni non sono confuse come un'unica esecuzione automatica.
 
 | ID | Evidenza acquisita | Stato corrente |
 | --- | --- | --- |
-| E01 | Documento unico e slide allineati ai risultati correnti | Rigenerati e verificati secondo verifica_documentale.md; non una consegna gia' inviata. |
+| E01 | Documento unico e slide | Documento unico integrato con le tre sessioni riferite e ricompilato secondo verifica_documentale.md. Slide dell'audit da allineare al survey prima della prova finale; non una consegna gia' inviata. |
 | E02-E03 | Prove del 2 e 9 ottobre | Storiche, non estese al codice attuale. |
 | E04 | Suite PostgreSQL completa | 166/166 backend, di cui 11 dominio e 155 integrazione; TRX/OpenCover reali. |
 | E05 | Test plan UC-02 | Quattordici casi registrati in esiti_test_plan.csv con metodi passati nel TRX e riscontri UI dove richiesti. |
-| E06 | Frontend | Report storico di Valerio in verifica-frontend/; audit corrente con build e 36 test, piu' collaudo browser/API reali. |
+| E06 | Frontend | Report storico di Valerio in verifica-frontend/; audit con build e 36 test, poi 40/40 dopo fix CSV e regressioni per ruolo. Download verificato dal browser; apertura CSV in Excel confermata dall'utente. |
 | E07 | SonarQube e Docker | Task SUCCESS, gate OK valutato, coverage importata; 0 bug e 0 vulnerabilita', 4 code smell. Persistenza dopo restart/ricreazione con volumi preservati. |
-| E08 | Review tecnica assistita | CSV e screenshot disponibili; link Utenti e nome accessibile ricerca corretti. Tastiera, contrasto e rete non certificati. |
-| E09 | Sessioni con persone e survey | Aperte: i due CSV contengono solo intestazioni; nessun partecipante o risposta simulato. |
-| E10 | CASE | Sorgenti/PNG verificati; VPD storici non sincronizzati. Accettazione del tool o aggiornamento del modello da confermare. |
+| E08 | Review sistematica assistita | Completati gli otto criteri: 28 controlli browser, focus e tastiera, cinque contrasti campione corretti, errori rete simulati e upload realmente rifiutato/riprovato. Report in verifica-frontend/review-20261019/. Non certificazione WCAG. |
+| E09 | Sessioni con persone e survey | Registrate tre sessioni del 19/10/2026 su PC condiviso, tutte USER: P01/U2, P02/U4, P03/U2, completamento autonomo dopo spiegazione iniziale riferito dall'utente. Ricevute 15 risposte Q1-Q5; risposte aperte e osservazioni qualitative non fornite, mantenute come limite. Review assistita distinta e ora completata. Vedere evidenze/risposte-parziali-usabilita.md. |
+| E10 | CASE | Sorgenti/PNG coerenti. File originali conservati ma allineamento nel tool non ancora verificato; non e' dimostrata una non conformita'. Controllare i modelli e correggere eventuali differenze reali. |
 | E11 | RF-17 | Implementato e verificato: GET proprie 200, PATCH READONLY 403 senza scritture anche su gia' lette, UI senza comando. Decisione del gruppo, non dei docenti. |
-| E12 | Presentazione e demo | Nove slide aggiornate; 540 secondi pianificati, non una prova cronometrata. Coordinamento reale ancora aperto. |
+| E12 | Presentazione e demo | Nove slide dell'audit da allineare al survey; 540 secondi pianificati, non una prova cronometrata. Coordinamento reale ancora aperto. |
 
 Fonti correnti: [audit](verifica-backend/audit-20261019.md),
 [finalizzazione](verifica-backend/finalizzazione-20261019.md),

@@ -1,0 +1,13 @@
+Sorgenti/PNG coerenti: 12 viste. Conformità CASE ancora aperta.
+note: Running TeX ...
+Fontconfig error: Cannot load default config file: No such file: (null)
+warning: documentazione_finale.tex:722: Underfull \hbox (badness 1147) in paragraph at lines 717--722
+note: Rerunning TeX because "documentazione_finale.out" changed ...
+warning: documentazione_finale.tex:722: Underfull \hbox (badness 1147) in paragraph at lines 717--722
+note: Running xdvipdfmx ...
+warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
+note: Writing `documentazione_finale.pdf` (587.5029296875 KiB)
+note: Writing `documentazione_finale.log` (15.6826171875 KiB)
+note: Skipped writing 3 intermediate files (use --keep-intermediates to keep them)
+Artefatti rigenerati. Ricontrollare visivamente PDF e tutte le slide.
+La compilazione non esegue test applicativi e non chiude i punti aperti.

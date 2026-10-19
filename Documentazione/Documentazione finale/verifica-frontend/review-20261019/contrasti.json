@@ -1,0 +1,55 @@
+{
+  "method": "Luminanza sRGB su colori computed opachi dei selettori elencati; non audit WCAG completo",
+  "samples": [
+    {
+      "selector": ".heading",
+      "color": "rgb(102, 113, 125)",
+      "background": "rgb(255, 255, 255)",
+      "fontSize": "15px",
+      "fontWeight": "700",
+      "ratio": 4.972602489068883,
+      "threshold": 4.5,
+      "passes": true
+    },
+    {
+      "selector": ".priority",
+      "color": "rgb(180, 35, 24)",
+      "background": "rgb(255, 222, 222)",
+      "fontSize": "12px",
+      "fontWeight": "700",
+      "ratio": 5.245435714326765,
+      "threshold": 4.5,
+      "passes": true
+    },
+    {
+      "selector": ".status",
+      "color": "rgb(23, 86, 184)",
+      "background": "rgb(219, 234, 255)",
+      "fontSize": "12px",
+      "fontWeight": "700",
+      "ratio": 5.629709884402787,
+      "threshold": 4.5,
+      "passes": true
+    },
+    {
+      "selector": ".table-footer",
+      "color": "rgb(102, 113, 125)",
+      "background": "rgb(255, 255, 255)",
+      "fontSize": "13px",
+      "fontWeight": "400",
+      "ratio": 4.972602489068883,
+      "threshold": 4.5,
+      "passes": true
+    },
+    {
+      "selector": ".primary-link",
+      "color": "rgb(255, 255, 255)",
+      "background": "rgb(72, 98, 255)",
+      "fontSize": "16px",
+      "fontWeight": "700",
+      "ratio": 4.701545354666437,
+      "threshold": 4.5,
+      "passes": true
+    }
+  ]
+}

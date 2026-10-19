@@ -1,0 +1,13 @@
+> Building...
+√ Building...
+Initial chunk files   | Names         |  Raw size | Estimated transfer size
+main-HWKCIDGK.js      | main          | 345.68 kB |                87.57 kB
+polyfills-5CFQRCPP.js | polyfills     |  34.59 kB |                11.33 kB
+styles-UXNG4VNN.css   | styles        |  84 bytes |                84 bytes
+
+                      | Initial total | 380.34 kB |                98.98 kB
+
+Application bundle generation complete. [19.420 seconds]
+
+Output location: D:\Emanuele\UNI\INGSW3\Progetto\BugBoard26\frontend\dist\frontend
+

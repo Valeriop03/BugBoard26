@@ -1,0 +1,10 @@
+{
+  "frontendUrl": "http://127.0.0.1:4200",
+  "baseUrl": "http://127.0.0.1:5257",
+  "database": "bugboard26_test_review_9572cbe9aaac",
+  "container": "bugboard26-review-9572cbe9aaac",
+  "commit": "06ae1b090637ad5ee2f8debea3c5d8cb55cdd036",
+  "createdUtc": "2026-10-19T15:55:53.1750552+00:00",
+  "imageVolume": "bugboard26-review-images-9572cbe9aaac",
+  "databaseHostContainer": "bugboard26-tests-postgres-tests-1"
+}

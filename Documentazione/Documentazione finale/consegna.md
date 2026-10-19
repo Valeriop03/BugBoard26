@@ -38,7 +38,8 @@ Al 19 ottobre i risultati effettivi sono raccolti in `verifica-backend/` accanto
 
 - [ ] Consolidare i report test completi e il test plan sullo stesso riferimento stabile del codice.
 - [x] Integrare report effettivo di qualita backend e limiti: analisi eseguita, non solo predisposta.
-- [ ] Eseguire review sistematica e sessioni con utenti reali/potenziali, con survey e osservazioni effettive.
+- [x] Registrare tre sessioni USER del 19/10 e quindici risposte numeriche, secondo il resoconto del moderatore e con limiti dichiarati.
+- [x] Completare la review sistematica assistita sugli otto criteri; registrati esiti e limiti in verifica-frontend/review-20261019/report.md. I commenti qualitativi del survey non forniti restano tali.
 - [ ] Risolvere la conformità CASE o conservare una risposta esplicita dei docenti; non presentare i VPD storici come aggiornati.
 - [x] Registrare la decisione del gruppo RF-17: consultazione delle proprie notifiche consentita a READONLY, modifica del flag di lettura vietata.
 - [x] Verificare RF-17 in backend e frontend: TP-14, rifiuto 403 senza scritture e assenza di comando UI.

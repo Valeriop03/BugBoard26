@@ -49,13 +49,13 @@ def verify_diagrams():
             })
     manifest = {
         "revision": "2026-10-19", "verification": "Confronto blocco @startuml e metadati plantuml del PNG",
-        "case_compliance": "APERTA: accettazione PlantUML o sincronizzazione tool CASE da confermare",
+        "case_compliance": "APERTA: allineamento dei VPD storici alle viste correnti non verificato nel tool originale",
         "historical_vpd": "Non modificati, non dichiarati sincronizzati",
         "historical_deployment": "deployment_diagram.png escluso dalle viste finali correnti",
         "diagrams": records
     }
     (ROOT / "diagrammi_manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Sorgenti/PNG coerenti: {len(records)} viste. Conformità CASE ancora aperta.")
+    print(f"Sorgenti/PNG coerenti: {len(records)} viste. Allineamento VPD nel tool originale non verificato.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

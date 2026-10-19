@@ -1,5 +1,72 @@
 # Verifica documentale
 
+## Revisione Editoriale - Versione 1.7
+
+19/10/2026, base Git `b95d008db13f197f2b9c15e4fd5c024baf28f134`
+con aggiornamenti documentali locali. Revisione della relazione unificata
+e di tutti e tre i frammenti TeX inclusi, senza modifiche applicative.
+
+- Sostituiti lo stato di lavorazione iniziale e la checklist finale con
+  premessa, risultati, limiti della valutazione e possibili evoluzioni.
+- Trasferiti coordinamento, manutenzione, scaletta demo e preparazione
+  della consegna in `note_operative_gruppo.md` e nella checklist separata.
+  Il nuovo file e' interno al gruppo ed escluso dallo ZIP concordato.
+- Riscritti protocollo e test plan in forma descrittiva; rimossa la frase
+  superata sulle sessioni con persone ancora da svolgere.
+- Allineati gli otto criteri esposti nella relazione alla matrice CSV.
+  Conservati punteggi originali, attribuzione delle prove, date, metriche,
+  limiti del campione e assenza di verifica nativa dei VPD storici.
+- Ricompilazione con `rigenera.ps1 -SoloDocumento` e Tectonic 0.17.0:
+  31 pagine fisiche, 0 Overfull, 0 Underfull, 0 riferimenti indefiniti.
+  Rendering di tutte le pagine a 105 DPI, controllo visivo complessivo
+  e lettura di dettaglio delle sezioni modificate. Nessun carattere
+  fuori pagina. Il messaggio Fontconfig non impedisce export o rendering.
+- Controllati gli input TeX e i percorsi delle figure. La ricerca mirata
+  di promemoria operativi nei sorgenti inclusi e nel PDF non rileva
+  corrispondenze. I limiti tecnici non sono stati rimossi come commenti.
+- Sorgenti/PNG: controllo delle 12 viste riuscito. `git diff --check`
+  riuscito. Nessuna nuova esecuzione di test backend/frontend o Sonar;
+  nessuna rigenerazione delle slide o operazione Git di scrittura.
+
+PDF SHA256:
+`79edc718e6cc3cc02bbf50db84acf6f4af2498230761ded1ebc5732e9a25eb68`.
+Controlli e impronte dei quattro sorgenti sono in
+`verifica-editoriale/controlli-20261019.json`; rendering e testo estratto
+restano in `_build/editoriale-20261019/`, esclusi da Git.
+La relazione e' separata dalle attivita' organizzative ancora da eseguire:
+allineamento slide, prova cronometrata, release e invio individuale.
+
+## Allineamento Diagrammi - Versione 1.6
+
+19/10/2026, base Git `b95d008db13f197f2b9c15e4fd5c024baf28f134`
+con aggiornamenti documentali non committati. Nessuna modifica applicativa,
+operazione Git di scrittura o nuova esecuzione delle suite dichiarata.
+
+- Il diagramma dei casi d'uso include consultazione delle notifiche proprie
+  per tutti i ruoli e comando di lettura solo per USER/ADMIN proprietari.
+  Eliminata la nota superata sul divieto READONLY ancora da chiarire.
+- La sequenza di cambio stato distingue GET notifiche e PATCH read:
+  READONLY puo' consultare, ma riceve 403 senza scritture sul PATCH.
+- Allineati i paragrafi collegati dei due homework e del documento unico;
+  non modificati gli otto VPD o il deployment storico.
+- Rigenerati i due PNG con PlantUML 1.2026.8 e OpenJDK 25.0.3.
+  `prepara_documentazione.py` verifica tutte le 12 viste sorgente/PNG
+  e aggiorna le impronte del manifest. Nessun errore nel confronto.
+- Ricompilati con Tectonic 0.17.0 il documento unico (33 pagine), la
+  specifica requisiti (15) e il design (21). Rendering di tutte le 69
+  pagine a 105 DPI e controllo visivo delle pagine modificate; nessun
+  carattere fuori pagina, Overfull o riferimento indefinito rilevato.
+  Restano avvisi Underfull, Fontconfig e ancore di pagina duplicate nei
+  due homework; non hanno impedito la compilazione e il rendering.
+- Controlli locali e rendering in `_build/diagrammi-20261019/`, esclusi
+  da Git. `git diff --check` riuscito. Slide non rigenerate in questa task.
+
+L'integrita' ZIP degli otto VPD e' stata verificata durante l'ispezione,
+ma i modelli interni non sono stati aperti in Visual Paradigm Online.
+Questa operazione resta distinta dal confronto tra codice e viste
+PlantUML: non si dichiara verificata una sincronizzazione nativa.
+La revisione editoriale generale dei documenti resta un'attivita' separata.
+
 ## Review Sistematica - Versione 1.5
 
 Integrata la review assistita degli otto criteri, con matrice compilata in

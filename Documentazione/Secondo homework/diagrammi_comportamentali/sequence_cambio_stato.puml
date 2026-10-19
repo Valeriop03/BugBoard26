@@ -60,7 +60,8 @@ Api --> User: 200 + IssueResponse
 note over User, Db
   Le notifiche precedenti restano salvate.
   Consultazione e lettura successive: NotificationsController,
-  GET filtrato per destinatario e PATCH con controllo del proprietario.
+  GET filtrato per destinatario, consentito anche a READONLY.
+  PATCH read solo per USER/ADMIN proprietari; READONLY riceve 403 senza scritture.
   Nessuna matrice generale di transizioni aggiunta.
   I controlli sui duplicati precedono anche la richiesta dello stesso stato.
 end note

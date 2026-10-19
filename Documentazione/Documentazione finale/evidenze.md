@@ -4,12 +4,13 @@
 
 L'audit tecnico riguarda `6aa175a357dbdf1c35702686b985d46bff58c43e` con
 correzioni locali identificate dai report e dagli SHA256. Dopo il commit
-manuale `06ae1b0`, il fix CSV e l'integrazione delle sessioni restano locali.
-Le due revisioni non sono confuse come un'unica esecuzione automatica.
+manuale `06ae1b0`, il fix CSV e l'integrazione delle sessioni sono registrati
+nelle rispettive evidenze. La revisione documentale 1.7 parte da `b95d008`
+con modifiche locali: non e' una nuova esecuzione delle suite applicative.
 
 | ID | Evidenza acquisita | Stato corrente |
 | --- | --- | --- |
-| E01 | Documento unico e slide | Documento unico integrato con le tre sessioni riferite e ricompilato secondo verifica_documentale.md. Slide aggiornate in presentazione/presentazione_tecnica_aggiornata.pptx, allineate ai test e al survey; non una consegna gia' inviata. |
+| E01 | Documento unico e slide | Relazione 1.7 ripulita dai promemoria interni, spostati in note_operative_gruppo.md; risultati e limiti mantenuti. Slide aggiornate in presentazione/presentazione_tecnica_aggiornata.pptx, allineate ai test e al survey; non una consegna gia' inviata. |
 | E02-E03 | Prove del 2 e 9 ottobre | Storiche, non estese al codice attuale. |
 | E04 | Suite PostgreSQL completa | 166/166 backend, di cui 11 dominio e 155 integrazione; TRX/OpenCover reali. |
 | E05 | Test plan UC-02 | Quattordici casi registrati in esiti_test_plan.csv con metodi passati nel TRX e riscontri UI dove richiesti. |

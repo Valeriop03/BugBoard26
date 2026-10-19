@@ -2,6 +2,11 @@
 
 Stato: materiale documentale predisposto, **consegna non conclusa**. Non creare release né inviare nulla finché le evidenze necessarie sono aperte.
 
+I promemoria rimossi dalla relazione finale sono raccolti nelle
+[note operative interne](note_operative_gruppo.md), da escludere dallo ZIP.
+La versione 1.7 della relazione mantiene risultati e limiti, non la checklist
+amministrativa o le istruzioni di coordinamento del gruppo.
+
 ## Scaletta della presentazione
 
 Budget previsto: **9 minuti**, da confermare con una prova cronometrata reale. La demo breve segue la presentazione, come prevede il §10; non è compresa nei nove minuti. Il gruppo deve confermare chi espone e il passaggio al collega frontend. Tutti devono conoscere l'intero progetto.
@@ -32,7 +37,7 @@ L'immagine opzionale si mostra solo se il collaudo reale del collega è disponib
 
 ## Coordinamento delle evidenze
 
-Al 19 ottobre i risultati effettivi sono raccolti in `verifica-backend/` accanto a questo documento: suite completa 166/166, SonarQube con Quality Gate OK e persistenza Docker verificata. L'audit e i report precedenti distinguono le rispettive esecuzioni e le modifiche locali dal commit iniziale. I test frontend correnti sono 36/36. RF-17 e verificato: READONLY consulta le proprie notifiche, ma PATCH read restituisce 403 senza scritture; il frontend non offre quel comando. Nessun chiarimento del docente viene attribuito alla decisione del gruppo. Vedere [audit corrente](verifica-backend/audit-20261019.md) e [registro evidenze](evidenze.md).
+Al 19 ottobre i risultati effettivi sono raccolti in `verifica-backend/` accanto a questo documento: suite completa 166/166, SonarQube con Quality Gate OK e persistenza Docker verificata. L'audit e i report precedenti distinguono le rispettive esecuzioni e le modifiche locali dal commit iniziale. I test frontend piu' recenti sono 40/40, registrati nella review successiva al fix CSV; i 36 dell'audit restano storici. RF-17 e verificato: READONLY consulta le proprie notifiche, ma PATCH read restituisce 403 senza scritture; il frontend non offre quel comando. Nessun chiarimento del docente viene attribuito alla decisione del gruppo. Vedere [audit corrente](verifica-backend/audit-20261019.md), [review frontend](verifica-frontend/review-20261019/report.md) e [registro evidenze](evidenze.md).
 
 ## Checklist finale di consegna
 
@@ -40,10 +45,11 @@ Al 19 ottobre i risultati effettivi sono raccolti in `verifica-backend/` accanto
 - [x] Integrare report effettivo di qualita backend e limiti: analisi eseguita, non solo predisposta.
 - [x] Registrare tre sessioni USER del 19/10 e quindici risposte numeriche, secondo il resoconto del moderatore e con limiti dichiarati.
 - [x] Completare la review sistematica assistita sugli otto criteri; registrati esiti e limiti in verifica-frontend/review-20261019/report.md. I commenti qualitativi del survey non forniti restano tali.
-- [ ] Risolvere la conformità CASE o conservare una risposta esplicita dei docenti; non presentare i VPD storici come aggiornati.
+- [x] Identificare sorgenti PlantUML e PNG aggiornati nel manifest, escludendo dallo ZIP i VPD storici secondo la decisione del gruppo. Nessuna sincronizzazione nell'editor originale e' dichiarata e non e' imposta una specifica estensione dalla traccia.
 - [x] Registrare la decisione del gruppo RF-17: consultazione delle proprie notifiche consentita a READONLY, modifica del flag di lettura vietata.
 - [x] Verificare RF-17 in backend e frontend: TP-14, rifiuto 403 senza scritture e assenza di comando UI.
-- [x] Verificare documento unico, indice, diagrammi, sorgenti/immagini e slide dopo la rigenerazione del 19 ottobre; rifare i controlli dopo eventuali aggiornamenti.
+- [x] Completare la revisione editoriale della relazione 1.7: promemoria esterni, 31 pagine renderizzate e controllate, nessun Overfull o riferimento indefinito. Report in verifica_documentale.md.
+- [ ] Allineare le slide ai risultati piu' recenti e controllarle dopo la rigenerazione; le slide dell'audit non includono ancora gli ultimi aggiornamenti.
 - [ ] Confermare l'assegnazione del gruppo e il materiale sorgente/build/eseguibile richiesto dalla traccia. Conservare Dockerfile e istruzioni esistenti.
 - [ ] Fare la prova tecnica cronometrata entro 10 minuti e concordare la demo con il collega frontend.
 - [ ] Solo quando pronto, pubblicare sul repository il materiale definitivo e creare una release GitHub riferita alla revisione consegnata. Questa attività non lo fa.
